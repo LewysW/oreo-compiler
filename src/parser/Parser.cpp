@@ -229,7 +229,21 @@ void Parser::stmt(std::shared_ptr<TreeNode> node) {
  * Tries to match one of the three variable types
  * @param node - to add symbols to
  */
-void Parser::type(std::shared_ptr<TreeNode> node) {
+void Parser::type(std::shared_ptr<TreeNode> node, int objType) {
+    std::string type;
+
+    switch(objType) {
+        case VAR_OBJ:
+            type = "variable";
+            break;
+        case PROC_OBJ:
+            type = "return";
+            break;
+        case PARAM_OBJ:
+            type = "parameter";
+            break;
+    }
+
     switch(tokens.front().getType()) {
         case TokenType::STRING:
             match(TokenType::STRING, node);
@@ -237,11 +251,13 @@ void Parser::type(std::shared_ptr<TreeNode> node) {
         case TokenType::BOOL:
             match(TokenType::BOOL, node);
             break;
-        case TokenType::INT:
+        case TokenType::INT:;
             match(TokenType::INT, node);
             break;
         default:
-            std::string err = "Error: Invalid variable type on line ";
+            std::string err = "Error: Invalid ";
+            err += type;
+            err += " type on line ";
             err += std::to_string(tokens.front().getLineNum());
             err += ", character " + std::to_string(tokens.front().getColNum());
             std::cout << err << std::endl;
@@ -258,7 +274,7 @@ void Parser::variable(std::shared_ptr<TreeNode> node) {
     node->addChild(child);
 
     match(TokenType::VAR, child);
-    type(child);
+    type(child, VAR_OBJ);
     match(TokenType::ID, child);
 
     if (tokens.front().getType() == TokenType::ASSIGN) {
@@ -471,7 +487,7 @@ void Parser::funcSig(std::shared_ptr<TreeNode> node) {
     node->addChild(child);
 
     match(TokenType::PROCEDURE, child);
-    type(child);
+    type(child, PROC_OBJ);
     match(TokenType::ID, child);
     match(TokenType::LPAREN, child);
 
@@ -493,7 +509,7 @@ void Parser::formalParams(std::shared_ptr<TreeNode> node) {
         node->addChild(child);
 
         match(TokenType::VAR, child);
-        type(child);
+        type(child, PARAM_OBJ);
         match(TokenType::ID, child);
     }
 
@@ -512,7 +528,7 @@ void Parser::formalParam(std::shared_ptr<TreeNode> node) {
 
     match(TokenType::COMMA, child);
     match(TokenType::VAR, child);
-    type(child);
+    type(child, PARAM_OBJ);
     match(TokenType::ID, child);
 
     if (tokens.front().getType() == TokenType::COMMA) {
