@@ -739,3 +739,7 @@ void Parser::idExpr(std::shared_ptr<TreeNode> node) {
         node->addChild(temp->getChildren().front());
     }
 }
+
+const std::shared_ptr<TreeNode> &Parser::getParseTree() const {
+    return parseTree;
+}

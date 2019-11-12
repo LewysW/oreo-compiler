@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/CS4201_P2_Compiler.dir/src/parser/Parser.cpp.o"
   "CMakeFiles/CS4201_P2_Compiler.dir/src/parser/Token.cpp.o"
   "CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o"
+  "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o"
   "CS4201_P2_Compiler.pdb"
   "CS4201_P2_Compiler"
 )

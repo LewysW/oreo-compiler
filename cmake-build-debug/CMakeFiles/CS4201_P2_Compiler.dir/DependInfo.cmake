@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Parser.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/parser/Parser.cpp.o"
   "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Token.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/parser/Token.cpp.o"
   "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o"
+  "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

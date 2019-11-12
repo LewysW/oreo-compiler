@@ -54,6 +54,8 @@ public:
     explicit Parser(const std::vector<Token>& tokens);
     void parse();
     void printTree();
+
+    const std::shared_ptr<TreeNode> &getParseTree() const;
 };
 
 

@@ -3,6 +3,7 @@
 #include <regex>
 #include "parser/Lexer.h"
 #include "parser/Parser.h"
+#include "semantic/Semantic.h"
 
 using std::cout;
 using std::endl;
@@ -22,6 +23,10 @@ int main(int argc, char* argv[]) {
         //and print abstract syntax tree
         Parser parser(lexer.getTokenList());
         parser.printTree();
+
+        //Perform semantic analysis on parse tree
+        Semantic semantic;
+        semantic.analyse(parser.getParseTree());
     }
 
     return 0;
