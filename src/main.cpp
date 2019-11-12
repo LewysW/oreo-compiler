@@ -16,12 +16,12 @@ int main(int argc, char* argv[]) {
         //Perform lexical analysis on file
         //and print tokens
         Lexer lexer(fileName);
-        //lexer.printTokens();
+        lexer.printTokens();
 
         //Perform syntactic analysis on file
         //and print abstract syntax tree
         Parser parser(lexer.getTokenList());
-        //parser.printTree();
+        parser.printTree();
     }
 
     return 0;

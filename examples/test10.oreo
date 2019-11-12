@@ -1,0 +1,28 @@
+{- invalid ID -}
+program test10
+                                   
+begin                              
+                                   
+	var n;
+	var first := 0;  
+	var second :=1; 
+	var next;                           
+	var 99 :=0;
+	
+    print "enter the number of terms";
+                 {- comment in body -}
+    get n;  
+    
+    while ( first < (second > 32)  )
+    begin
+
+       if ( not false) then begin n := 5;  end
+       			   else begin n := 46; end;
+                        {- comment
+                        over
+                        multiple 
+                        lines -}
+                                  
+    c := c + 1;	    
+	end;
+end    

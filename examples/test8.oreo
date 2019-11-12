@@ -1,0 +1,28 @@
+{- will parse OK -}
+program test
+                                   
+begin                              
+                                   
+	var n;
+	var first := 0;  
+	var second :=1; 
+	var next;                           
+	var c :=0;
+	
+    print "enter the number of terms";
+                 {- comment in body -}
+    get n;  
+    
+    while ( first < (second > 32)  )
+    begin
+
+       if ( 42 < 100 ) then begin n := 5;  end
+       			   else begin n := 46; end;
+                        {- comment
+                        over
+                        multiple 
+                        lines -}
+                                  
+    c := c + 1;	    
+	end;
+end    

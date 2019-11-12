@@ -1,0 +1,71 @@
+// A '|' symbol followed by a '.' i.e. |. is equivalent to saying 'or empty'
+
+//Link showing the output of running the grammar through a grammar checker:
+
+http://smlweb.cpsc.ucalgary.ca/vital-stats.php?grammar=P+-%3E+program+id+Compound+.%0D%0A%0D%0ACompound+-%3E+begin+Stmt+Stmts+end+.%0D%0A%0D%0AStmts+-%3E+Stmt+Stmts+%7C+.%0D%0A%0D%0AStmt+-%3E+V+%7C+Pr+%7C+W+%7C+I+%7C+A+%7C+FuncSig+%7C+Return+.%0D%0A%0D%0AV+-%3E+var+id+V%27+%3B+.%0D%0A%0D%0AV%27+-%3E+assign+Expr1+%7C.%0D%0A%0D%0AFuncSig+-%3E+procedure+id+%28+FormalParams+%29+Compound+.%0D%0A%0D%0AFormalParams+-%3E+var+id+FormalParam+%7C.%0D%0A%0D%0AFormalParam+-%3E+comma+var+id+%7C.%0D%0A%0D%0AFuncCall+-%3E+%28+ActualParams+%29+.%0D%0A%0D%0AActualParams+-%3E+Expr1+ActualParam+%7C.%0D%0A%0D%0AActualParam+-%3E+comma+Expr1+ActualParam+%7C+.%0D%0A%0D%0AReturn+-%3E+return+Expr1+%3B+.%0D%0A%0D%0APr+-%3E+print+Expr1+%3B+%7C+println+Expr1+%3B+%7C+get+id+%3B+.%0D%0A%0D%0AW+-%3E+while+%28+Expr1+%29+Compound+%3B+.%0D%0A%0D%0AI+-%3E+if+%28+Expr1+%29+Compound+I%27+%3B+.%0D%0A%0D%0AI%27+-%3E+else+Compound+%7C.%0D%0A%0D%0AA+-%3E+id+A%27+.%0D%0A%0D%0AA%27+-%3E+assign+Expr1+%3B+%7C+FuncCall+%3B+.%0D%0A%0D%0AExpr1+-%3E+Expr2+Expr1%27+.%0D%0A%0D%0AExpr1%27+-%3E+or+Expr2+Expr1%27+%7C.%0D%0A%0D%0AExpr2+-%3E+Expr3+Expr2%27+.%0D%0A%0D%0AExpr2%27+-%3E+and+Expr3+Expr2%27+%7C.%0D%0A%0D%0AExpr3+-%3E+Expr4+Expr3%27+.%0D%0A%0D%0AExpr3%27+-%3E+equals+Expr4+Expr3%27+%7C.%0D%0A%0D%0AExpr4+-%3E+Expr5+Expr4%27+.%0D%0A%0D%0AExpr4%27+-%3E+relop+Expr5+Expr4%27+%7C.%0D%0A%0D%0AExpr5+-%3E+Expr6+Expr5%27+.%0D%0A%0D%0AExpr5%27+-%3E+addop+Expr6+Expr5%27+%7C.%0D%0A%0D%0AExpr6+-%3E+Expr7+Expr6%27+.%0D%0A%0D%0AExpr6%27+-%3E+mulop+Expr7+Expr6%27+%7C.%0D%0A%0D%0AExpr7+-%3E+not+Expr7+%7C+%28+Expr1+%29+%7C+string+%7C+num+%7C+true+%7C+false+%7C+id+ID+.%0D%0A%0D%0AID+-%3E+FuncCall+%7C+.
+
+P -> program id Compound .
+
+Compound -> begin Stmt Stmts end . //When testing in the grammar checker online, + needs to be removed
+
+Stmts -> Stmt Stmts | .
+
+Stmt -> V | Pr | W | I | A | FuncSig | Return .
+
+V -> var id V' ; .
+
+V' -> assign Expr1 |.
+
+FuncSig -> procedure id ( FormalParams ) Compound . //Function declaration/signature
+
+FormalParams -> var id FormalParam |. //Parameters for function declaration
+
+FormalParam -> comma var id |.
+
+FuncCall -> ( ActualParams ) . //Function call
+
+ActualParams -> Expr1 ActualParam |.
+
+ActualParam -> comma Expr1 ActualParam | .
+
+Return -> return Expr1 ; .
+
+Pr -> print Expr1 ; | println Expr1 ; | get id ; .
+
+W -> while ( Expr1 ) Compound ; .
+
+I -> if ( Expr1 ) Compound I' ; .
+
+I' -> else Compound |.
+
+A -> id A' .
+
+A' -> assign Expr1 ; | FuncCall ; . //assign denotes :=
+
+Expr1 -> Expr2 Expr1' .
+
+Expr1' -> or Expr2 Expr1' |.
+
+Expr2 -> Expr3 Expr2' .
+
+Expr2' -> and Expr3 Expr2' |.
+
+Expr3 -> Expr4 Expr3' .
+
+Expr3' -> equals Expr4 Expr3' |. //equals denotes ==
+
+Expr4 -> Expr5 Expr4' .
+
+Expr4' -> relop Expr5 Expr4' |. //relop denotes >, <, >=, <= as these have equal precedence
+
+Expr5 -> Expr6 Expr5' .
+
+Expr5' -> addop Expr6 Expr5' |. //addop is + and - as these have equal precedence
+
+Expr6 -> Expr7 Expr6' .
+
+Expr6' -> mulop Expr7 Expr6' |. //mulop is * and / as these have equal precedence
+
+Expr7 -> not Expr7 | ( Expr1 ) | string | num | true | false | id ID . //ID determines between an id or function call
+
+ID -> FuncCall | .

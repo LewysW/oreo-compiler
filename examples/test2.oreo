@@ -1,0 +1,25 @@
+{- missing a semi colon -}
+program test
+                                   
+begin                              
+                                   
+	var n;
+	var first := 0;  
+	var second :=1; 
+	var next;                           
+	var c :=0  
+	
+    print "enter the number of terms";
+    
+    get n;  
+    
+    while ( first < (second > 32))
+    begin
+
+       if ( true ) then begin n := 5;  end
+       			   else begin n := 46; end;
+                        
+                                  
+    c := c + 1;	    
+	end;
+end    
