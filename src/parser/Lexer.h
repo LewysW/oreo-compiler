@@ -78,7 +78,7 @@ public:
             "-", // -
             "/", // '/'
             "*", // *
-            "STRING", //String literal
+            "STRING_LITERAL", //String literal
             "(", //Left paren
             ")", //Right paren
             "COMMENT", //Comment
@@ -104,7 +104,10 @@ public:
             "NEWLINE", //\n
             "WHITESPACE", //\r \s \t
             "NUM", //sequence of digits
-            "ID" //Identifier
+            "ID", //Identifier
+            "string", //string type
+            "bool", //bool type
+            "int" //int type
     };
 };
 

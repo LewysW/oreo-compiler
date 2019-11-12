@@ -20,7 +20,7 @@ namespace Pattern {
         MINUS,
         DIVIDE,
         MULTIPLY,
-        STRING,
+        STRING_LITERAL,
         LPAREN,
         RPAREN,
         COMMENT,
@@ -46,7 +46,10 @@ namespace Pattern {
         NEWLINE,
         WHITESPACE,
         NUM,
-        ID
+        ID,
+        STRING,
+        BOOL,
+        INT
     };
 
 }

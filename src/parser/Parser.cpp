@@ -225,6 +225,31 @@ void Parser::stmt(std::shared_ptr<TreeNode> node) {
 }
 
 /**
+ * Represents the non-terminal Type in the grammar
+ * Tries to match one of the three variable types
+ * @param node - to add symbols to
+ */
+void Parser::type(std::shared_ptr<TreeNode> node) {
+    switch(tokens.front().getType()) {
+        case TokenType::STRING:
+            match(TokenType::STRING, node);
+            break;
+        case TokenType::BOOL:
+            match(TokenType::BOOL, node);
+            break;
+        case TokenType::INT:
+            match(TokenType::INT, node);
+            break;
+        default:
+            std::string err = "Error: Invalid variable type on line ";
+            err += std::to_string(tokens.front().getLineNum());
+            err += ", character " + std::to_string(tokens.front().getColNum());
+            std::cout << err << std::endl;
+            throw ParseException(nullptr);
+    }
+}
+
+/**
  * Represents non-terminal V in the grammar
  * @param node - to add symbols to
  */
@@ -233,6 +258,7 @@ void Parser::variable(std::shared_ptr<TreeNode> node) {
     node->addChild(child);
 
     match(TokenType::VAR, child);
+    type(child);
     match(TokenType::ID, child);
 
     if (tokens.front().getType() == TokenType::ASSIGN) {
@@ -381,7 +407,7 @@ void Parser::funcCall(std::shared_ptr<TreeNode> node) {
         case TokenType::NOT:
         case TokenType::ID:
         case TokenType::LPAREN:
-        case TokenType::STRING:
+        case TokenType::STRING_LITERAL:
         case TokenType::NUM:
         case TokenType::TRUE:
         case TokenType::FALSE:
@@ -403,7 +429,7 @@ void Parser::actualParams(std::shared_ptr<TreeNode> node) {
         case TokenType::NOT:
         case TokenType::ID:
         case TokenType::LPAREN:
-        case TokenType::STRING:
+        case TokenType::STRING_LITERAL:
         case TokenType::NUM:
         case TokenType::TRUE:
         case TokenType::FALSE: {
@@ -445,6 +471,7 @@ void Parser::funcSig(std::shared_ptr<TreeNode> node) {
     node->addChild(child);
 
     match(TokenType::PROCEDURE, child);
+    type(child);
     match(TokenType::ID, child);
     match(TokenType::LPAREN, child);
 
@@ -466,6 +493,7 @@ void Parser::formalParams(std::shared_ptr<TreeNode> node) {
         node->addChild(child);
 
         match(TokenType::VAR, child);
+        type(child);
         match(TokenType::ID, child);
     }
 
@@ -484,6 +512,7 @@ void Parser::formalParam(std::shared_ptr<TreeNode> node) {
 
     match(TokenType::COMMA, child);
     match(TokenType::VAR, child);
+    type(child);
     match(TokenType::ID, child);
 
     if (tokens.front().getType() == TokenType::COMMA) {
@@ -691,8 +720,8 @@ void Parser::valueExpr(std::shared_ptr<TreeNode> node) {
             expr(node);
             match(TokenType::RPAREN, node);
             break;
-        case TokenType::STRING:
-            match(TokenType::STRING, node);
+        case TokenType::STRING_LITERAL:
+            match(TokenType::STRING_LITERAL, node);
             break;
         case TokenType::NUM:
             match(TokenType::NUM, node);

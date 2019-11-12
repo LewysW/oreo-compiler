@@ -244,7 +244,7 @@ Pattern::TokenType Lexer::isStrLiteral(std::string &s, unsigned long &tokLen) co
             //return type STRING as string literal has been closed
             if (s.substr(static_cast<unsigned long>(tokLen), 1) == symbol) {
                 tokLen++;
-                return TokenType::STRING;
+                return TokenType::STRING_LITERAL;
             }
 
             tokLen++;
@@ -415,7 +415,10 @@ map<string, TokenType> Lexer::getKeywords() const {
             {"or", TokenType::OR},
             {"not", TokenType::NOT},
             {"true", TokenType::TRUE},
-            {"false", TokenType::FALSE}
+            {"false", TokenType::FALSE},
+            {"string", TokenType::STRING},
+            {"bool", TokenType::BOOL},
+            {"int", TokenType::INT}
     };
 
     return keywords;

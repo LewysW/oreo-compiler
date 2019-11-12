@@ -19,6 +19,7 @@ private:
     void compound(std::shared_ptr<TreeNode> node); //Compound
     void stmts(std::shared_ptr<TreeNode> node); //Stmts
     void stmt(std::shared_ptr<TreeNode> node); //Stmt
+    void type(std::shared_ptr<TreeNode> node); //Type
     void variable(std::shared_ptr<TreeNode> node); //V
     void variableAssign(std::shared_ptr<TreeNode> node); //V'
     void printStmt(std::shared_ptr<TreeNode> node); //Pr

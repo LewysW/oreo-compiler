@@ -5,7 +5,8 @@
 
 class Semantic {
 public:
-    Semantic::Semantic() = default;
+    Semantic(const std::shared_ptr<TreeNode>& parseTree);
+
     void analyse(const std::shared_ptr<TreeNode>& parseTree);
 };
 
