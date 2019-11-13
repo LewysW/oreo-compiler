@@ -12,13 +12,15 @@ Stmts -> Stmt Stmts | .
 
 Stmt -> V | Pr | W | I | A | FuncSig | Return .
 
-V -> var id V' ; .
+Type -> string | bool | int .
+
+V -> var Type id V' ; .
 
 V' -> assign Expr1 |.
 
-FuncSig -> procedure id ( FormalParams ) Compound . //Function declaration/signature
+FuncSig -> procedure Type id ( FormalParams ) Compound . //Function declaration/signature
 
-FormalParams -> var id FormalParam |. //Parameters for function declaration
+FormalParams -> var Type id FormalParam |. //Parameters for function declaration
 
 FormalParam -> comma var id |.
 

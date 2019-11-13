@@ -9,6 +9,7 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Token.h
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/parser/Lexer.cpp.o
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Lexer.cpp
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Lexer.h
@@ -32,3 +33,12 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Token.h
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.cpp
  /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.cpp
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/Token.h
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.cpp
+ /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h

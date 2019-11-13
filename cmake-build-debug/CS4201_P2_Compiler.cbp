@@ -107,6 +107,12 @@
 		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>
+		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.cpp">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
+		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
 		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.cpp">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>

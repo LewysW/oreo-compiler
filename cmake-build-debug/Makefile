@@ -258,6 +258,33 @@ src/parser/TreeNode.cpp.s:
 	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.s
 .PHONY : src/parser/TreeNode.cpp.s
 
+src/semantic/Scope.o: src/semantic/Scope.cpp.o
+
+.PHONY : src/semantic/Scope.o
+
+# target to build an object file
+src/semantic/Scope.cpp.o:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o
+.PHONY : src/semantic/Scope.cpp.o
+
+src/semantic/Scope.i: src/semantic/Scope.cpp.i
+
+.PHONY : src/semantic/Scope.i
+
+# target to preprocess a source file
+src/semantic/Scope.cpp.i:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.i
+.PHONY : src/semantic/Scope.cpp.i
+
+src/semantic/Scope.s: src/semantic/Scope.cpp.s
+
+.PHONY : src/semantic/Scope.s
+
+# target to generate assembly for a file
+src/semantic/Scope.cpp.s:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.s
+.PHONY : src/semantic/Scope.cpp.s
+
 src/semantic/Semantic.o: src/semantic/Semantic.cpp.o
 
 .PHONY : src/semantic/Semantic.o
@@ -309,6 +336,9 @@ help:
 	@echo "... src/parser/TreeNode.o"
 	@echo "... src/parser/TreeNode.i"
 	@echo "... src/parser/TreeNode.s"
+	@echo "... src/semantic/Scope.o"
+	@echo "... src/semantic/Scope.i"
+	@echo "... src/semantic/Scope.s"
 	@echo "... src/semantic/Semantic.o"
 	@echo "... src/semantic/Semantic.i"
 	@echo "... src/semantic/Semantic.s"

@@ -1,16 +1,16 @@
 program Test
 begin
     {- define the procedure function -}
-    procedure function( var x, var y )
+    procedure int function( var int x, var int y )
     begin
         return x + y;
     end
     
     function(1,2);
 
-    procedure main (var x)
+    procedure main (var int x)
     begin
-        var result;
+        var int result;
 
         {- call the procedure called
             function -}

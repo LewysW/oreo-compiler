@@ -3,11 +3,11 @@ program test5
                                    
 begin                              
                                    
-	var n;
-	var first := 0;  
-	var second :=1; 
-	var next;                           
-	var c :=0;
+	var string n;
+	var int first := 0;
+	var int second :=1;
+	var bool next;
+	var int c :=0;
 	
     print "enter the number of terms";
     
