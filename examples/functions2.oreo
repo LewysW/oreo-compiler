@@ -8,7 +8,7 @@ begin
     
     function(1,2);
 
-    procedure main (var int x)
+    procedure int main (var int x)
     begin
         var int result;
 

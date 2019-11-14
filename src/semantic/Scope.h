@@ -18,7 +18,7 @@ private:
     std::map<std::string, std::pair<Object, Type>> symbolTable;
 public:
     Scope();
-    Scope(Scope& const parent);
+    Scope(const Scope& parent);
 
     const std::vector<std::shared_ptr<std::pair<Block, Scope>>> &getScopes() const;
 
@@ -26,7 +26,7 @@ public:
 
     void addSymbol(std::string id, Object obj, Type type);
 
-    void Scope::addScope(Block block);
+    void addScope(Block block);
 
     bool inScope(std::string id);
 

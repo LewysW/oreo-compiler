@@ -113,4 +113,6 @@ Semantic.h
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
 ../parser/TreeNode.h
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
+Scope.h
+/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
 

@@ -22,8 +22,8 @@ void Scope::addSymbol(std::string id, Object obj, Type type) {
 void Scope::addScope(Block block) {
     Scope parent = *this;
     Scope child(parent);
-    std::pair p = std::make_pair(block, child);
-    std::shared_ptr<std::pair<Block, Scope>> scopePtr = std::make_shared(p);
+    std::pair<Block, Scope> p = std::make_pair(block, child);
+    std::shared_ptr<std::pair<Block, Scope>> scopePtr = std::make_shared<std::pair<Block, Scope>>(p);
 
     scopes.emplace_back(scopePtr);
 }
@@ -65,7 +65,7 @@ Scope::Scope() : parent(nullptr),
  * Constructor for child scopes
  * @param parent
  */
-Scope::Scope(Scope& const parent) : parent(std::make_shared(parent)),
+Scope::Scope(const Scope& parent) : parent(std::make_shared<Scope>(parent)),
                                     global(false)
 {
 }

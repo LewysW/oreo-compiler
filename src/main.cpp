@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
         parser.printTree();
 
         //Perform semantic analysis on parse tree
-        Semantic semantic(parser.getParseTree());
+        Semantic semantic;
+        semantic.analyse(parser.getParseTree());
     }
 
     return 0;
