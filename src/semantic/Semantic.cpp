@@ -1,4 +1,9 @@
 #include "Semantic.h"
 
-Semantic::Semantic(const std::shared_ptr<TreeNode>& parseTree)
-{}
+const Scope &Semantic::getGlobalScope() const {
+    return globalScope;
+}
+
+void Semantic::analyse(const std::shared_ptr<TreeNode> &parseTree) {
+    
+}
