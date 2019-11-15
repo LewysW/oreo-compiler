@@ -40,6 +40,8 @@ public:
     void returnStmt(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
 
     void expression(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
+
+    void checkIDScope(const Token& token, const std::shared_ptr<Scope>& scope);
 };
 
 

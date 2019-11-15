@@ -113,17 +113,7 @@ void Semantic::printStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared
         case Pattern::TokenType::GET:
             for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
                 if (node->getToken().getType() == Pattern::TokenType::ID) {
-                    std::string id = node->getToken().getValue();
-                    unsigned long line = node->getToken().getLineNum();
-                    unsigned long character = node->getToken().getColNum();
-
-                    if (!scope->inScope(id)) {
-                        std::string err = "Identifier '" + id + "' on line ";
-                        err += std::to_string(line) + ", character " + std::to_string(character);
-                        err += " not in scope";
-                        std::cout << err << std::endl;
-                        throw SemanticException(nullptr);
-                    }
+                    checkIDScope(node->getToken(), scope);
                 }
             }
     }
@@ -152,11 +142,17 @@ void Semantic::ifStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared_pt
 }
 
 void Semantic::assignment(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getToken().getType() == Pattern::TokenType::ID) {
+            checkIDScope(node->getToken(), scope);
+        } else if (node->getLabel() == "Expression") {
+            expression(node, scope);
+        }
+    }
 }
 
 void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-    
+
 }
 
 void Semantic::functionCall(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
@@ -170,4 +166,20 @@ void Semantic::returnStmt(const std::shared_ptr<TreeNode> &parseTree, std::share
 void Semantic::expression(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
 
 }
+
+void Semantic::checkIDScope(const Token& token, const std::shared_ptr<Scope>& scope) {
+    const std::string& id = token.getValue();
+    unsigned long line = token.getLineNum();
+    unsigned long character = token.getColNum();
+
+    if (!scope->inScope(id)) {
+        std::string err = "Identifier '" + id + "' on line ";
+        err += std::to_string(line) + ", character " + std::to_string(character);
+        err += " not in scope";
+        std::cout << err << std::endl;
+        throw SemanticException(nullptr);
+    }
+}
+
+
 
