@@ -2,6 +2,10 @@
 #include "Semantic.h"
 #include "SemanticException.h"
 
+Semantic::Semantic() : globalScope(std::make_shared<Scope>(Scope()))
+{
+}
+
 const std::shared_ptr<Scope> &Semantic::getGlobalScope() const {
     return globalScope;
 }
@@ -166,7 +170,7 @@ void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shar
         }
     }
 
-    std::shared_ptr<Scope> procScope = std::make_shared(scope->getScopes().back()->second);
+    std::shared_ptr<Scope> procScope = std::make_shared<Scope>(scope->getScopes().back()->second);
 
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Formal Parameter") {
@@ -179,7 +183,19 @@ void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shar
 
 
 void Semantic::functionCall(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-    
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        switch (node->getToken().getType()) {
+            case Pattern::TokenType::ID:
+                checkIDScope(node->getToken(), Object::PROC, scope);
+                break;
+            default:
+                break;
+        }
+
+        if (node->getLabel() == "Actual Parameter") {
+            expression(node, scope);
+        }
+    }
 }
 
 void Semantic::returnStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
@@ -196,7 +212,8 @@ void Semantic::checkIDScope(const Token& token, const Object obj, const std::sha
     unsigned long character = token.getColNum();
 
     if (!scope->inScope(id, obj)) {
-        std::string err = "Identifier '" + id + "' on line ";
+        std::string err = (obj == Object::VAR) ? "Variable '" : "Procedure '";
+        err = id + "' on line ";
         err += std::to_string(line) + ", character " + std::to_string(character);
         err += " not in scope";
         std::cout << err << std::endl;

@@ -15,7 +15,7 @@ public:
 
 
 public:
-    Semantic() = default;
+    Semantic();
 
     void analyse(const std::shared_ptr<TreeNode>& parseTree);
 
