@@ -52,3 +52,7 @@ const Token &TreeNode::getToken() const {
 const std::vector<std::shared_ptr<TreeNode>> &TreeNode::getChildren() const {
     return children;
 }
+
+const std::string &TreeNode::getLabel() const {
+    return label;
+}

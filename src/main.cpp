@@ -19,7 +19,6 @@ int main(int argc, char* argv[]) {
         Lexer lexer(fileName);
         lexer.printTokens();
 
-        //TODO - add void functions (with no return type, and no return statement)
         //Perform syntactic analysis on file
         //and print abstract syntax tree
         Parser parser(lexer.getTokenList());

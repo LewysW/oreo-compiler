@@ -18,6 +18,8 @@ private:
 
     //Label of node (e.g. non-terminal or terminal value)
     std::string label;
+public:
+    const std::string &getLabel() const;
 
 public:
 
