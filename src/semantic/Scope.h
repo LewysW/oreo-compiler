@@ -8,17 +8,18 @@
 
 enum class Object {VAR, PROC};
 enum class Type {INT, BOOL, STRING};
-enum class Block {IF, ELSE, WHILE, PROC};
+enum class Block {GLOBAL, IF, ELSE, WHILE, PROC};
 
 class Scope {
 private:
     std::shared_ptr<Scope> parent;
+    Block block;
     bool global;
     std::vector<std::shared_ptr<std::pair<Block, Scope>>> scopes;
     std::map<std::string, std::pair<Object, Type>> symbolTable;
 public:
     Scope();
-    Scope(const Scope& parent);
+    Scope(const Scope& parent, Block block);
 
     const std::vector<std::shared_ptr<std::pair<Block, Scope>>> &getScopes() const;
 
@@ -28,11 +29,13 @@ public:
 
     void addScope(Block block);
 
-    bool inScope(std::string id);
+    bool inScope(std::string id, Object obj);
 
     bool declared(std::string id);
 
     bool isGlobal() const;
+
+    Block getBlock() const;
 };
 
 

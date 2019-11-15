@@ -31,13 +31,14 @@ void Scope::addScope(Block block) {
 /**
  * Checks if an object is in scope
  * @param id - of object to check
+ * @param obj - whether object is variable or function
  * @return whether object is in scope
  */
-bool Scope::inScope(std::string id) {
+bool Scope::inScope(std::string id, Object obj) {
     //If symbol is not in table
-    if (symbolTable.find(id) == symbolTable.end()) {
+    if (symbolTable.find(id) == symbolTable.end() || symbolTable[id].first != obj) {
         //Return false if in global scope, or check parent scope
-        return (isGlobal()) ? false : parent->inScope(id);
+        return (isGlobal()) ? false : parent->inScope(id, obj);
     }
 
     //Otherwise object is in scope
@@ -57,7 +58,8 @@ bool Scope::declared(std::string id) {
  * Default constructor for global scope
  */
 Scope::Scope() : parent(nullptr),
-                 global(true)
+                 global(true),
+                 block(Block::GLOBAL)
 {
 }
 
@@ -65,8 +67,9 @@ Scope::Scope() : parent(nullptr),
  * Constructor for child scopes
  * @param parent
  */
-Scope::Scope(const Scope& parent) : parent(std::make_shared<Scope>(parent)),
-                                    global(false)
+Scope::Scope(const Scope& parent, Block block) : parent(std::make_shared<Scope>(parent)),
+                                    global(false),
+                                    block(block)
 {
 }
 
@@ -76,6 +79,10 @@ Scope::Scope(const Scope& parent) : parent(std::make_shared<Scope>(parent)),
  */
 bool Scope::isGlobal() const {
     return global;
+}
+
+Block Scope::getBlock() const {
+    return block;
 }
 
 

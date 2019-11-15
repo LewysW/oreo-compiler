@@ -27,9 +27,7 @@ public:
 
     void printStmt(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
 
-    void whileStmt(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
-
-    void ifStmt(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
+    void conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope);
 
     void assignment(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
 
@@ -41,7 +39,9 @@ public:
 
     void expression(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
 
-    void checkIDScope(const Token& token, const std::shared_ptr<Scope>& scope);
+    void checkIDScope(const Token& token, Object obj, const std::shared_ptr<Scope>& scope);
+
+    void checkIDDeclaration(const Token& token, Object obj, const std::shared_ptr<Scope>& scope);
 };
 
 
