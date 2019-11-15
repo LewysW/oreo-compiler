@@ -199,11 +199,28 @@ void Semantic::functionCall(const std::shared_ptr<TreeNode> &parseTree, std::sha
 }
 
 void Semantic::returnStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Expression") {
+            expression(node, scope);
+            break;
+        }
+    }
 }
 
 void Semantic::expression(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        switch (node->getToken().getType()) {
+            case Pattern::TokenType::ID:
+                checkIDScope(node->getToken(), Object::VAR, scope);
+                break;
+            default:
+                break;
+        }
 
+        if (node->getLabel() == "Function Call") {
+            checkIDScope(node->getToken(), Object::PROC, scope);
+        }
+    }
 }
 
 void Semantic::checkIDScope(const Token& token, const Object obj, const std::shared_ptr<Scope>& scope) {
@@ -234,6 +251,65 @@ void Semantic::checkIDDeclaration(const Token& token, const Object obj, const st
         std::cout << err << std::endl;
         throw SemanticException(nullptr);
     }
+}
+
+void Semantic::print(const std::shared_ptr<Scope> scope) {
+    switch (scope->getBlock()) {
+        case Block::GLOBAL:
+            std::cout << "Global: ";
+            break;
+        case Block::PROC:
+            std::cout << "Procedure: ";
+            break;
+        case Block::IF:
+        std::cout << "If: ";
+            break;
+        case Block::ELSE:
+            std::cout << "Else: ";
+            break;
+        case Block::WHILE:
+            std::cout << "While: ";
+            break;
+    }
+
+    std:: cout << "{" << std::endl;
+
+    std::cout << scope->getSymbolTable().size() << std::endl;
+    for (std::pair<std::string, std::pair<Object, Type>> symbol : scope->getSymbolTable()) {
+        std::cout << "[\"ID\":" << symbol.first << ", ";
+
+        switch (symbol.second.first) {
+            case Object::VAR:
+                std::cout << "var, ";
+                break;
+            case Object::PROC:
+                std::cout << "proc, ";
+                break;
+        }
+
+        switch (symbol.second.second) {
+            case Type::INT:
+                std::cout << "int";
+                break;
+            case Type::BOOL:
+                std::cout << "bool";
+                break;
+            case Type::STRING:
+                std::cout << "string";
+                break;
+        }
+
+        std::cout << "]" << std::endl;
+    }
+
+    std::cout << scope->getScopes().size() << std::endl;
+    for (std::shared_ptr<std::pair<Block, Scope>> s : scope->getScopes()) {
+        //TODO - change way 'Scopes' data structure works in Scope.cpp/Scope.h
+        //TODO in order to allow recursive printing (may have to make Scope a shared ptr in the vector)
+        print(std::make_shared<Scope>(s->second));
+    }
+
+    std::cout << "}" << std::endl;
 }
 
 
