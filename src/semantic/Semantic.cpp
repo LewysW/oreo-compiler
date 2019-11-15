@@ -11,7 +11,7 @@ void Semantic::analyse(const std::shared_ptr<TreeNode> &parseTree) {
 
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Compound") {
-            validateScope(parseTree, globalScope);
+            validateScope(node, globalScope);
         }
     }
 }
@@ -130,11 +130,25 @@ void Semantic::printStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared
 }
 
 void Semantic::whileStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Expression") {
+            expression(node, scope);
+        } else if (node->getLabel() == "Compound") {
+            scope->addScope(Block::WHILE);
+            validateScope(node, scope->getScopes().back());
+        }
+    }
 }
 
 void Semantic::ifStmt(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Expression") {
+            expression(node, scope);
+        } else if (node->getLabel() == "Compound") {
+            scope->addScope(Block::IF);
+            validateScope(node, scope->getScopes().back());
+        }
+    }
 }
 
 void Semantic::assignment(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
@@ -142,7 +156,7 @@ void Semantic::assignment(const std::shared_ptr<TreeNode> &parseTree, std::share
 }
 
 void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
-
+    
 }
 
 void Semantic::functionCall(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
