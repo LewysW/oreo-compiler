@@ -11,10 +11,14 @@ const std::shared_ptr<Scope> &Semantic::getGlobalScope() const {
 }
 
 void Semantic::analyse(const std::shared_ptr<TreeNode> &parseTree) {
-    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
-        if (node->getLabel() == "Compound") {
-            validateScope(node, globalScope);
+    try {
+        for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
+            if (node->getLabel() == "Compound") {
+                validateScope(node, globalScope);
+            }
         }
+    } catch (SemanticException& e) {
+        exit(3);
     }
 }
 
@@ -62,7 +66,7 @@ void Semantic::variable(const std::shared_ptr<TreeNode> &parseTree, std::shared_
             current = node;
             break;
         }
-
+        
         switch (node->getToken().getType()) {
             case Pattern::TokenType::INT:
                 type = Type::INT;
@@ -209,16 +213,16 @@ void Semantic::returnStmt(const std::shared_ptr<TreeNode> &parseTree, std::share
 
 void Semantic::expression(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Function Call") {
+            functionCall(node, scope);
+        }
+
         switch (node->getToken().getType()) {
             case Pattern::TokenType::ID:
                 checkIDScope(node->getToken(), Object::VAR, scope);
                 break;
             default:
                 break;
-        }
-
-        if (node->getLabel() == "Function Call") {
-            checkIDScope(node->getToken(), Object::PROC, scope);
         }
     }
 }
@@ -227,10 +231,9 @@ void Semantic::checkIDScope(const Token& token, const Object obj, const std::sha
     const std::string& id = token.getValue();
     unsigned long line = token.getLineNum();
     unsigned long character = token.getColNum();
-
     if (!scope->inScope(id, obj)) {
-        std::string err = (obj == Object::VAR) ? "Variable '" : "Procedure '";
-        err = id + "' on line ";
+        std::string err = (obj == Object::VAR) ? "Variable \'" : "Procedure \'";
+        err += id + "' on line ";
         err += std::to_string(line) + ", character " + std::to_string(character);
         err += " not in scope";
         std::cout << err << std::endl;
@@ -253,29 +256,40 @@ void Semantic::checkIDDeclaration(const Token& token, const Object obj, const st
     }
 }
 
-void Semantic::print(const std::shared_ptr<Scope> scope) {
+void Semantic::printTree(const std::shared_ptr<Scope>& global) {
+    std::cout << "Semantic Analysis:" << std::endl;
+    std::cout << "------------------------------------------------------------------" << std::endl;
+    printScope(global);
+}
+
+void Semantic::printScope(const std::shared_ptr<Scope>& scope) {
+    //Stores number of tabs and commas to print
+    static std::string tabStr;
+
     switch (scope->getBlock()) {
         case Block::GLOBAL:
-            std::cout << "Global: ";
+            std::cout << tabStr << "Global: ";
             break;
         case Block::PROC:
-            std::cout << "Procedure: ";
+            std::cout << tabStr << "Procedure: ";
             break;
         case Block::IF:
-        std::cout << "If: ";
+        std::cout << tabStr << "If: ";
             break;
         case Block::ELSE:
-            std::cout << "Else: ";
+            std::cout << tabStr << "Else: ";
             break;
         case Block::WHILE:
-            std::cout << "While: ";
+            std::cout << tabStr <<"While: ";
             break;
     }
 
+    tabStr += "\t";
+
     std:: cout << "{" << std::endl;
-    
+
     for (std::pair<std::string, std::pair<Object, Type>> symbol : scope->getSymbolTable()) {
-        std::cout << "[\"ID\":" << symbol.first << ", ";
+        std::cout << tabStr << "[\"ID\":" << symbol.first << ", ";
 
         switch (symbol.second.first) {
             case Object::VAR:
@@ -303,10 +317,15 @@ void Semantic::print(const std::shared_ptr<Scope> scope) {
 
 
     for (std::shared_ptr<Scope> s : scope->getScopes()) {
-        print(s);
+        std::cout << std::endl;
+        printScope(s);
     }
 
-    std::cout << "}" << std::endl;
+    if (tabStr.length() > 0) {
+        tabStr.erase(tabStr.length() - 1);
+    }
+
+    std::cout << tabStr << "}" << std::endl;
 }
 
 

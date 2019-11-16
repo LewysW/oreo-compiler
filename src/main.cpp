@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
         //Perform lexical analysis on file
         //and print tokens
         Lexer lexer(fileName);
-        lexer.printTokens();
+        //lexer.printTokens();
 
         //Perform syntactic analysis on file
         //and print abstract syntax tree
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
         Semantic semantic;
         semantic.analyse(parser.getParseTree());
 
-        semantic.print(semantic.getGlobalScope());
+        semantic.printTree(semantic.getGlobalScope());
     }
 
     return 0;

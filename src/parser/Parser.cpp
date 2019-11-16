@@ -776,7 +776,6 @@ void Parser::idExpr(std::shared_ptr<TreeNode> node) {
         child = std::make_shared<TreeNode>(TreeNode("Function Call"));
         child->addChild(temp->getChildren().front());
         node->addChild(child);
-        node->setLabel("Function Call");
         funcCall(child);
 
     //Otherwise is simply an id

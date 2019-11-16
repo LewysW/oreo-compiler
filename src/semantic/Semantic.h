@@ -43,7 +43,9 @@ public:
 
     void checkIDDeclaration(const Token& token, Object obj, const std::shared_ptr<Scope>& scope);
 
-    void print(const std::shared_ptr<Scope> scope);
+    void printTree(const std::shared_ptr<Scope>& global);
+
+    void printScope(const std::shared_ptr<Scope>& scope);
 };
 
 
