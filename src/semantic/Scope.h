@@ -15,13 +15,13 @@ private:
     std::shared_ptr<Scope> parent;
     Block block;
     bool global;
-    std::vector<std::shared_ptr<std::pair<Block, Scope>>> scopes;
+    std::vector<std::shared_ptr<Scope>> scopes;
     std::map<std::string, std::pair<Object, Type>> symbolTable;
 public:
     Scope();
     Scope(const Scope& parent, Block block);
 
-    const std::vector<std::shared_ptr<std::pair<Block, Scope>>> &getScopes() const;
+    const std::vector<std::shared_ptr<Scope>> &getScopes() const;
 
     const std::map<std::string, std::pair<Object, Type>> &getSymbolTable() const;
 

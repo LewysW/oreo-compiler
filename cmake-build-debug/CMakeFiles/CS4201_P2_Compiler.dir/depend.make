@@ -43,4 +43,5 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/parser/Tre
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/Scope.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/Semantic.cpp
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/Semantic.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/SemanticException.h
 

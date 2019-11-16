@@ -107,12 +107,22 @@ memory
 -
 
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.cpp
+iostream
+-
 Semantic.h
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
+SemanticException.h
+/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h
 
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
 ../parser/TreeNode.h
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
 Scope.h
 /cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
+
+/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h
+iostream
+-
+exception
+-
 

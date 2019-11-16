@@ -119,6 +119,9 @@
 		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>
+		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
 		<Unit filename="/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -1,6 +1,6 @@
 #include "Scope.h"
 
-const std::vector<std::shared_ptr<std::pair<Block, Scope>>> &Scope::getScopes() const {
+const std::vector<std::shared_ptr<Scope>> &Scope::getScopes() const {
     return scopes;
 }
 
@@ -21,9 +21,8 @@ void Scope::addSymbol(std::string id, Object obj, Type type) {
 
 void Scope::addScope(Block block) {
     Scope parent = *this;
-    Scope child(parent);
-    std::pair<Block, Scope> p = std::make_pair(block, child);
-    std::shared_ptr<std::pair<Block, Scope>> scopePtr = std::make_shared<std::pair<Block, Scope>>(p);
+    Scope child(parent, block);
+    std::shared_ptr<Scope> scopePtr = std::make_shared<Scope>(child);
 
     scopes.emplace_back(scopePtr);
 }

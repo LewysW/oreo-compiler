@@ -3,7 +3,7 @@ begin
     {- define the procedure function -}
     procedure int function( var int x, var int y )
     begin
-        return x + y;
+        return x + y + function();
     end
     
     function(1,2);

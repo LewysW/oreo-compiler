@@ -131,7 +131,7 @@ void Semantic::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, std::
         } else if (node->getLabel() == "Compound") {
 
             scope->addScope(block);
-            validateScope(node, std::make_shared<Scope>(scope->getScopes().back()->second));
+            validateScope(node, scope->getScopes().back());
         }
     }
 }
@@ -170,7 +170,7 @@ void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shar
         }
     }
 
-    std::shared_ptr<Scope> procScope = std::make_shared<Scope>(scope->getScopes().back()->second);
+    std::shared_ptr<Scope> procScope = scope->getScopes().back();
 
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Formal Parameter") {
@@ -273,8 +273,7 @@ void Semantic::print(const std::shared_ptr<Scope> scope) {
     }
 
     std:: cout << "{" << std::endl;
-
-    std::cout << scope->getSymbolTable().size() << std::endl;
+    
     for (std::pair<std::string, std::pair<Object, Type>> symbol : scope->getSymbolTable()) {
         std::cout << "[\"ID\":" << symbol.first << ", ";
 
@@ -302,11 +301,9 @@ void Semantic::print(const std::shared_ptr<Scope> scope) {
         std::cout << "]" << std::endl;
     }
 
-    std::cout << scope->getScopes().size() << std::endl;
-    for (std::shared_ptr<std::pair<Block, Scope>> s : scope->getScopes()) {
-        //TODO - change way 'Scopes' data structure works in Scope.cpp/Scope.h
-        //TODO in order to allow recursive printing (may have to make Scope a shared ptr in the vector)
-        print(std::make_shared<Scope>(s->second));
+
+    for (std::shared_ptr<Scope> s : scope->getScopes()) {
+        print(s);
     }
 
     std::cout << "}" << std::endl;
