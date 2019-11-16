@@ -66,7 +66,7 @@ void Semantic::variable(const std::shared_ptr<TreeNode> &parseTree, std::shared_
             current = node;
             break;
         }
-        
+
         switch (node->getToken().getType()) {
             case Pattern::TokenType::INT:
                 type = Type::INT;
@@ -215,6 +215,8 @@ void Semantic::expression(const std::shared_ptr<TreeNode> &parseTree, std::share
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Function Call") {
             functionCall(node, scope);
+        } else if (node->getLabel() == "Expression") {
+            expression(node, scope);
         }
 
         switch (node->getToken().getType()) {

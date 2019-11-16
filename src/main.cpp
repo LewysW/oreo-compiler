@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
         //Perform syntactic analysis on file
         //and print abstract syntax tree
         Parser parser(lexer.getTokenList());
-        parser.printTree();
+        //parser.printTree();
 
         //Perform semantic analysis on parse tree
         Semantic semantic;

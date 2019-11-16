@@ -217,7 +217,7 @@ void Parser::stmt(std::shared_ptr<TreeNode> node) {
             returnStmt(child);
             break;
         default:
-            std::string err = "Error: Invalid statement on line " + tokens.front().getLineNum();
+            std::string err = "Error: Invalid statement on line " + std::to_string(tokens.front().getLineNum());
             std::cout << err << std::endl;
             throw ParseException(nullptr);
     }
