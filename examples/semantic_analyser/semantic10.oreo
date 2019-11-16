@@ -1,0 +1,13 @@
+{- Procedure 'add' declared and used correctly -}
+program Test
+begin
+    var int x := 5;
+    var int y := 7;
+
+    procedure int add(var int x, var int y)
+    begin
+        return x + y;
+    end
+
+    add(x, y);
+end

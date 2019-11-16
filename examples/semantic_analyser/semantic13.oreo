@@ -1,0 +1,20 @@
+{- Function declaration within function
+Outer function adds 3 numbers using inner function which adds 2 numbers -}
+program Test
+begin
+    var int a := 5;
+    var int b := 12;
+    var int c := 3;
+
+    procedure int add(var int a, var int b, var int c)
+    begin
+        procedure int add(var int x, var int y)
+        begin
+            return x + y;
+        end
+
+        return add(a, add(b, c));
+    end
+
+    print add(a, b, c);
+end

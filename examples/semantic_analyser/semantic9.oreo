@@ -1,0 +1,6 @@
+{- variable x declared correctly in global scope -}
+program Test
+begin
+    var int x;
+    x := 5;
+end

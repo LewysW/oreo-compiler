@@ -1,0 +1,27 @@
+{- Variable x declared and used correctly in multiple scopes -}
+program Test
+begin
+    {- First declaration -}
+    var int x := 5;
+
+    {- Second declaration -}
+    procedure int test(var int x)
+    begin
+        var int y := 10;
+
+        if (x < 5) then
+        begin
+            {- Third declaration -}
+            var int x := 7;
+
+            {- uses x declared in if statement -}
+            return x;
+        end;
+
+        {- uses x declared as procedure parameter -}
+        return x + y;
+    end
+
+    {- uses x declared in global scope -}
+    test(x);
+end

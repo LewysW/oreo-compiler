@@ -1,0 +1,15 @@
+{- Else scope cannot access variables of if scope -}
+program Test
+begin
+    var bool x := true;
+
+    if (x) then
+    begin
+        var int y := 5;
+        var int z := 7;
+    end
+    else
+    begin
+        print y + z;
+    end;
+end

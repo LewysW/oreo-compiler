@@ -1,0 +1,20 @@
+{- Function declaration within while -}
+program Test
+begin
+    var bool x := true;
+    var int a := 1;
+    var int b := 7;
+
+    while (x)
+    begin
+        {- Procedure only in scope of while loop -}
+        procedure bool tempFunc(var int x, var int y)
+        begin
+            return x > y;
+        end
+
+        x := tempFunc(a, b);
+
+        a := a + 1;
+    end;
+end

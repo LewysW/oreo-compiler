@@ -133,9 +133,10 @@ void Semantic::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, std::
         if (node->getLabel() == "Expression") {
             expression(node, scope);
         } else if (node->getLabel() == "Compound") {
-
             scope->addScope(block);
             validateScope(node, scope->getScopes().back());
+        } else if (node->getLabel() == "Else") {
+            conditionalStmt(node, scope);
         }
     }
 }
