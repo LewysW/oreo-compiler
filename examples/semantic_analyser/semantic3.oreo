@@ -1,0 +1,5 @@
+{- variable x used in assignment without declaration -}
+program Test
+begin
+    var int y := 5 + x;
+end

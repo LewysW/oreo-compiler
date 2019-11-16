@@ -1,0 +1,12 @@
+{- Variable x declared in conditional scope but not in global scope-}
+program Test
+begin
+    var bool y := true;
+
+    if (y) then
+    begin
+        var int x := 5;
+    end;
+
+    print(x);
+end

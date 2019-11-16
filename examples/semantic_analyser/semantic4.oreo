@@ -1,0 +1,8 @@
+{- Procedure 'add' not declared in global scope -}
+program Test
+begin
+    var int x := 5;
+    var int y := 7;
+
+    add(x, y);
+end

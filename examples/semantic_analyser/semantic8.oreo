@@ -1,0 +1,8 @@
+{- Variable x declared as parameter and local variable -}
+program Test
+begin
+    procedure int add(var int x, var int y)
+    begin
+        var int x;
+    end
+end

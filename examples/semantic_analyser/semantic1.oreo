@@ -1,0 +1,6 @@
+{- variable x declared twice in global scope -}
+program Test
+begin
+    var int x;
+    var string x;
+end

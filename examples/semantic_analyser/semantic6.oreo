@@ -1,0 +1,14 @@
+{- Procedure 'add' used before declaration,
+(function hoisting not supported) -}
+program Test
+begin
+    var int x := 5;
+    var int y := 6;
+
+    var int result := add(x, y);
+
+    procedure int add(var int x, var int y)
+    begin
+        return x + y;
+    end
+end

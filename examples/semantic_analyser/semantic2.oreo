@@ -1,0 +1,6 @@
+{- variable x used before declaration -}
+program Test
+begin
+    x := 12;
+    var int x;
+end
