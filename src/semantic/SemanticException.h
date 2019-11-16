@@ -6,8 +6,10 @@
 #include <iostream>
 #include <exception>
 
-//Custom exception thrown if an error
-// occurs during lexical or semantic analysis
+/**
+ * Custom exception thrown if an error
+ * occurs during lexical or semantic analysis
+ */
 class SemanticException: public std::exception {
 private:
     const char* errMsg;
