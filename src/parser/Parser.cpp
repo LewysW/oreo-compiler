@@ -174,6 +174,7 @@ void Parser::stmts(std::shared_ptr<TreeNode> node) {
         case TokenType::IF:
         case TokenType::ID:
         case TokenType::PROCEDURE:
+        case TokenType::RETURN:
             stmt(node);
             stmts(node);
             break;
