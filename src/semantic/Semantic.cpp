@@ -2,27 +2,48 @@
 #include "Semantic.h"
 #include "SemanticException.h"
 
+/**
+ * Constructor for Semantic class, initialises the
+ * globalScope variable with a new Scope shared_ptr
+ */
 Semantic::Semantic() : globalScope(std::make_shared<Scope>(Scope()))
 {
 }
 
+/**
+ * Getter for globalScope, the root of a scope tree
+ * @return globalScope scope pointer
+ */
 const std::shared_ptr<Scope> &Semantic::getGlobalScope() const {
     return globalScope;
 }
 
+/**
+ * Analyses a given parse tree's semantics,
+ * populating a tree of scopes and their symbol tables if valid,
+ * throwing an error if not
+ * @param parseTree - to semantically analyse
+ */
 void Semantic::analyse(const std::shared_ptr<TreeNode> &parseTree) {
+    //Try to generate tree of scopes and symbol tables
     try {
         for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
+            //Validate Compound of global scope
             if (node->getLabel() == "Compound") {
                 validateScope(node, globalScope);
             }
         }
+    //If invalid, catches exception and exits
     } catch (SemanticException& e) {
         exit(3);
     }
 }
 
-
+/**
+ * Validates the statem
+ * @param parseTree
+ * @param scope
+ */
 void Semantic::validateScope(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope) {
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Statement") {

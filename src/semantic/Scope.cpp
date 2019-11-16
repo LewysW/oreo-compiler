@@ -1,9 +1,17 @@
 #include "Scope.h"
 
+/**
+ * Getter for list of child scopes in current scope
+ * @return list of scopes
+ */
 const std::vector<std::shared_ptr<Scope>> &Scope::getScopes() const {
     return scopes;
 }
 
+/**
+ * Getter for symbol table of scope
+ * @return symbol table map
+ */
 const std::map<std::string, std::pair<Object, Type>> &Scope::getSymbolTable() const {
     return symbolTable;
 }
@@ -80,6 +88,10 @@ bool Scope::isGlobal() const {
     return global;
 }
 
+/**
+ * Getter for type of block
+ * @return block of scope
+ */
 Block Scope::getBlock() const {
     return block;
 }
