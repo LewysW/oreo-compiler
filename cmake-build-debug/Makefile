@@ -312,6 +312,33 @@ src/semantic/Semantic.cpp.s:
 	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.s
 .PHONY : src/semantic/Semantic.cpp.s
 
+src/type_checking/TypeChecker.o: src/type_checking/TypeChecker.cpp.o
+
+.PHONY : src/type_checking/TypeChecker.o
+
+# target to build an object file
+src/type_checking/TypeChecker.cpp.o:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o
+.PHONY : src/type_checking/TypeChecker.cpp.o
+
+src/type_checking/TypeChecker.i: src/type_checking/TypeChecker.cpp.i
+
+.PHONY : src/type_checking/TypeChecker.i
+
+# target to preprocess a source file
+src/type_checking/TypeChecker.cpp.i:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.i
+.PHONY : src/type_checking/TypeChecker.cpp.i
+
+src/type_checking/TypeChecker.s: src/type_checking/TypeChecker.cpp.s
+
+.PHONY : src/type_checking/TypeChecker.s
+
+# target to generate assembly for a file
+src/type_checking/TypeChecker.cpp.s:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.s
+.PHONY : src/type_checking/TypeChecker.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -342,6 +369,9 @@ help:
 	@echo "... src/semantic/Semantic.o"
 	@echo "... src/semantic/Semantic.i"
 	@echo "... src/semantic/Semantic.s"
+	@echo "... src/type_checking/TypeChecker.o"
+	@echo "... src/type_checking/TypeChecker.i"
+	@echo "... src/type_checking/TypeChecker.s"
 .PHONY : help
 
 

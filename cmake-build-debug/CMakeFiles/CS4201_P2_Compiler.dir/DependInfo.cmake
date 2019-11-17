@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o"
   "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Scope.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o"
   "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o"
+  "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/src/type_checking/TypeChecker.cpp" "/cs/home/locw/Documents/Fourth_Year/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

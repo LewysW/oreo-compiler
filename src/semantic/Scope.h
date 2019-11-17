@@ -57,7 +57,7 @@ public:
     bool inScope(std::string id, Object obj);
 
     //Returns whether a variable/function has been declared in the current scope
-    bool declared(std::string id);
+    bool declared(std::string id, Object obj);
 
     //Returns whether the current scope is the global scope
     bool isGlobal() const;

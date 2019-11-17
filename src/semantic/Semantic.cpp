@@ -358,7 +358,7 @@ void Semantic::checkIDDeclaration(const Token& token, const Object obj, const st
     unsigned long character = token.getColNum();
 
     //If variable has been declared
-    if (scope->declared(id)) {
+    if (scope->declared(id, obj)) {
         std::string err = "Multiple declaration of ";
         err += (obj == Object::VAR) ? "variable" : "procedure";
         err += " " + id;

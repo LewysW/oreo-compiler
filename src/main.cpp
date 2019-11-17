@@ -27,9 +27,18 @@ int main(int argc, char* argv[]) {
         //Perform semantic analysis on parse tree
         Semantic semantic;
         semantic.analyse(parser.getParseTree());
-
         //Print scopes and symbol tables
         semantic.printTree(semantic.getGlobalScope());
+
+
+
+        //TODO list:
+        //TODO - type checking (add to semantic analyser?)
+        //TODO - report on type checking
+        //TODO - three address code generation
+        //TODO - report on three address code generation
+        //TODO - HLA generation
+        //TODO - report on HLA generation
     }
 
     return 0;

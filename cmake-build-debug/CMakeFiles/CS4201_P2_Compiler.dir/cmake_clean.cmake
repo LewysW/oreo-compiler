@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o"
   "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o"
   "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o"
+  "CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o"
   "CS4201_P2_Compiler.pdb"
   "CS4201_P2_Compiler"
 )
