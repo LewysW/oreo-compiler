@@ -98,6 +98,7 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
     //TODO - if ID is encountered (except in case of not), take as first operator
     //TODO - then check for operator
     //TODO - then check for expression
+    //TODO - if operator operands are invalid, call generateOperatorError()
 
     return Type::BOOL;
 }
