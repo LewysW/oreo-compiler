@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
 
         //TODO list:
-        //TODO - type checking (add to semantic analyser?)
+        //TODO - type checking
         //TODO - report on type checking
         //TODO - three address code generation
         //TODO - report on three address code generation

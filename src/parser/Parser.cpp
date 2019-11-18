@@ -576,9 +576,11 @@ void Parser::orExpr1(std::shared_ptr<TreeNode> node) {
  */
 void Parser::orExpr2(std::shared_ptr<TreeNode> node) {
     if (tokens.front().getType() == TokenType::OR) {
-        match(TokenType::OR, node);
-        andExpr1(node);
-        orExpr2(node);
+        std::shared_ptr<TreeNode> child = std::make_shared<TreeNode>(TreeNode("OR"));
+        node->addChild(child);
+        match(TokenType::OR, child);
+        andExpr1(child);
+        orExpr2(child);
     }
 
 }
@@ -598,7 +600,9 @@ void Parser::andExpr1(std::shared_ptr<TreeNode> node) {
  */
 void Parser::andExpr2(std::shared_ptr<TreeNode> node) {
     if (tokens.front().getType() == TokenType::AND) {
-        match(TokenType::AND, node);
+        std::shared_ptr<TreeNode> child = std::make_shared<TreeNode>(TreeNode("AND"));
+        node->addChild(child);
+        match(TokenType::AND, child);
         equalsExpr1(node);
         andExpr2(node);
     }
@@ -619,9 +623,11 @@ void Parser::equalsExpr1(std::shared_ptr<TreeNode> node) {
  */
 void Parser::equalsExpr2(std::shared_ptr<TreeNode> node) {
     if (tokens.front().getType() == TokenType::EQ) {
-        match(TokenType::EQ, node);
-        relopExpr1(node);
-        equalsExpr2(node);
+        std::shared_ptr<TreeNode> child = std::make_shared<TreeNode>(TreeNode("EQ"));
+        node->addChild(child);
+        match(TokenType::EQ, child);
+        relopExpr1(child);
+        equalsExpr2(child);
     }
 }
 
@@ -639,18 +645,28 @@ void Parser::relopExpr1(std::shared_ptr<TreeNode> node) {
  * @param node - to add symbols to
  */
 void Parser::relopExpr2(std::shared_ptr<TreeNode> node) {
+    std::shared_ptr<TreeNode> child;
+
     switch(tokens.front().getType()) {
         case TokenType::LT:
-            match(TokenType::LT, node);
+            child = std::make_shared<TreeNode>(TreeNode("LT"));
+            node->addChild(child);
+            match(TokenType::LT, child);
             break;
         case TokenType::LTE:
-            match(TokenType::LTE, node);
+            child = std::make_shared<TreeNode>(TreeNode("LTE"));
+            node->addChild(child);
+            match(TokenType::LTE, child);
             break;
         case TokenType::GT:
-            match(TokenType::GT, node);
+            child = std::make_shared<TreeNode>(TreeNode("GT"));
+            node->addChild(child);
+            match(TokenType::GT, child);
             break;
         case TokenType::GTE:
-            match(TokenType::GTE, node);
+            child = std::make_shared<TreeNode>(TreeNode("GTE"));
+            node->addChild(child);
+            match(TokenType::GTE, child);
             break;
         default:
             return;
@@ -658,8 +674,8 @@ void Parser::relopExpr2(std::shared_ptr<TreeNode> node) {
 
 
     //Only executes if token is <, <=, >, >=
-    addExpr1(node);
-    relopExpr2(node);
+    addExpr1(child);
+    relopExpr2(child);
 }
 
 /**
@@ -677,18 +693,23 @@ void Parser::addExpr1(std::shared_ptr<TreeNode> node) {
  */
 void Parser::addExpr2(std::shared_ptr<TreeNode> node) {
     TokenType t = tokens.front().getType();
+    std::shared_ptr<TreeNode> child;
 
     if (t == TokenType::PLUS) {
-        match(TokenType::PLUS, node);
+        child = std::make_shared<TreeNode>(TreeNode("PLUS"));
+        node->addChild(child);
+        match(TokenType::PLUS, child);
     } else if (t == TokenType::MINUS) {
-        match(TokenType::MINUS, node);
+        node->addChild(child);
+        child = std::make_shared<TreeNode>(TreeNode("MINUS"));
+        match(TokenType::MINUS, child);
     } else {
         return;
     }
 
     //Only executes if token is + or -
-    mulExpr1(node);
-    addExpr2(node);
+    mulExpr1(child);
+    addExpr2(child);
 }
 
 /**
@@ -706,18 +727,23 @@ void Parser::mulExpr1(std::shared_ptr<TreeNode> node) {
  */
 void Parser::mulExpr2(std::shared_ptr<TreeNode> node) {
     TokenType t = tokens.front().getType();
+    std::shared_ptr<TreeNode> child;
 
     if (t == TokenType::MULTIPLY) {
+        child = std::make_shared<TreeNode>(TreeNode("MULTIPLY"));
+        node->addChild(child);
         match(TokenType::MULTIPLY, node);
     } else if (t == TokenType::DIVIDE) {
+        child = std::make_shared<TreeNode>(TreeNode("DIVIDE"));
+        node->addChild(child);
         match(TokenType::DIVIDE, node);
     } else {
         return;
     }
 
     //Only executes if token is * or /
-    valueExpr(node);
-    mulExpr2(node);
+    valueExpr(child);
+    mulExpr2(child);
 }
 
 /**
@@ -726,11 +752,14 @@ void Parser::mulExpr2(std::shared_ptr<TreeNode> node) {
  */
 void Parser::valueExpr(std::shared_ptr<TreeNode> node) {
     Token t = tokens.front();
+    std::shared_ptr<TreeNode> child;
 
     switch(t.getType()) {
         case TokenType::NOT:
-            match(TokenType::NOT, node);
-            valueExpr(node);
+            child = std::make_shared<TreeNode>(TreeNode("NOT"));
+            node->addChild(child);
+            match(TokenType::NOT, child);
+            valueExpr(child);
             break;
         case TokenType::LPAREN:
             match(TokenType::LPAREN, node);

@@ -61,6 +61,22 @@ public:
 
     //Prints a scope, as well as its inner symbols/scopes
     void printScope(const std::shared_ptr<Scope>& scope);
+
+    //Maps labels to operator token types
+    inline static const std::map<std::string, Pattern::TokenType> labelToToken {
+            {"PLUS", Pattern::TokenType::PLUS},
+            {"MINUS", Pattern::TokenType::MINUS},
+            {"MULTIPLY", Pattern::TokenType::MULTIPLY},
+            {"DIVIDE", Pattern::TokenType::DIVIDE},
+            {"AND", Pattern::TokenType::AND},
+            {"OR", Pattern::TokenType::OR},
+            {"LT", Pattern::TokenType::LT},
+            {"GT", Pattern::TokenType::GT},
+            {"LTE", Pattern::TokenType::LTE},
+            {"GTE", Pattern::TokenType::GTE},
+            {"EQ", Pattern::TokenType::EQ},
+            {"NOT", Pattern::TokenType::NOT},
+    };
 };
 
 

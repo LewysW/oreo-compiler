@@ -10,7 +10,7 @@
 enum class Object {VAR, PROC};
 
 //Used to denote variable types and return types
-enum class Type {INT, BOOL, STRING};
+enum class Type {INT, BOOL, STRING, NONE};
 
 //Used to identify the type of scope
 enum class Block {GLOBAL, IF, ELSE, WHILE, PROC};

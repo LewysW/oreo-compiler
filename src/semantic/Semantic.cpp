@@ -308,7 +308,7 @@ void Semantic::expression(const std::shared_ptr<TreeNode> &parseTree, std::share
         if (node->getLabel() == "Function Call") {
             functionCall(node, scope);
         //Recursively validates a subexpression
-        } else if (node->getLabel() == "Expression") {
+        } else if (node->getLabel() == "Expression" || labelToToken.find(node->getLabel()) != labelToToken.end()) {
             expression(node, scope);
         }
 
