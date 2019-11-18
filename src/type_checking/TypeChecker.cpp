@@ -94,10 +94,62 @@ void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const s
     }
 }
 
-Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope &> scope) {
+Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope) {
+    Type op1 = Type::NONE;
+    Type op2 = Type::NONE;
+    std::string id;
+    Operator myOperator;
+    Pattern::TokenType token = Pattern::TokenType::NONE;
+
+    //Iterates through the children of the current expression
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        Pattern::TokenType temp = node->getToken().getType();
+
+        //Identifies the first operand of the current expression if something other than the not expression
+        if (temp == Pattern::TokenType::ID) {
+            id = node->getToken().getValue();
+            op1 = scope->getSymbol(id, scope).second;
+        } else if (temp == Pattern::TokenType::TRUE || temp == Pattern::TokenType::FALSE) {
+            op1 = Type::BOOL;
+        } else if (temp == Pattern::TokenType::STRING_LITERAL) {
+            op1 = Type::STRING;
+        } else if (temp == Pattern::TokenType::NUM) {
+            op1 = Type::INT;
+
+        //Identifies subexpression as second operand in the case of a bracketed expression
+        } else if (node->getLabel() == "Expression") {
+            op2 = evaluateExpression(node, scope);
+
+        //Identifies a subexpression as second operand in the case of an operator
+        } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
+            //Stores token for error message if expression fails
+            token = temp;
+
+            //Gets the operator information associated with the current expression label
+            myOperator = operators.at(Semantic::labelToToken.at(node->getLabel()));
+
+            //Evaluates the subexpression of the operator and assigns the result as the second operand
+            for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
+                if (child->getLabel() == "Expression") {
+                    op2 = evaluateExpression(child, scope);
+                }
+            }
+        }
+    }
+
+    if (op2 == Type::NONE) {
+        return op1;
+    } else if (myOperator.getOperands().first == op1 && myOperator.getOperands().second == op2) {
+        return myOperator.getOutput();
+    } else {
+        generateOperatorError(token, op1, op2);
+    }
+    //TODO - IF OPERATOR 2 is NONE AT END, MEANS FINAL EXPRESSION WAS REACHED
+
     //TODO - if ID is encountered (except in case of not), take as first operator
     //TODO - then check for operator
     //TODO - then check for expression
+    //TODO - once there are no more subexpressions, evaluate operation and return type
     //TODO - if operator operands are invalid, call generateOperatorError()
 
     return Type::BOOL;

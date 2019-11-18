@@ -41,7 +41,7 @@ private:
     //Validates the types of an expression
     void expression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, Type expected);
 
-    Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope&> scope);
+    Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
 
     void generateTypeError(Type expected, Type result, unsigned long lineNum);
     void generateOperatorError(Pattern::TokenType op, Type op1, Type op2);

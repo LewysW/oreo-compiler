@@ -96,4 +96,18 @@ Block Scope::getBlock() const {
     return block;
 }
 
+/**
+ * Gets the object and type of a given symbol from within the current scope
+ * @param id - of symbol to find
+ * @param scope - to search
+ * @return - pair of object and type
+ */
+const std::pair<Object, Type> &Scope::getSymbol(const std::string id, const std::shared_ptr<Scope>& scope) const {
+    if (scope->symbolTable.find(id) != scope->symbolTable.end()) {
+        return scope->symbolTable.at(id);
+    }
+
+    return getSymbol(id, scope->parent);
+}
+
 

@@ -47,6 +47,9 @@ public:
     //Getter for symbol table
     const std::map<std::string, std::pair<Object, Type>> &getSymbolTable() const;
 
+    //Gets a symbol from the current symbol table or a parent scope
+    const std::pair<Object, Type>& getSymbol(std::string id, const std::shared_ptr<Scope>& scope) const;
+
     //Adds a symbol to the symbol table of the current scope
     void addSymbol(std::string id, Object obj, Type type);
 
