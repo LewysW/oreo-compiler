@@ -4,6 +4,7 @@
 #include "parser/Lexer.h"
 #include "parser/Parser.h"
 #include "semantic/Semantic.h"
+#include "type_checking/TypeChecker.h"
 
 using std::cout;
 using std::endl;
@@ -30,7 +31,9 @@ int main(int argc, char* argv[]) {
         //Print scopes and symbol tables
         semantic.printTree(semantic.getGlobalScope());
 
-
+        //Perform type checking on parse tree
+        TypeChecker typeChecker;
+        typeChecker.checkTypes(parser.getParseTree(), semantic.getGlobalScope());
 
         //TODO list:
         //TODO - type checking

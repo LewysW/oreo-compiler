@@ -32,17 +32,17 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
         if (label == "Variable") {
             variable(node, scope);
         } else if (label == "Print Statement") {
-            printStmt(node, scope);
+            //printStmt(node, scope);
         } else if (label == "While" || label == "If" || label == "Else") {
-            conditionalStmt(node, scope);
+            //conditionalStmt(node, scope);
         } else if (label == "Assignment") {
-            assignment(node, scope);
+            //assignment(node, scope);
         } else if (label == "Function Signature") {
-            functionSig(node, scope);
+            //functionSig(node, scope);
         } else if (label == "Function Call") {
-            functionCall(node, scope);
+            //functionCall(node, scope);
         } else if (label == "Return") {
-            returnStmt(node, scope);
+            //returnStmt(node, scope);
         }
     }
 }
@@ -130,29 +130,42 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
 
             //Evaluates the subexpression of the operator and assigns the result as the second operand
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
+                //If another expression with subexpression
                 if (child->getLabel() == "Expression") {
                     op2 = evaluateExpression(child, scope);
+                } else {
+                    //Otherwise subexpression is terminal, get literal value
+                    switch (child->getToken().getType()) {
+                        case Pattern::TokenType::ID:
+                            id = node->getToken().getValue();
+                            op2 = scope->getSymbol(id, scope).second;
+                            break;
+                        case Pattern::TokenType::NUM:
+                            op2 = Type::INT;
+                            break;
+                        case Pattern::TokenType::TRUE:
+                        case Pattern::TokenType::FALSE:
+                            op2 = Type::BOOL;
+                            break;
+                    }
                 }
+            }
+
+            //If operands are valid for current expression, store value in op1
+            if (myOperator.getOperands().first == op1 && myOperator.getOperands().second == op2) {
+                op1 = myOperator.getOutput();
+                op2 = Type::NONE;
             }
         }
     }
 
+    //If operands valid and final result stored in op1 return it
     if (op2 == Type::NONE) {
         return op1;
-    } else if (myOperator.getOperands().first == op1 && myOperator.getOperands().second == op2) {
-        return myOperator.getOutput();
+    //Else generate operator error as operands did not match expected operands
     } else {
         generateOperatorError(token, op1, op2);
     }
-    //TODO - IF OPERATOR 2 is NONE AT END, MEANS FINAL EXPRESSION WAS REACHED
-
-    //TODO - if ID is encountered (except in case of not), take as first operator
-    //TODO - then check for operator
-    //TODO - then check for expression
-    //TODO - once there are no more subexpressions, evaluate operation and return type
-    //TODO - if operator operands are invalid, call generateOperatorError()
-
-    return Type::BOOL;
 }
 
 void TypeChecker::generateTypeError(Type expected, Type result, unsigned long lineNum) {

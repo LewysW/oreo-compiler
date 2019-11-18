@@ -7,9 +7,10 @@
 #include "Operator.h"
 
 class TypeChecker {
-private:
+public:
     //Main type checking logic
     void checkTypes(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& global);
+private:
 
     //Validates types of a scope in parse tree
     void validateScopeTypes(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
@@ -41,7 +42,7 @@ private:
     //Validates the types of an expression
     void expression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, Type expected);
 
-    Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
+    Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);;
 
     void generateTypeError(Type expected, Type result, unsigned long lineNum);
     void generateOperatorError(Pattern::TokenType op, Type op1, Type op2);
