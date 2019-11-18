@@ -146,26 +146,9 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
                 //If another expression with subexpression
                 if (child->getLabel() == "Expression") {
                     op2 = evaluateExpression(child, scope, line);
-                } else {
-                    for (const std::shared_ptr<TreeNode>& terminal : child->getChildren()) {
-                        //Otherwise subexpression is terminal, get literal value
-                        switch (terminal->getToken().getType()) {
-                            case Pattern::TokenType::ID:
-                                id = terminal->getToken().getValue();
-                                op2 = scope->getSymbol(id, scope).second;
-                                break;
-                            case Pattern::TokenType::NUM:
-                                op2 = Type::INT;
-                                break;
-                            case Pattern::TokenType::TRUE:
-                            case Pattern::TokenType::FALSE:
-                                op2 = Type::BOOL;
-                                std::cout << "TYPE IS BOOL!!!" << std::endl;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
+                    std::cout << node->getLabel() << std::endl;
+                    op2 = evaluateExpression(node, scope, line);
                 }
             }
             //If operands are valid for current expression, store value in op1
