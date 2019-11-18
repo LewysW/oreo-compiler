@@ -110,4 +110,12 @@ const std::pair<Object, Type> &Scope::getSymbol(const std::string id, const std:
     return getSymbol(id, scope->parent);
 }
 
+unsigned long Scope::getCurrent() const {
+    return current;
+}
+
+void Scope::setCurrent(unsigned long current) {
+    Scope::current = current;
+}
+
 

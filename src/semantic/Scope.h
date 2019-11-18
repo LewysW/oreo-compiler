@@ -20,6 +20,8 @@ enum class Block {GLOBAL, IF, ELSE, WHILE, PROC};
  */
 class Scope {
 private:
+    unsigned long current = 0;
+
     //Parent scope
     std::shared_ptr<Scope> parent;
 
@@ -67,6 +69,10 @@ public:
 
     //Getter for the scope/block type
     Block getBlock() const;
+
+    unsigned long getCurrent() const;
+
+    void setCurrent(unsigned long current);
 };
 
 

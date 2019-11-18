@@ -38,6 +38,9 @@ int main(int argc, char* argv[]) {
         //TODO list:
         //TODO - type checking
         //TODO - report on type checking
+
+        //TODO - Pass queue through type checking code and add instructions for ease of TAC generation
+
         //TODO - three address code generation
         //TODO - report on three address code generation
         //TODO - HLA generation

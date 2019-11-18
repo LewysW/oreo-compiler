@@ -36,9 +36,9 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
         if (label == "Variable") {
             variable(node, scope);
         } else if (label == "Print Statement") {
-            //printStmt(node, scope);
+            printStmt(node, scope);
         } else if (label == "While" || label == "If" || label == "Else") {
-            //conditionalStmt(node, scope);
+            conditionalStmt(node, scope);
         } else if (label == "Assignment") {
             //assignment(node, scope);
         } else if (label == "Function Signature") {
@@ -86,6 +86,69 @@ void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std
             }
         }
     }
+}
+
+void TypeChecker::printStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    Token token = parseTree->getChildren().at(0)->getToken();
+    Type type;
+    unsigned long line = token.getLineNum();
+
+    switch (token.getType()) {
+        //If the print statement is print or println, then the inner expressions is validated
+        case Pattern::TokenType::PRINT:
+        case Pattern::TokenType::PRINTLN:
+            for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+                if (node->getLabel() == "Expression") {
+                    evaluateExpression(node, scope, line);
+                }
+            }
+            break;
+            //If the print statement is get, then the scope of the following ID is validated
+        case Pattern::TokenType::GET:
+            for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+                if (node->getToken().getType() == Pattern::TokenType::ID) {
+                    //Requires that 'get' take a string id
+                    if ((type = scope->getSymbol(node->getToken().getValue(), scope).second) != Type::STRING) {
+                        std::string err = "Error: 'get' statement on line ";
+                        err += std::to_string(node->getToken().getLineNum()) + ", character ";
+                        err += std::to_string(node->getToken().getColNum());
+                        err += " takes a string identifier as an argument\n" ;
+                        err += "Cannot apply to an identifier of type ";
+
+                        switch (type) {
+                            case Type::INT:
+                                err += "'int'";
+                                break;
+                            case Type::BOOL:
+                                err += "'bool'";
+                                break;
+                            default:
+                                break;
+                        }
+                        std::cout << err << std::endl;
+                        throw TypeException(nullptr);
+                    }
+                }
+            }
+    }
+}
+
+void TypeChecker::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    unsigned long line = parseTree->getChildren()[0]->getToken().getLineNum();
+
+    //Identifies the correct part of the conditional statement to validate
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Expression") {
+            expression(node, scope, Type::BOOL, line);
+        } else if (node->getLabel() == "Compound") {
+            validateScopeTypes(node, scope->getScopes().at(scope->getCurrent()));
+            scope->setCurrent(scope->getCurrent() + 1);
+        } else if (node->getLabel() == "Else") {
+            conditionalStmt(node, scope);
+        }
+    }
+
+    scope->setCurrent(0);
 }
 
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,
