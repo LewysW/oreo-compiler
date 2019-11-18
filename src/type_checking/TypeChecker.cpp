@@ -93,11 +93,7 @@ void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const s
     Type result;
     if ((result = evaluateExpression(parseTree, scope, line)) != expected) {
         generateTypeError(expected, result, line);
-        //TODO - need to validate expression type using evaluateExpression()
-        // TODO - function which will use the operators table and will call expression recursively
     }
-
-    if (result == Type::INT) std::cout << "Result is an int too!!!" << std::endl;
 }
 
 /**
@@ -132,7 +128,7 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
 
         //Identifies subexpression as second operand in the case of a bracketed expression
         } else if (node->getLabel() == "Expression") {
-            op2 = evaluateExpression(node, scope, line);
+            return evaluateExpression(node, scope, line);
 
         //Identifies a subexpression as second operand in the case of an operator
         } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
@@ -171,13 +167,13 @@ void TypeChecker::generateTypeError(Type expected, Type result, unsigned long li
 
     switch (expected) {
         case Type::INT:
-            err += "int";
+            err += "'int'";
             break;
         case Type::STRING:
-            err += "string";
+            err += "'string'";
             break;
         case Type::BOOL:
-            err += "bool";
+            err += "'bool'";
             break;
         default:
             break;
@@ -188,13 +184,13 @@ void TypeChecker::generateTypeError(Type expected, Type result, unsigned long li
 
     switch (result) {
         case Type::INT:
-            err += "int";
+            err += "'int'";
             break;
         case Type::STRING:
-            err += "string";
+            err += "'string'";
             break;
         case Type::BOOL:
-            err += "bool";
+            err += "'bool'";
             break;
         default:
             break;
@@ -232,12 +228,12 @@ void TypeChecker::generateOperatorError(Pattern::TokenType type, Type op1, Type 
     err += " on line " + std::to_string(lineNum) + " takes ";
     err += (type == Pattern::TokenType::NOT) ? "operand" : "operands";
     err += " of type ";
-    err += (type == Pattern::TokenType::NOT) ? opStrings[1] : "<" + opStrings[0] + ", " + opStrings[1] + ">";
+    err += (type == Pattern::TokenType::NOT) ? "'" + opStrings[1] + "'" : "<" + opStrings[0] + ", " + opStrings[1] + ">";
     err += "\n";
     err += "Cannot apply to ";
     err += (type == Pattern::TokenType::NOT) ? "operand" : "operands";
     err += " of type ";
-    err += (type == Pattern::TokenType::NOT) ? opStrings[3] : "<" + opStrings[2] + ", " + opStrings[3] + ">";
+    err += (type == Pattern::TokenType::NOT) ? "'" + opStrings[3] + "'" : "<" + opStrings[2] + ", " + opStrings[3] + ">";
 
     std::cout << err << std::endl;
     throw TypeException(nullptr);
