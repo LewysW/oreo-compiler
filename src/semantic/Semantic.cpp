@@ -458,6 +458,7 @@ void Semantic::printScope(const std::shared_ptr<Scope>& scope) {
 
     //Prints a closing brace to indicate the end of the scope
     std::cout << tabStr << "}" << std::endl;
+    std::cout << std::endl;
 }
 
 

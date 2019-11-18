@@ -4,12 +4,16 @@
 
 void TypeChecker::checkTypes(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& global) {
     try {
+        std::cout << "Type Checking:" << std::endl;
+        std::cout << "------------------------------------------------------------------" << std::endl;
+
         for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
             //Validate Compound of global scope
             if (node->getLabel() == "Compound") {
                 validateScopeTypes(node, global);
             }
         }
+        std::cout << "No type errors" << std::endl;
     } catch (TypeException& e) {
         exit(4);
     }
@@ -53,6 +57,7 @@ void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std
     Type type = Type::INT;
     bool isAssignment = false;
     std::shared_ptr<TreeNode> current;
+    unsigned long line = parseTree->getChildren().front()->getToken().getLineNum();
 
     //Iterates through each symbol in the variable statement
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
@@ -77,29 +82,37 @@ void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std
         for (const std::shared_ptr<TreeNode>& node : current->getChildren()) {
             //Evaluate the types in the expression of the assignment
             if (node->getLabel() == "Expression") {
-                expression(node, scope, type);
+                expression(node, scope, type, line);
             }
         }
     }
 }
 
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,
-                             Type expected) {
+                             Type expected, unsigned long line) {
     Type result;
-
-    if ((result = evaluateExpression(parseTree, scope)) != expected) {
-        generateTypeError(expected, result, parseTree->getToken().getLineNum());
+    if ((result = evaluateExpression(parseTree, scope, line)) != expected) {
+        generateTypeError(expected, result, line);
         //TODO - need to validate expression type using evaluateExpression()
         // TODO - function which will use the operators table and will call expression recursively
     }
+
+    if (result == Type::INT) std::cout << "Result is an int too!!!" << std::endl;
 }
 
-Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope) {
+/**
+ * Evaluates an expression and returns the resulting type
+ * if all operators are provided the correct operands
+ * @param parseTree - to type check
+ * @param scope - to find the type of symbols
+ * @param line - to print if an error occurs
+ */
+Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope, unsigned long line) {
     Type op1 = Type::NONE;
     Type op2 = Type::NONE;
     std::string id;
     Operator myOperator;
-    Pattern::TokenType token = Pattern::TokenType::NONE;
+    Pattern::TokenType type;
 
     //Iterates through the children of the current expression
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
@@ -118,12 +131,12 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
 
         //Identifies subexpression as second operand in the case of a bracketed expression
         } else if (node->getLabel() == "Expression") {
-            op2 = evaluateExpression(node, scope);
+            op2 = evaluateExpression(node, scope, line);
 
         //Identifies a subexpression as second operand in the case of an operator
         } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
-            //Stores token for error message if expression fails
-            token = temp;
+            //records type of expression for error handling
+            type = Semantic::labelToToken.at(node->getLabel());
 
             //Gets the operator information associated with the current expression label
             myOperator = operators.at(Semantic::labelToToken.at(node->getLabel()));
@@ -132,40 +145,40 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                 //If another expression with subexpression
                 if (child->getLabel() == "Expression") {
-                    op2 = evaluateExpression(child, scope);
+                    op2 = evaluateExpression(child, scope, line);
                 } else {
-                    //Otherwise subexpression is terminal, get literal value
-                    switch (child->getToken().getType()) {
-                        case Pattern::TokenType::ID:
-                            id = node->getToken().getValue();
-                            op2 = scope->getSymbol(id, scope).second;
-                            break;
-                        case Pattern::TokenType::NUM:
-                            op2 = Type::INT;
-                            break;
-                        case Pattern::TokenType::TRUE:
-                        case Pattern::TokenType::FALSE:
-                            op2 = Type::BOOL;
-                            break;
+                    for (const std::shared_ptr<TreeNode>& terminal : child->getChildren()) {
+                        //Otherwise subexpression is terminal, get literal value
+                        switch (terminal->getToken().getType()) {
+                            case Pattern::TokenType::ID:
+                                id = terminal->getToken().getValue();
+                                op2 = scope->getSymbol(id, scope).second;
+                                break;
+                            case Pattern::TokenType::NUM:
+                                op2 = Type::INT;
+                                break;
+                            case Pattern::TokenType::TRUE:
+                            case Pattern::TokenType::FALSE:
+                                op2 = Type::BOOL;
+                                std::cout << "TYPE IS BOOL!!!" << std::endl;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
-
             //If operands are valid for current expression, store value in op1
             if (myOperator.getOperands().first == op1 && myOperator.getOperands().second == op2) {
                 op1 = myOperator.getOutput();
                 op2 = Type::NONE;
+            } else {
+                generateOperatorError(type, op1, op2, line);
             }
         }
     }
 
-    //If operands valid and final result stored in op1 return it
-    if (op2 == Type::NONE) {
-        return op1;
-    //Else generate operator error as operands did not match expected operands
-    } else {
-        generateOperatorError(token, op1, op2);
-    }
+    return op1;
 }
 
 void TypeChecker::generateTypeError(Type expected, Type result, unsigned long lineNum) {
@@ -202,15 +215,16 @@ void TypeChecker::generateTypeError(Type expected, Type result, unsigned long li
             break;
     }
 
+    std::cout << err << std::endl;
     throw TypeException(nullptr);
 }
 
-void TypeChecker::generateOperatorError(Pattern::TokenType op, Type op1, Type op2) {
-    std::string err = "Error: operator '" + Lexer::TOKEN_STRINGS[static_cast<unsigned long>(op)] + "'";
+void TypeChecker::generateOperatorError(Pattern::TokenType type, Type op1, Type op2, unsigned long lineNum) {
     std::vector<Type> opTypes;
     std::vector<std::string> opStrings;
-    opTypes.emplace_back(operators.at(op).getOperands().first);
-    opTypes.emplace_back(operators.at(op).getOperands().second);
+
+    opTypes.emplace_back(operators.at(type).getOperands().first);
+    opTypes.emplace_back(operators.at(type).getOperands().second);
     opTypes.emplace_back(op1);
     opTypes.emplace_back(op2);
 
@@ -229,17 +243,18 @@ void TypeChecker::generateOperatorError(Pattern::TokenType op, Type op1, Type op
                 opStrings.emplace_back("none");
         }
     }
-
-    err += " takes ";
-    err += (op == Pattern::TokenType::NOT) ? "operand" : "operands";
+    std::string err = "Error: operator '" + Lexer::TOKEN_STRINGS[static_cast<unsigned long>(type)] + "'";
+    err += " on line " + std::to_string(lineNum) + " takes ";
+    err += (type == Pattern::TokenType::NOT) ? "operand" : "operands";
     err += " of type ";
-    err += (op == Pattern::TokenType::NOT) ? opStrings[1] : "<" + opStrings[0] + ", " + opStrings[1] + ">";
+    err += (type == Pattern::TokenType::NOT) ? opStrings[1] : "<" + opStrings[0] + ", " + opStrings[1] + ">";
     err += "\n";
     err += "Cannot apply to ";
-    err += (op == Pattern::TokenType::NOT) ? "operand" : "operands";
+    err += (type == Pattern::TokenType::NOT) ? "operand" : "operands";
     err += " of type ";
-    err += (op == Pattern::TokenType::NOT) ? opStrings[3] : "<" + opStrings[2] + ", " + opStrings[3] + ">";
+    err += (type == Pattern::TokenType::NOT) ? opStrings[3] : "<" + opStrings[2] + ", " + opStrings[3] + ">";
 
+    std::cout << err << std::endl;
     throw TypeException(nullptr);
 }
 

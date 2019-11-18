@@ -40,12 +40,12 @@ private:
     void returnStmt(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
 
     //Validates the types of an expression
-    void expression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, Type expected);
+    void expression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, Type expected, unsigned long line);
 
-    Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);;
+    Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, unsigned long line);;
 
     void generateTypeError(Type expected, Type result, unsigned long lineNum);
-    void generateOperatorError(Pattern::TokenType op, Type op1, Type op2);
+    void generateOperatorError(Pattern::TokenType type, Type op1, Type op2, unsigned long lineNum);
 
     inline static const std::map<Pattern::TokenType, Operator> operators {
             {Pattern::TokenType::PLUS, Operator({Type::INT, Type::INT}, Type::INT)},
