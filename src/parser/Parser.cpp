@@ -603,8 +603,8 @@ void Parser::andExpr2(std::shared_ptr<TreeNode> node) {
         std::shared_ptr<TreeNode> child = std::make_shared<TreeNode>(TreeNode("AND"));
         node->addChild(child);
         match(TokenType::AND, child);
-        equalsExpr1(node);
-        andExpr2(node);
+        equalsExpr1(child);
+        andExpr2(child);
     }
 }
 

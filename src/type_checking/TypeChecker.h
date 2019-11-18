@@ -59,7 +59,7 @@ private:
             {Pattern::TokenType::LTE, Operator({Type::INT, Type::INT}, Type::BOOL)},
             {Pattern::TokenType::GTE, Operator({Type::INT, Type::INT}, Type::BOOL)},
             {Pattern::TokenType::EQ, Operator({Type::INT, Type::INT}, Type::BOOL)},
-            {Pattern::TokenType::NOT, Operator({Type::NONE, Type::INT}, Type::INT)},
+            {Pattern::TokenType::NOT, Operator({Type::NONE, Type::BOOL}, Type::BOOL)},
 
     };
 };

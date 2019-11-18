@@ -110,6 +110,7 @@ void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const s
 Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope, unsigned long line) {
     Type op1 = Type::NONE;
     Type op2 = Type::NONE;
+    Type result = Type::NONE;
     std::string id;
     Operator myOperator;
     Pattern::TokenType type;
@@ -146,14 +147,14 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
                 //If another expression with subexpression
                 if (child->getLabel() == "Expression") {
                     op2 = evaluateExpression(child, scope, line);
+                //Otherwise if a terminal subexpression
                 } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
-                    std::cout << node->getLabel() << std::endl;
                     op2 = evaluateExpression(node, scope, line);
                 }
             }
             //If operands are valid for current expression, store value in op1
             if (myOperator.getOperands().first == op1 && myOperator.getOperands().second == op2) {
-                op1 = myOperator.getOutput();
+                op1 = operators.at(type).getOutput();
                 op2 = Type::NONE;
             } else {
                 generateOperatorError(type, op1, op2, line);
@@ -161,6 +162,7 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
         }
     }
 
+    //If operands are valid for current expression, store value in op1
     return op1;
 }
 
