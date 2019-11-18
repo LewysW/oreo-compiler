@@ -1,6 +1,3 @@
-#ifndef CS4201_P2_COMPILER_SEMANTICEXCEPTION_H
-#define CS4201_P2_COMPILER_SEMANTICEXCEPTION_H
-
 #pragma once
 
 #include <iostream>
@@ -23,5 +20,3 @@ public:
         return errMsg;
     }
 };
-
-#endif //CS4201_P2_COMPILER_SEMANTICEXCEPTION_H
