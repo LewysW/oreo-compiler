@@ -11,14 +11,6 @@ public:
 
 private:
     std::shared_ptr<Scope> globalScope;
-
-public:
-    //Constructor
-    Semantic();
-
-    //Performs semantic analysis
-    void analyse(const std::shared_ptr<TreeNode>& parseTree);
-
     //Validates scope of symbols in parse tree
     void validateScope(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
 
@@ -55,7 +47,12 @@ public:
 
     //Throws an error if an ID has been declared multiple times in the same scope
     void checkIDDeclaration(const Token& token, Object obj, const std::shared_ptr<Scope>& scope);
+public:
+    //Constructor
+    Semantic();
 
+    //Performs semantic analysis
+    void analyse(const std::shared_ptr<TreeNode>& parseTree);
     //Prints the scope tree
     void printTree(const std::shared_ptr<Scope>& global);
 
