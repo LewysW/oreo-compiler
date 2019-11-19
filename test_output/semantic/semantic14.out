@@ -1,0 +1,16 @@
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":a, var, int]
+	["ID":b, var, int]
+	["ID":x, var, bool]
+
+	While: {
+		["ID":tempFunc, proc, bool]
+
+		Procedure: {
+			["ID":x, var, int]
+			["ID":y, var, int]
+		}
+	}
+}

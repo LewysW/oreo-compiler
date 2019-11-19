@@ -1,0 +1,110 @@
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			Variable: {
+				"var",
+				"bool",
+				"ID": "x",
+				Variable Assignment: {
+					":=",
+					Expression: {
+						"true"
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		Statement: {
+			If: {
+				"if",
+				"(",
+				Expression: {
+					"ID": "x"
+				}
+
+				")",
+				"then",
+				Compound: {
+					"begin",
+					Statement: {
+						Variable: {
+							"var",
+							"int",
+							"ID": "y",
+							Variable Assignment: {
+								":=",
+								Expression: {
+									"NUM": "5"
+								}
+
+							}
+
+							";"
+						}
+
+					}
+
+					Statement: {
+						Variable: {
+							"var",
+							"int",
+							"ID": "z",
+							Variable Assignment: {
+								":=",
+								Expression: {
+									"NUM": "7"
+								}
+
+							}
+
+							";"
+						}
+
+					}
+
+					"end"
+				}
+
+				Else: {
+					"else",
+					Compound: {
+						"begin",
+						Statement: {
+							Print Statement: {
+								"print",
+								Expression: {
+									"ID": "y",
+									"+",
+									"ID": "z"
+								}
+
+								";"
+							}
+
+						}
+
+						"end"
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Variable 'y' on line 13, character 15 not in scope

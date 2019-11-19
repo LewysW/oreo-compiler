@@ -1,0 +1,13 @@
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":factorial, proc, int]
+	["ID":x, var, int]
+
+	Procedure: {
+		["ID":n, var, int]
+
+		If: {
+		}
+	}
+}

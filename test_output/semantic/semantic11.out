@@ -1,0 +1,15 @@
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":test, proc, int]
+	["ID":x, var, int]
+
+	Procedure: {
+		["ID":x, var, int]
+		["ID":y, var, int]
+
+		If: {
+			["ID":x, var, int]
+		}
+	}
+}

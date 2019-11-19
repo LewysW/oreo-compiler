@@ -1,0 +1,12 @@
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":add, proc, int]
+	["ID":x, var, int]
+	["ID":y, var, int]
+
+	Procedure: {
+		["ID":x, var, int]
+		["ID":y, var, int]
+	}
+}

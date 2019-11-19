@@ -1,0 +1,52 @@
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			Function Signature: {
+				"procedure",
+				"int",
+				"ID": "add",
+				"(",
+				Formal Parameter: {
+					"var",
+					"int",
+					"ID": "x"
+				}
+
+				Formal Parameter: {
+					",",
+					"var",
+					"int",
+					"ID": "y"
+				}
+
+				")",
+				Compound: {
+					"begin",
+					Statement: {
+						Variable: {
+							"var",
+							"int",
+							"ID": "x",
+							";"
+						}
+
+					}
+
+					"end"
+				}
+
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Multiple declaration of variable x on line 6, character 17
