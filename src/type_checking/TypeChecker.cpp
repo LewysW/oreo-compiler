@@ -185,31 +185,49 @@ void TypeChecker::functionSig(const std::shared_ptr<TreeNode> &parseTree, const 
 
 Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     unsigned long line = parseTree->getToken().getLineNum();
-    Type type = Type::NONE;
+    Type retType = Type::NONE;
+    std::string funcID;
 
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         switch (node->getToken().getType()) {
             //Get the return type of the function
             case Pattern::TokenType::ID:
-                type = scope->getSymbol(node->getToken().getValue(), scope).second;
+                funcID = node->getToken().getValue();
+                std::cout << funcID << std::endl;
+                retType = scope->getSymbol(node->getToken().getValue(), scope).second;
                 break;
             default:
                 break;
         }
 
-        //TODO - match actual and formal parameters
+        std::vector<std::pair<std::string, Type>> functionIDs = scope->getFuncIDs(funcID, scope);
+        int param = 0;
+
         //Validate the expression of an actual parameter
         if (node->getLabel() == "Actual Parameter") {
+            std::cout << "Actual parameter!!!" << std::endl;
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
-                if (node->getLabel() == "Expression") {
-                    //TODO expected type should be that of the function parameter
+                if (child->getLabel() == "Expression") {
+                    Type type = functionIDs.at(param++).second;
+                    switch (type) {
+                        case Type::INT:
+                            std::cout << "INT" << std::endl;
+                            break;
+                        case Type::BOOL:
+                            std::cout << "BOOL" << std::endl;
+                            break;
+                        case Type::STRING:
+                            std::cout << "STRING" << std::endl;
+                            break;
+                    }
+                    //TODO - add custom parameter error message (possibly call evaluateExpression?)
                     expression(child, scope, type, line);
                 }
             }
         }
     }
 
-    return type;
+    return retType;
 }
 
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,

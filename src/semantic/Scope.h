@@ -21,7 +21,8 @@ enum class Block {GLOBAL, IF, ELSE, WHILE, PROC};
  */
 class Scope {
 private:
-    std::vector<std::pair<std::string, Type>> parameters;
+    //Stores list of identifiers in order they were added
+    std::vector<std::pair<std::string, Type>> identifiers;
 
     unsigned long current = 0;
 
@@ -76,6 +77,8 @@ public:
     unsigned long getCurrent() const;
 
     void setCurrent(unsigned long current);
+
+    const std::vector<std::pair<std::string, Type>> getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope);
 };
 
 

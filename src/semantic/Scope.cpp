@@ -1,3 +1,5 @@
+#include <iostream>
+#include <vector>
 #include "Scope.h"
 
 /**
@@ -25,6 +27,7 @@ const std::map<std::string, std::pair<Object, Type>> &Scope::getSymbolTable() co
 void Scope::addSymbol(std::string id, Object obj, Type type) {
     std::pair<Object, Type> value = std::make_pair(obj, type);
     symbolTable.insert(std::pair<std::string, std::pair<Object, Type>>(id, value));
+    identifiers.emplace_back(std::make_pair(id, type));
 }
 
 void Scope::addScope(Block block) {
@@ -35,6 +38,34 @@ void Scope::addScope(Block block) {
     scopes.emplace_back(scopePtr);
 }
 
+const std::vector<std::pair<std::string, Type>> Scope::getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope) {
+    //If function is declared in current scope
+    if (declared(funcID)) {
+        int numFuncs = 0;
+        //Find position of function in scope
+        for (const std::pair<std::string, Type>& id : scope->identifiers) {
+            if (scope->symbolTable[id.first].first == Object::PROC) {
+                numFuncs++;
+                if (id.first == funcID) break;
+            }
+        }
+
+        int currentFunc = 0;
+        //Get identifiers of scope at that position and return them
+        for (const std::shared_ptr<Scope>& s : scope->getScopes()) {
+            if (s->block == Block::PROC) {
+                currentFunc++;
+
+                if (currentFunc == numFuncs) {
+                    return s->identifiers;
+                }
+            }
+        }
+    }
+
+    return getFuncIDs(funcID, scope->parent);
+}
+
 /**
  * Checks if an object is in scope
  * @param id - of object to check
@@ -42,12 +73,16 @@ void Scope::addScope(Block block) {
  * @return whether object is in scope
  */
 bool Scope::inScope(std::string id, Object obj) {
+    int inScope;
     //If symbol is not in table
-    if (symbolTable.find(id) == symbolTable.end() || symbolTable[id].first != obj) {
+    if (symbolTable.find(id) == symbolTable.end()) {
         //Return false if in global scope, or check parent scope
         return (isGlobal()) ? false : parent->inScope(id, obj);
     }
 
+    if (symbolTable[id].first != obj) {
+        return false;
+    }
     //Otherwise object is in scope
     return true;
 }
