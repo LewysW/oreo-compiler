@@ -81,7 +81,9 @@ bool Scope::inScope(std::string id, Object obj) {
         return (isGlobal()) ? false : parent->inScope(id, obj);
     }
 
-    if (symbolTable[id].first != obj) {
+    Object entry = (symbolTable[id].first == Object::PROC) ? Object::PROC : Object::VAR;
+
+    if (entry != obj) {
         return false;
     }
     //Otherwise object is in scope
@@ -156,14 +158,15 @@ void Scope::setCurrent(unsigned long current) {
 
 Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
     //Return type is INT in global scope for status code
-    if (scope->isGlobal())
+    if (scope->isGlobal()) {
         return Type::INT;
-    else if (scope->block == Block::PROC) {
+    } else if (scope->block == Block::PROC) {
         unsigned long scopePos = 0;
 
         //Record number of function within parent scope
         for (const std::shared_ptr<Scope>& s : scope->parent->getScopes()) {
             if (s == scope) {
+                scopePos++;
                 break;
             } else if (s->block == Block::PROC){
                 scopePos++;
@@ -179,7 +182,6 @@ Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
                 //If ID corresponds to scope, return type of function from symbol table
                 if (idPos == scopePos) {
                     return parent->getSymbol(id.first, scope).second;
-                    break;
                 }
             }
         }
@@ -187,6 +189,14 @@ Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
 
     //Otherwise if current scope is not procedure or global, check parent block
     return getReturnType(scope->parent);
+}
+
+const std::shared_ptr<Scope> &Scope::getParent() const {
+    return parent;
+}
+
+void Scope::setParent(const std::shared_ptr<Scope> &parent) {
+    Scope::parent = parent;
 }
 
 

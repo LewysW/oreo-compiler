@@ -75,7 +75,7 @@ void Semantic::statement(const std::shared_ptr<TreeNode>& parseTree, std::shared
             functionSig(node, scope);
         } else if (label == "Function Call") {
             functionCall(node, scope);
-        } else if (label == "Return") {
+        } else if (label == "Return Statement") {
             returnStmt(node, scope);
         }
     }
@@ -225,7 +225,6 @@ void Semantic::assignment(const std::shared_ptr<TreeNode> &parseTree, std::share
  */
 void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shared_ptr<Scope> scope) {
     Type type;
-
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         //Records the return type of the function
         switch (node->getToken().getType()) {
@@ -243,22 +242,19 @@ void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shar
                 checkIDDeclaration(node->getToken(), scope);
                 //If not previously declared, procedure symbol is added to symbol table
                 scope->addSymbol(node->getToken().getValue(), Object::PROC, type);
-                //New scope for funciton is also created
+                //New scope for function is also created
                 scope->addScope(Block::PROC);
                 break;
         }
     }
 
-    //Gets newly created procedure scope
-    std::shared_ptr<Scope> procScope = scope->getScopes().back();
-
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         //Validated any parameters of the procedure
         if (node->getLabel() == "Formal Parameter") {
-            variable(node, procScope);
+            variable(node, scope->getScopes().back());
         //Validates the scope of the inner block of the function
         } else if (node->getLabel() == "Compound") {
-            validateScope(node, procScope);
+            validateScope(node, scope->getScopes().back());
         }
     }
 }

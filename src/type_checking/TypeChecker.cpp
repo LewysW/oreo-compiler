@@ -37,7 +37,7 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
             variable(node, scope);
         } else if (label == "Print Statement") {
             printStmt(node, scope);
-        } else if (label == "While" || label == "If" || label == "Else") {
+        } else if (label == "While" || label == "If") {
             conditionalStmt(node, scope);
         } else if (label == "Assignment") {
             assignment(node, scope);
@@ -45,9 +45,7 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
             functionSig(node, scope);
         } else if (label == "Function Call") {
             functionCall(node, scope);
-        } else if (label == "Return") {
-            //TODO - if in global scope force user to return an int
-            //TODO - otherwise evaluate expression and ensure that it matches return type of closest function
+        } else if (label == "Return Statement") {
             returnStmt(node, scope);
         }
     }
@@ -153,8 +151,6 @@ void TypeChecker::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, co
             conditionalStmt(node, scope);
         }
     }
-
-    scope->setCurrent(0);
 }
 
 void TypeChecker::assignment(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
@@ -175,12 +171,12 @@ void TypeChecker::assignment(const std::shared_ptr<TreeNode> &parseTree, const s
 void TypeChecker::functionSig(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Compound") {
-            validateScopeTypes(node, scope->getScopes().at(scope->getCurrent()));
+            std::shared_ptr<Scope> child = scope->getScopes().at(scope->getCurrent());
+            child->setParent(scope);
+            validateScopeTypes(node, child);
             scope->setCurrent(scope->getCurrent() + 1);
         }
     }
-
-    scope->setCurrent(0);
 }
 
 Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
@@ -243,11 +239,12 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
 
 void TypeChecker::returnStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     Type returnType = scope->getReturnType(scope);
-    unsigned long lineNum = parseTree->getToken().getLineNum();
+    unsigned long line = parseTree->getChildren()[0]->getToken().getLineNum();
+
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         //Validates the types of the expression of a return statement
         if (node->getLabel() == "Expression") {
-            expression(node, scope, returnType, lineNum);
+            expression(node, scope, returnType, line);
             break;
         }
     }

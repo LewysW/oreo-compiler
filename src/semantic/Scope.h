@@ -82,6 +82,10 @@ public:
 
     //TODO - move up tree checking block type of parent until function type is found, else if global return INT
     Type getReturnType(const std::shared_ptr<Scope>& scope);
+
+    const std::shared_ptr<Scope> &getParent() const;
+
+    void setParent(const std::shared_ptr<Scope> &parent);
 };
 
 
