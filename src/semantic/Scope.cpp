@@ -30,14 +30,24 @@ void Scope::addSymbol(std::string id, Object obj, Type type) {
     identifiers.emplace_back(std::make_pair(id, std::make_pair(obj, type)));
 }
 
-void Scope::addScope(Block block) {
-    Scope parent = *this;
-    Scope child(parent, block);
+/**
+ * Adds a scope of type Block to the list of child scopes
+ * @param block - to add
+ */
+void Scope::addScope(Block blockVal) {
+    Scope parentScope = *this;
+    Scope child(parentScope, blockVal);
     std::shared_ptr<Scope> scopePtr = std::make_shared<Scope>(child);
 
     scopes.emplace_back(scopePtr);
 }
 
+/**
+ * Returns a lit of symbols for a given function
+ * @param funcID - function identifier
+ * @param scope - to search
+ * @return - sequential list of function symbols
+ */
 const std::vector<std::pair<std::string, std::pair<Object, Type>>> Scope::getFuncIDs(const std::string& funcID,
                                                                                      const std::shared_ptr<Scope>& scope) {
     //If function is declared in current scope
@@ -148,39 +158,57 @@ const std::pair<Object, Type> &Scope::getSymbol(const std::string id, const std:
     return getSymbol(id, scope->parent);
 }
 
+/**
+ * Returns current scope being traversed
+ */
 unsigned long Scope::getCurrent() const {
     return current;
 }
 
+/**
+ * Sets index of current scope
+ * @param current - index of current scope
+ */
 void Scope::setCurrent(unsigned long current) {
     Scope::current = current;
 }
 
+/**
+ * Gets the return type of the current scope,
+ * i.e. if return statement is in function, gets function return type,
+ * otherwise if global scope, returns type INT (which denotes an exit code)
+ * @param scope - to traverse for return type
+ * @return return type of current scope
+ */
 Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
     //Return type is INT in global scope for status code
     if (scope->isGlobal()) {
         return Type::INT;
     } else if (scope->block == Block::PROC) {
-        unsigned long scopePos = 0;
+        unsigned long funcPos = 0;
 
-        //Record number of function within parent scope
+        //Record number of functions within parent scope
         for (const std::shared_ptr<Scope>& s : scope->parent->getScopes()) {
+            //If current scope equals child scope of parent, increment number of functions and break (scope found)
             if (s == scope) {
-                scopePos++;
+                //Increment the number of
+                funcPos++;
                 break;
+            //otherwise if other function scope found, increment number of functions
             } else if (s->block == Block::PROC){
-                scopePos++;
+                funcPos++;
             }
         }
 
         //Find ID corresponding to function position
         unsigned long idPos = 0;
         for (const std::pair<std::string, std::pair<Object, Type>>& id : parent->identifiers) {
+            //If identifier in parent is a procedure, increment identifier position
             if (parent->getSymbol(id.first, parent).first == Object::PROC) {
                 idPos++;
 
-                //If ID corresponds to scope, return type of function from symbol table
-                if (idPos == scopePos) {
+                //If ID corresponds to function position, return type of function from symbol table
+                if (idPos == funcPos) {
                     return parent->getSymbol(id.first, scope).second;
                 }
             }
@@ -191,10 +219,10 @@ Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
     return getReturnType(scope->parent);
 }
 
-const std::shared_ptr<Scope> &Scope::getParent() const {
-    return parent;
-}
-
+/**
+ * Setter for scope parent
+ * @param parent - parent node of scope
+ */
 void Scope::setParent(const std::shared_ptr<Scope> &parent) {
     Scope::parent = parent;
 }

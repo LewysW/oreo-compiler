@@ -24,6 +24,7 @@ private:
     //Stores list of identifiers in order they were added
     std::vector<std::pair<std::string, std::pair<Object, Type>>> identifiers;
 
+    //Current scope index
     unsigned long current = 0;
 
     //Parent scope
@@ -74,17 +75,18 @@ public:
     //Getter for the scope/block type
     Block getBlock() const;
 
+    //Gets current index of scope to traverse
     unsigned long getCurrent() const;
 
+    //Sets current index of scope to traverse
     void setCurrent(unsigned long current);
 
     const std::vector<std::pair<std::string, std::pair<Object, Type>>> getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope);
 
-    //TODO - move up tree checking block type of parent until function type is found, else if global return INT
+    //Gets the type of return value required by the context of a return statement
     Type getReturnType(const std::shared_ptr<Scope>& scope);
 
-    const std::shared_ptr<Scope> &getParent() const;
-
+    //Sets parent scope node
     void setParent(const std::shared_ptr<Scope> &parent);
 };
 

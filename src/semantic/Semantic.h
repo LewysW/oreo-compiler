@@ -5,12 +5,14 @@
 #include "Scope.h"
 
 class Semantic {
-private:
 public:
+    //Getter for global scope
     const std::shared_ptr<Scope> &getGlobalScope() const;
 
 private:
+    //Scope pointer to global scope
     std::shared_ptr<Scope> globalScope;
+
     //Validates scope of symbols in parse tree
     void validateScope(const std::shared_ptr<TreeNode>& parseTree, std::shared_ptr<Scope> scope);
 

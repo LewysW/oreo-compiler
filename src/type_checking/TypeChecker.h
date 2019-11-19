@@ -42,13 +42,20 @@ private:
     //Validates the types of an expression
     void expression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, Type expected, unsigned long line);
 
+    //Recursively evaluates an expression and returns the resulting type
     Type evaluateExpression(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope, unsigned long line);;
 
+    //Generate a type error indicating that an expression produced an unexpected type
     void generateTypeError(Type expected, Type result, unsigned long lineNum);
+
+    //Generate an operator error indicating that an operator has been provided with incorrect operands
     void generateOperatorError(Pattern::TokenType type, Type op1, Type op2, unsigned long lineNum);
+
+    //Generate a parameter error indicating that a function call has been given an invalid number/type of actual parameters
     void generateParameterError(const std::string& funcID, const std::vector<Type>& formal, const std::vector<Type>& actual,
                                 unsigned long line);
 
+    //List of permitted operators, their operands, and resulting types
     inline static const std::map<Pattern::TokenType, Operator> operators {
             {Pattern::TokenType::PLUS, Operator({Type::INT, Type::INT}, Type::INT)},
             {Pattern::TokenType::MINUS, Operator({Type::INT, Type::INT}, Type::INT)},

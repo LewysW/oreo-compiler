@@ -2,24 +2,39 @@
 #include "TypeException.h"
 #include "../parser/Lexer.h"
 
+/**
+ * Validate the types of a given parse tree
+ * @param parseTree - to check
+ * @param global - scope to lookup symbols in
+ */
 void TypeChecker::checkTypes(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& global) {
     try {
         std::cout << "Type Checking:" << std::endl;
         std::cout << "------------------------------------------------------------------" << std::endl;
 
+        //Iterates through each scope to check
         for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
             //Validate Compound of global scope
             if (node->getLabel() == "Compound") {
                 validateScopeTypes(node, global);
             }
         }
+
+        //If execution gets here, no type errors have occurred
         std::cout << "No type errors" << std::endl;
+    //Exception thrown if error occurs
     } catch (TypeException& e) {
         exit(4);
     }
 }
 
+/**
+ * Validates types of current scope
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::validateScopeTypes(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    //iterate through each statement in scope and checks its types
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         if (node->getLabel() == "Statement") {
             statement(node, scope);
@@ -27,6 +42,11 @@ void TypeChecker::validateScopeTypes(const std::shared_ptr<TreeNode> &parseTree,
     }
 }
 
+/**
+ * Validates the types of the current statement
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope) {
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         std::string label = node->getLabel();
@@ -51,6 +71,11 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
     }
 }
 
+/**
+ * Validates the types of the current variable
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope) {
     std::string id;
     Token token = parseTree->getToken();
@@ -63,7 +88,9 @@ void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         //Checks if variable is being assigned a value
         if (node->getLabel() == "Variable Assignment") {
+            //Records if variable is assignment
             isAssignment = true;
+            //Records assignment
             current = node;
             break;
         }
@@ -90,27 +117,38 @@ void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std
     }
 }
 
+/**
+ * Validates the types of print statements
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::printStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    //Gets print token
     Token token = parseTree->getChildren().at(0)->getToken();
     Type type;
+    //Gets line number of token
     unsigned long line = token.getLineNum();
 
+    //Decides between each of the three print statements
     switch (token.getType()) {
         //If the print statement is print or println, then the inner expressions is validated
         case Pattern::TokenType::PRINT:
         case Pattern::TokenType::PRINTLN:
+            //Validate types of expressions in print statements
             for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
                 if (node->getLabel() == "Expression") {
                     evaluateExpression(node, scope, line);
                 }
             }
             break;
-            //If the print statement is get, then the scope of the following ID is validated
+            //If the print statement is get, then the type of the following ID is validated
         case Pattern::TokenType::GET:
             for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
                 if (node->getToken().getType() == Pattern::TokenType::ID) {
-                    //Requires that 'get' take a string id
+                    //Ensures that get takes a string argument
                     if ((type = scope->getSymbol(node->getToken().getValue(), scope).second) != Type::STRING) {
+
+                        //Throws an error if get is given a bool or int
                         std::string err = "Error: 'get' statement on line ";
                         err += std::to_string(node->getToken().getLineNum()) + ", character ";
                         err += std::to_string(node->getToken().getColNum());
@@ -137,64 +175,109 @@ void TypeChecker::printStmt(const std::shared_ptr<TreeNode> &parseTree, const st
     }
 }
 
+/**
+ * Validates conditional statement types and their expressions
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     unsigned long line = parseTree->getChildren()[0]->getToken().getLineNum();
 
     //Identifies the correct part of the conditional statement to validate
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //Ensures that statement condition returns a bool type
         if (node->getLabel() == "Expression") {
             expression(node, scope, Type::BOOL, line);
+
+        //Validates body of conditional statement
         } else if (node->getLabel() == "Compound") {
             validateScopeTypes(node, scope->getScopes().at(scope->getCurrent()));
             scope->setCurrent(scope->getCurrent() + 1);
+
+        //Validates else of an if
         } else if (node->getLabel() == "Else") {
             conditionalStmt(node, scope);
         }
     }
 }
 
+/**
+ * Validates an assignment statement
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::assignment(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     Type expected = Type::NONE;
     unsigned long line = 0;
 
+    //iterate through each symbol of assignment
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //If symbol is ID
         if (node->getToken().getType() == Pattern::TokenType::ID) {
+            //Record type of variable being assigned
             expected = scope->getSymbol(node->getToken().getValue(), scope).second;
+            //Record line number of assignment
             line = node->getToken().getLineNum();
         } else if (node->getLabel() == "Expression") {
-            //Validates the expression after the := sign
+            //Validates the types expression after the := sign
             expression(node, scope, expected, line);
         }
     }
 }
 
+/**
+ * Validates a function signature
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::functionSig(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    //iterate through each symbol in the function declaration
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //Validate body of function
         if (node->getLabel() == "Compound") {
+            //Records current scope as parent
             std::shared_ptr<Scope> child = scope->getScopes().at(scope->getCurrent());
             child->setParent(scope);
+            //Validate function scope
             validateScopeTypes(node, child);
             scope->setCurrent(scope->getCurrent() + 1);
         }
     }
 }
 
+/**
+ * Validates a function call statement and
+ * returns its type for use in expression evaluations
+ * @param parseTree - to check
+ * @param scope - to lookup symbols in
+ * @return return type of function called
+ */
 Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     unsigned long line = parseTree->getToken().getLineNum();
+    //Stores return type
     Type retType = Type::NONE;
+    //Stores id of function
     std::string funcID;
+    //Store actual and formal parameters
     std::vector<Type> actualParams;
     std::vector<Type> formalParams;
+
+    //Stores identifiers of function called
     std::vector<std::pair<std::string, std::pair<Object, Type>>> functionIDs;
 
+    //iterates through each symbol in the function call
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         switch (node->getToken().getType()) {
-            //Get the return type of the function
+            //If the current token is the function identifier
             case Pattern::TokenType::ID:
+                //Records line number of function call
                 line = node->getToken().getLineNum();
+                //Records name of function
                 funcID = node->getToken().getValue();
+                //Gets variables in scope of function declaration
                 functionIDs = scope->getFuncIDs(funcID, scope);
 
+                //Records formal parameter types
                 for (const std::pair<std::string, std::pair<Object, Type>> entry : functionIDs) {
                     if (entry.second.first == Object::PARAM) {
                         formalParams.emplace_back(entry.second.second);
@@ -203,6 +286,7 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
                     }
                 }
 
+                //Gets return type of function
                 retType = scope->getSymbol(node->getToken().getValue(), scope).second;
                 break;
             default:
@@ -211,8 +295,10 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
 
         //Stores actual parameters
         if (node->getLabel() == "Actual Parameter") {
+            //Validates expression of actual parameters
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                 if (child->getLabel() == "Expression") {
+                    //Records actual parameter type returned by expression evaluation
                     actualParams.emplace_back(evaluateExpression(child, scope, child->getToken().getLineNum()));
                 }
             }
@@ -224,8 +310,9 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
     if (formalParams.size() == actualParams.size()) {
         //Compare individual parameters
         for (unsigned long t = 0; t < formalParams.size(); t++) {
-            //If they do not match throw an error
+            //If parameters do not match
             if (formalParams.at(t) != actualParams.at(t)) {
+                //throw parameter error
                 generateParameterError(funcID, formalParams, actualParams, line);
             }
         }
@@ -234,6 +321,7 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
         generateParameterError(funcID, formalParams, actualParams, line);
     }
 
+    //If function call valid, return return type of function
     return retType;
 }
 
@@ -276,7 +364,7 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         Pattern::TokenType temp = node->getToken().getType();
 
-        //Identifies the first operand of the current expression if something other than the not expression
+        //Identifies the first operand of the current expression if something other than the 'not' expression
         if (temp == Pattern::TokenType::ID) {
             id = node->getToken().getValue();
             op1 = scope->getSymbol(id, scope).second;
@@ -290,6 +378,7 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
         } else if (node->getLabel() == "Function Call") {
             op1 = functionCall(node, scope);
         } else if (node->getLabel() == "Expression") {
+            //Expression directly contains expression, return subexpression evaluation as result
             return evaluateExpression(node, scope, line);
         //Identifies a subexpression as second operand in the case of an operator
         } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
@@ -313,19 +402,27 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
             if (myOperator.getOperands().first == op1 && myOperator.getOperands().second == op2) {
                 op1 = operators.at(type).getOutput();
                 op2 = Type::NONE;
+            //Otherwise throw operator error
             } else {
                 generateOperatorError(type, op1, op2, line);
             }
         }
     }
 
-    //If operands are valid for current expression, store value in op1
+    //Returns result of current operation, stored in first operand
     return op1;
 }
 
+/**
+ * Generate a type error indicating that an expression produced an unexpected type
+ * @param expected - expected type of expression
+ * @param result - actual type of expression
+ * @param lineNum - line of expression
+ */
 void TypeChecker::generateTypeError(Type expected, Type result, unsigned long lineNum) {
     std::string err = "Error: expected expression of type ";
 
+    //Record expected expression type
     switch (expected) {
         case Type::INT:
             err += "'int'";
@@ -340,9 +437,11 @@ void TypeChecker::generateTypeError(Type expected, Type result, unsigned long li
             break;
     }
 
+    //Line of expression
     err += " on line " + std::to_string(lineNum);
     err += ", but got expression of type ";
 
+    //Record result of expression
     switch (result) {
         case Type::INT:
             err += "'int'";
@@ -357,19 +456,30 @@ void TypeChecker::generateTypeError(Type expected, Type result, unsigned long li
             break;
     }
 
+    //Print error message and throw error
     std::cout << err << std::endl;
     throw TypeException(nullptr);
 }
 
+/**
+ * Generate an operator error,
+ * indicating that an operator has been provided with incorrect operands
+ * @param type - of operator
+ * @param op1 - first operand
+ * @param op2 - second operand
+ * @param lineNum - line of operator
+ */
 void TypeChecker::generateOperatorError(Pattern::TokenType type, Type op1, Type op2, unsigned long lineNum) {
     std::vector<Type> opTypes;
     std::vector<std::string> opStrings;
 
+    //Add expected and actual operands to list
     opTypes.emplace_back(operators.at(type).getOperands().first);
     opTypes.emplace_back(operators.at(type).getOperands().second);
     opTypes.emplace_back(op1);
     opTypes.emplace_back(op2);
 
+    //for each operand type in list, construct string of types
     for (Type t : opTypes) {
         switch (t) {
             case Type::INT:
@@ -385,6 +495,8 @@ void TypeChecker::generateOperatorError(Pattern::TokenType type, Type op1, Type 
                 opStrings.emplace_back("none");
         }
     }
+
+    //Construct error message
     std::string err = "Error: operator '" + Lexer::TOKEN_STRINGS[static_cast<unsigned long>(type)] + "'";
     err += " on line " + std::to_string(lineNum) + " takes ";
     err += (type == Pattern::TokenType::NOT) ? "operand" : "operands";
@@ -396,15 +508,25 @@ void TypeChecker::generateOperatorError(Pattern::TokenType type, Type op1, Type 
     err += " of type ";
     err += (type == Pattern::TokenType::NOT) ? "'" + opStrings[3] + "'" : "<" + opStrings[2] + ", " + opStrings[3] + ">";
 
+    //Print and throw error
     std::cout << err << std::endl;
     throw TypeException(nullptr);
 }
 
+/**
+ * Generate a parameter error,
+ * indicating that a function call has been given an invalid number/type of actual parameters
+ * @param funcID - name of function
+ * @param formal - formal parameter types
+ * @param actual - actual parameter types
+ * @param line - line number of function call
+ */
 void TypeChecker::generateParameterError(const std::string& funcID, const std::vector<Type>& formal, const std::vector<Type>& actual,
                                          unsigned long line) {
     std::string formalStr = "<";
     std::string actualStr = "<";
 
+    //Constructs string of formal parameter types
     for (auto type = formal.begin(); type != formal.end(); type++) {
         switch (*type) {
             case Type::INT:
@@ -426,6 +548,7 @@ void TypeChecker::generateParameterError(const std::string& funcID, const std::v
     }
     formalStr += ">";
 
+    //Constructs string of actual parameter types
     for (auto type = actual.begin(); type != actual.end(); type++) {
         switch (*type) {
             case Type::INT:
@@ -447,10 +570,12 @@ void TypeChecker::generateParameterError(const std::string& funcID, const std::v
     }
     actualStr += ">";
 
+    //Constructs error message, showing formal and actual parameter mismatch
     std::string err = "Error: parameter mismatch for call to procedure '" + funcID + "' on line " + std::to_string(line);
     err += "\nProcedure expects arguments of type " + formalStr;
     err += "\nCannot apply to arguments of type " + actualStr;
 
+    //Print error and throw error
     std::cout << err << std::endl;
     throw TypeException(nullptr);
 }
