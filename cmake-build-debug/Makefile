@@ -312,6 +312,33 @@ src/semantic/Semantic.cpp.s:
 	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.s
 .PHONY : src/semantic/Semantic.cpp.s
 
+src/type_checking/Operator.o: src/type_checking/Operator.cpp.o
+
+.PHONY : src/type_checking/Operator.o
+
+# target to build an object file
+src/type_checking/Operator.cpp.o:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o
+.PHONY : src/type_checking/Operator.cpp.o
+
+src/type_checking/Operator.i: src/type_checking/Operator.cpp.i
+
+.PHONY : src/type_checking/Operator.i
+
+# target to preprocess a source file
+src/type_checking/Operator.cpp.i:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.i
+.PHONY : src/type_checking/Operator.cpp.i
+
+src/type_checking/Operator.s: src/type_checking/Operator.cpp.s
+
+.PHONY : src/type_checking/Operator.s
+
+# target to generate assembly for a file
+src/type_checking/Operator.cpp.s:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s
+.PHONY : src/type_checking/Operator.cpp.s
+
 src/type_checking/TypeChecker.o: src/type_checking/TypeChecker.cpp.o
 
 .PHONY : src/type_checking/TypeChecker.o
@@ -338,33 +365,6 @@ src/type_checking/TypeChecker.s: src/type_checking/TypeChecker.cpp.s
 src/type_checking/TypeChecker.cpp.s:
 	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.s
 .PHONY : src/type_checking/TypeChecker.cpp.s
-
-src/type_checking/TypeException.o: src/type_checking/TypeException.cpp.o
-
-.PHONY : src/type_checking/TypeException.o
-
-# target to build an object file
-src/type_checking/TypeException.cpp.o:
-	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o
-.PHONY : src/type_checking/TypeException.cpp.o
-
-src/type_checking/TypeException.i: src/type_checking/TypeException.cpp.i
-
-.PHONY : src/type_checking/TypeException.i
-
-# target to preprocess a source file
-src/type_checking/TypeException.cpp.i:
-	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.i
-.PHONY : src/type_checking/TypeException.cpp.i
-
-src/type_checking/TypeException.s: src/type_checking/TypeException.cpp.s
-
-.PHONY : src/type_checking/TypeException.s
-
-# target to generate assembly for a file
-src/type_checking/TypeException.cpp.s:
-	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.s
-.PHONY : src/type_checking/TypeException.cpp.s
 
 # Help Target
 help:
@@ -396,12 +396,12 @@ help:
 	@echo "... src/semantic/Semantic.o"
 	@echo "... src/semantic/Semantic.i"
 	@echo "... src/semantic/Semantic.s"
+	@echo "... src/type_checking/Operator.o"
+	@echo "... src/type_checking/Operator.i"
+	@echo "... src/type_checking/Operator.s"
 	@echo "... src/type_checking/TypeChecker.o"
 	@echo "... src/type_checking/TypeChecker.i"
 	@echo "... src/type_checking/TypeChecker.s"
-	@echo "... src/type_checking/TypeException.o"
-	@echo "... src/type_checking/TypeException.i"
-	@echo "... src/type_checking/TypeException.s"
 .PHONY : help
 
 

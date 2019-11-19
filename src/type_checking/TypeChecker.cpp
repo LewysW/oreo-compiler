@@ -76,6 +76,8 @@ void TypeChecker::variable(const std::shared_ptr<TreeNode> &parseTree, const std
                 id = node->getToken().getValue();
                 type = scope->getSymbolTable().at(id).second;
                 break;
+            default:
+                break;
         }
     }
 
@@ -132,6 +134,8 @@ void TypeChecker::printStmt(const std::shared_ptr<TreeNode> &parseTree, const st
                     }
                 }
             }
+        default:
+            break;
     }
 }
 
@@ -179,13 +183,13 @@ void TypeChecker::functionSig(const std::shared_ptr<TreeNode> &parseTree, const 
     scope->setCurrent(0);
 }
 
-void TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     unsigned long line = parseTree->getToken().getLineNum();
     Type type = Type::NONE;
 
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         switch (node->getToken().getType()) {
-            //Ensure that the called procedure ID is in scope
+            //Get the return type of the function
             case Pattern::TokenType::ID:
                 type = scope->getSymbol(node->getToken().getValue(), scope).second;
                 break;
@@ -203,6 +207,8 @@ void TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
             }
         }
     }
+
+    return type;
 }
 
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,
@@ -231,14 +237,10 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         Pattern::TokenType temp = node->getToken().getType();
 
+        //TODO - call function call code instead
         //Identifies the first operand of the current expression if something other than the not expression
         if (temp == Pattern::TokenType::ID || node->getLabel() == "Function Call") {
-            if (node->getLabel() == "Function Call") {
-                id = node->getChildren().at(0)->getToken().getValue();
-            } else {
-                id = node->getToken().getValue();
-            }
-
+            id = node->getToken().getValue();
             op1 = scope->getSymbol(id, scope).second;
         } else if (temp == Pattern::TokenType::TRUE || temp == Pattern::TokenType::FALSE) {
             op1 = Type::BOOL;
@@ -246,11 +248,11 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
             op1 = Type::STRING;
         } else if (temp == Pattern::TokenType::NUM) {
             op1 = Type::INT;
-
         //Identifies subexpression as second operand in the case of a bracketed expression
+        } else if (node->getLabel() == "Function Call") {
+            op1 = functionCall(node, scope);
         } else if (node->getLabel() == "Expression") {
             return evaluateExpression(node, scope, line);
-
         //Identifies a subexpression as second operand in the case of an operator
         } else if (Semantic::labelToToken.find(node->getLabel()) != Semantic::labelToToken.end()) {
             //records type of expression for error handling

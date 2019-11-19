@@ -1,0 +1,25 @@
+{- variable x not declared in global scope -}
+program Test
+begin
+    var int c := 5;
+    var int x := 5 + c;
+
+    while (true)
+    begin
+        print "hello";
+
+        if (true) then
+        begin
+            print "hello";
+        end;
+    end;
+
+    procedure int add(var int x, var int y)
+    begin
+        return x + y;
+    end
+
+    add(1, 2);
+
+    x := add(true, "hello") + 7;
+end

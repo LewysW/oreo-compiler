@@ -161,18 +161,18 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.s: cmake_for
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeChecker.cpp -o CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.s
 
-CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o: CMakeFiles/CS4201_P2_Compiler.dir/flags.make
-CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o: ../src/type_checking/TypeException.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o -c /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeException.cpp
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: CMakeFiles/CS4201_P2_Compiler.dir/flags.make
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/type_checking/Operator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o -c /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp
 
-CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeException.cpp > CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.i
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp > CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.i
 
-CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeException.cpp -o CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.s
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp -o CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s
 
 # Object files for target CS4201_P2_Compiler
 CS4201_P2_Compiler_OBJECTS = \
@@ -184,7 +184,7 @@ CS4201_P2_Compiler_OBJECTS = \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o" \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o" \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o" \
-"CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o"
+"CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o"
 
 # External object files for target CS4201_P2_Compiler
 CS4201_P2_Compiler_EXTERNAL_OBJECTS =
@@ -197,7 +197,7 @@ CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o
-CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeException.cpp.o
+CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/build.make
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable CS4201_P2_Compiler"

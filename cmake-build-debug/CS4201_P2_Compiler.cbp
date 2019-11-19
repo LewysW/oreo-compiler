@@ -126,13 +126,16 @@
 		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>
+		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
+		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.h">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
 		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeChecker.cpp">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>
 		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeChecker.h">
-			<Option target="CS4201_P2_Compiler"/>
-		</Unit>
-		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeException.cpp">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>
 		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeException.h">

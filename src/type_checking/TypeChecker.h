@@ -33,8 +33,8 @@ private:
     //Validates types of a function signature/declaration
     void functionSig(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
 
-    //Validates the function call actual parameter types
-    void functionCall(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
+    //Validates the function call actual parameter types and returns the type of function
+    Type functionCall(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
 
     //Validates the types of a return statement
     void returnStmt(const std::shared_ptr<TreeNode>& parseTree, const std::shared_ptr<Scope>& scope);
