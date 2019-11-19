@@ -1,0 +1,6 @@
+{- Invalid string return type from global scope
+(should be int status code) -}
+program Test
+begin
+    return "Hello, World!";
+end

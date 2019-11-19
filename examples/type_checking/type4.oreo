@@ -1,0 +1,8 @@
+{- Invalid expression in if statement condition -}
+program Test
+begin
+    if (5 + 7) then
+    begin
+        var int x := 5;
+    end;
+end

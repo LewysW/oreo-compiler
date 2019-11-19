@@ -1,0 +1,5 @@
+{- Invalid int operand in bool and expression -}
+program Test
+begin
+    var bool b := (6 > 7)
+end

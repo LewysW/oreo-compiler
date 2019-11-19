@@ -51,7 +51,7 @@ void Scope::addScope(Block blockVal) {
 const std::vector<std::pair<std::string, std::pair<Object, Type>>> Scope::getFuncIDs(const std::string& funcID,
                                                                                      const std::shared_ptr<Scope>& scope) {
     //If function is declared in current scope
-    if (declared(funcID)) {
+    if (scope->declared(funcID)) {
         int numFuncs = 0;
         //Find position of function in scope
         for (const std::pair<std::string, std::pair<Object, Type>> id : scope->identifiers) {
@@ -72,9 +72,9 @@ const std::vector<std::pair<std::string, std::pair<Object, Type>>> Scope::getFun
                 }
             }
         }
+    } else {
+        return getFuncIDs(funcID, scope->parent);
     }
-
-    return getFuncIDs(funcID, scope->parent);
 }
 
 /**
@@ -93,11 +93,7 @@ bool Scope::inScope(std::string id, Object obj) {
 
     Object entry = (symbolTable[id].first == Object::PROC) ? Object::PROC : Object::VAR;
 
-    if (entry != obj) {
-        return false;
-    }
-    //Otherwise object is in scope
-    return true;
+    return (entry == obj);
 }
 
 /**

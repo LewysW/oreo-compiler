@@ -1,0 +1,8 @@
+{- Invalid bool return type in int procedure -}
+program Test
+begin
+    procedure int add(var int x, var int y)
+    begin
+        return true;
+    end
+end

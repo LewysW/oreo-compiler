@@ -1,0 +1,5 @@
+{- Invalid type in assignment -}
+program Test
+begin
+    var int c := "string";
+end
