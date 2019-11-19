@@ -1,5 +1,5 @@
-{- Invalid type in assignment -}
+{- Invalid bool operand in int addition -}
 program Test
 begin
-    var int c := "string";
+    var int c := 5 + true;
 end

@@ -1,0 +1,4 @@
+Type Checking:
+------------------------------------------------------------------
+Error: operator 'and' on line 4 takes operands of type <bool, bool>
+Cannot apply to operands of type <int, int>

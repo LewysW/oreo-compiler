@@ -1,8 +1,6 @@
-{- Invalid expression in if statement condition -}
+{- Invalid int id type in get statement, takes string id -}
 program Test
 begin
-    if (5 + 7) then
-    begin
-        var int x := 5;
-    end;
+    var int x;
+    get x;
 end

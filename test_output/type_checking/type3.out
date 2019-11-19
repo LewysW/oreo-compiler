@@ -1,0 +1,3 @@
+Type Checking:
+------------------------------------------------------------------
+Error: expected expression of type 'bool' on line 4, but got expression of type 'int'

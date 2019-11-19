@@ -1,4 +1,4 @@
-{- Not enough actual parameters in procedure call -}
+{- Too many actual parameters in procedure call -}
 program Test
 begin
     procedure int add(var int x, var int y)
@@ -6,5 +6,5 @@ begin
         return x + y;
     end
 
-    var int sum := add();
+    var int sum := add(1, 2, 3);
 end

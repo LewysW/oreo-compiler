@@ -1,0 +1,5 @@
+Type Checking:
+------------------------------------------------------------------
+Error: parameter mismatch for call to procedure 'add' on line 9
+Procedure expects arguments of type <int, int>
+Cannot apply to arguments of type <>

@@ -1,4 +1,4 @@
-{- Invalid type in assignment -}
+{- Invalid string type int in assignment -}
 program Test
 begin
     var int c := "string";

@@ -1,0 +1,4 @@
+Type Checking:
+------------------------------------------------------------------
+Error: 'get' statement on line 5, character 9 takes a string identifier as an argument
+Cannot apply to an identifier of type 'int'

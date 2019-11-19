@@ -1,5 +1,8 @@
-{- Invalid int operand in bool and expression -}
+{- Invalid expression in if statement condition -}
 program Test
 begin
-    var bool b := (6 > 7)
+    if (5 + 7) then
+    begin
+        var int x := 5;
+    end;
 end

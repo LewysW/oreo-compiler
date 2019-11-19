@@ -1,5 +1,5 @@
-{- Invalid bool operand in int addition -}
+{- Invalid int operand in bool and expression -}
 program Test
 begin
-    var int c := 5 + true;
+    var bool b := (6 > 7);
 end

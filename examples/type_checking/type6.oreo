@@ -1,8 +1,10 @@
-{- Invalid bool return type in int procedure -}
+{- Not enough actual parameters in procedure call -}
 program Test
 begin
     procedure int add(var int x, var int y)
     begin
-        return true;
+        return x + y;
     end
+
+    var int sum := add();
 end
