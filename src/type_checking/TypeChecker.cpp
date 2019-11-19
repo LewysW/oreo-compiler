@@ -202,6 +202,7 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
         if (node->getLabel() == "Actual Parameter") {
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                 if (node->getLabel() == "Expression") {
+                    //TODO expected type should be that of the function parameter
                     expression(child, scope, type, line);
                 }
             }
@@ -239,7 +240,7 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
 
         //TODO - call function call code instead
         //Identifies the first operand of the current expression if something other than the not expression
-        if (temp == Pattern::TokenType::ID || node->getLabel() == "Function Call") {
+        if (temp == Pattern::TokenType::ID) {
             id = node->getToken().getValue();
             op1 = scope->getSymbol(id, scope).second;
         } else if (temp == Pattern::TokenType::TRUE || temp == Pattern::TokenType::FALSE) {
