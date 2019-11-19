@@ -46,6 +46,8 @@ private:
 
     void generateTypeError(Type expected, Type result, unsigned long lineNum);
     void generateOperatorError(Pattern::TokenType type, Type op1, Type op2, unsigned long lineNum);
+    void generateParameterError(const std::string& funcID, const std::vector<Type>& formal, const std::vector<Type>& actual,
+                                unsigned long line);
 
     inline static const std::map<Pattern::TokenType, Operator> operators {
             {Pattern::TokenType::PLUS, Operator({Type::INT, Type::INT}, Type::INT)},

@@ -7,8 +7,8 @@
 #include <memory>
 #include "../parser/TreeNode.h"
 
-//Distinguishes between variables and functions in symbol table
-enum class Object {VAR, PROC};
+//Distinguishes between variables, parameters and functions in symbol table
+enum class Object {VAR, PARAM, PROC};
 
 //Used to denote variable types and return types
 enum class Type {INT, BOOL, STRING, NONE};
@@ -22,7 +22,7 @@ enum class Block {GLOBAL, IF, ELSE, WHILE, PROC};
 class Scope {
 private:
     //Stores list of identifiers in order they were added
-    std::vector<std::pair<std::string, Type>> identifiers;
+    std::vector<std::pair<std::string, std::pair<Object, Type>>> identifiers;
 
     unsigned long current = 0;
 
@@ -78,7 +78,7 @@ public:
 
     void setCurrent(unsigned long current);
 
-    const std::vector<std::pair<std::string, Type>> getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope);
+    const std::vector<std::pair<std::string, std::pair<Object, Type>>> getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope);
 };
 
 

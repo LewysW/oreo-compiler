@@ -27,7 +27,7 @@ const std::map<std::string, std::pair<Object, Type>> &Scope::getSymbolTable() co
 void Scope::addSymbol(std::string id, Object obj, Type type) {
     std::pair<Object, Type> value = std::make_pair(obj, type);
     symbolTable.insert(std::pair<std::string, std::pair<Object, Type>>(id, value));
-    identifiers.emplace_back(std::make_pair(id, type));
+    identifiers.emplace_back(std::make_pair(id, std::make_pair(obj, type)));
 }
 
 void Scope::addScope(Block block) {
@@ -38,12 +38,13 @@ void Scope::addScope(Block block) {
     scopes.emplace_back(scopePtr);
 }
 
-const std::vector<std::pair<std::string, Type>> Scope::getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope) {
+const std::vector<std::pair<std::string, std::pair<Object, Type>>> Scope::getFuncIDs(const std::string& funcID,
+                                                                                     const std::shared_ptr<Scope>& scope) {
     //If function is declared in current scope
     if (declared(funcID)) {
         int numFuncs = 0;
         //Find position of function in scope
-        for (const std::pair<std::string, Type>& id : scope->identifiers) {
+        for (const std::pair<std::string, std::pair<Object, Type>> id : scope->identifiers) {
             if (scope->symbolTable[id.first].first == Object::PROC) {
                 numFuncs++;
                 if (id.first == funcID) break;

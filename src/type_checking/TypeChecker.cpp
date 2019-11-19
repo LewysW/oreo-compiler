@@ -187,44 +187,55 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
     unsigned long line = parseTree->getToken().getLineNum();
     Type retType = Type::NONE;
     std::string funcID;
+    std::vector<Type> actualParams;
+    std::vector<Type> formalParams;
+    std::vector<std::pair<std::string, std::pair<Object, Type>>> functionIDs;
 
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         switch (node->getToken().getType()) {
             //Get the return type of the function
             case Pattern::TokenType::ID:
+                line = node->getToken().getLineNum();
                 funcID = node->getToken().getValue();
-                std::cout << funcID << std::endl;
+                functionIDs = scope->getFuncIDs(funcID, scope);
+
+                for (const std::pair<std::string, std::pair<Object, Type>> entry : functionIDs) {
+                    if (entry.second.first == Object::PARAM) {
+                        formalParams.emplace_back(entry.second.second);
+                    } else {
+                        break;
+                    }
+                }
+
                 retType = scope->getSymbol(node->getToken().getValue(), scope).second;
                 break;
             default:
                 break;
         }
 
-        std::vector<std::pair<std::string, Type>> functionIDs = scope->getFuncIDs(funcID, scope);
-        int param = 0;
-
-        //Validate the expression of an actual parameter
+        //Stores actual parameters
         if (node->getLabel() == "Actual Parameter") {
-            std::cout << "Actual parameter!!!" << std::endl;
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                 if (child->getLabel() == "Expression") {
-                    Type type = functionIDs.at(param++).second;
-                    switch (type) {
-                        case Type::INT:
-                            std::cout << "INT" << std::endl;
-                            break;
-                        case Type::BOOL:
-                            std::cout << "BOOL" << std::endl;
-                            break;
-                        case Type::STRING:
-                            std::cout << "STRING" << std::endl;
-                            break;
-                    }
-                    //TODO - add custom parameter error message (possibly call evaluateExpression?)
-                    expression(child, scope, type, line);
+                    actualParams.emplace_back(evaluateExpression(child, scope, child->getToken().getLineNum()));
                 }
             }
         }
+    }
+
+    //Validate actual parameters against formal parameters:
+    //If dimensions of parameters match
+    if (formalParams.size() == actualParams.size()) {
+        //Compare individual parameters
+        for (unsigned long t = 0; t < formalParams.size(); t++) {
+            //If they do not match throw an error
+            if (formalParams.at(t) != actualParams.at(t)) {
+                generateParameterError(funcID, formalParams, actualParams, line);
+            }
+        }
+    //Otherwise if dimensions do not match, throw error
+    } else {
+        generateParameterError(funcID, formalParams, actualParams, line);
     }
 
     return retType;
@@ -256,7 +267,6 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         Pattern::TokenType temp = node->getToken().getType();
 
-        //TODO - call function call code instead
         //Identifies the first operand of the current expression if something other than the not expression
         if (temp == Pattern::TokenType::ID) {
             id = node->getToken().getValue();
@@ -376,6 +386,61 @@ void TypeChecker::generateOperatorError(Pattern::TokenType type, Type op1, Type 
     err += (type == Pattern::TokenType::NOT) ? "operand" : "operands";
     err += " of type ";
     err += (type == Pattern::TokenType::NOT) ? "'" + opStrings[3] + "'" : "<" + opStrings[2] + ", " + opStrings[3] + ">";
+
+    std::cout << err << std::endl;
+    throw TypeException(nullptr);
+}
+
+void TypeChecker::generateParameterError(const std::string& funcID, const std::vector<Type>& formal, const std::vector<Type>& actual,
+                                         unsigned long line) {
+    std::string formalStr = "<";
+    std::string actualStr = "<";
+
+    for (auto type = formal.begin(); type != formal.end(); type++) {
+        switch (*type) {
+            case Type::INT:
+                formalStr += "int";
+                break;
+            case Type::BOOL:
+                formalStr += "bool";
+                break;
+            case Type::STRING:
+                formalStr += "string";
+                break;
+            default:
+                break;
+        }
+
+        if (type + 1 != formal.end()) {
+            formalStr += ", ";
+        }
+    }
+    formalStr += ">";
+
+    for (auto type = actual.begin(); type != actual.end(); type++) {
+        switch (*type) {
+            case Type::INT:
+                actualStr += "int";
+                break;
+            case Type::BOOL:
+                actualStr += "bool";
+                break;
+            case Type::STRING:
+                actualStr += "string";
+                break;
+            default:
+                break;
+        }
+
+        if (type + 1 != actual.end()) {
+            actualStr += ", ";
+        }
+    }
+    actualStr += ">";
+
+    std::string err = "Error: parameter mismatch for call to procedure '" + funcID + "' on line " + std::to_string(line);
+    err += "\nProcedure expects arguments of type " + formalStr;
+    err += "\nCannot apply to arguments of type " + actualStr;
 
     std::cout << err << std::endl;
     throw TypeException(nullptr);

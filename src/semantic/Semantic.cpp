@@ -125,7 +125,11 @@ void Semantic::variable(const std::shared_ptr<TreeNode> &parseTree, std::shared_
     checkIDDeclaration(token, scope);
 
     //Adds the variable, its ID and type to the symbol table
-    scope->addSymbol(id, Object::VAR, type);
+    if (parseTree->getLabel() == "Formal Parameter") {
+        scope->addSymbol(id, Object::PARAM, type);
+    } else {
+        scope->addSymbol(id, Object::VAR, type);
+    }
 
     //If the statement was a variable declaration and assignment
     if (isAssignment) {
@@ -421,6 +425,9 @@ void Semantic::printScope(const std::shared_ptr<Scope>& scope) {
         switch (symbol.second.first) {
             case Object::VAR:
                 std::cout << "var, ";
+                break;
+            case Object::PARAM:
+                std::cout << "param, ";
                 break;
             case Object::PROC:
                 std::cout << "proc, ";
