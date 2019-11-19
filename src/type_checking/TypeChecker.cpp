@@ -40,12 +40,14 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
         } else if (label == "While" || label == "If" || label == "Else") {
             conditionalStmt(node, scope);
         } else if (label == "Assignment") {
-            //assignment(node, scope);
+            assignment(node, scope);
         } else if (label == "Function Signature") {
-            //functionSig(node, scope);
+            functionSig(node, scope);
         } else if (label == "Function Call") {
-            //functionCall(node, scope);
+            functionCall(node, scope);
         } else if (label == "Return") {
+            //TODO - if in global scope force user to return an int
+            //TODO - otherwise evaluate expression and ensure that it matches return type of closest function
             //returnStmt(node, scope);
         }
     }
@@ -151,6 +153,58 @@ void TypeChecker::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree, co
     scope->setCurrent(0);
 }
 
+void TypeChecker::assignment(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    Type expected = Type::NONE;
+    unsigned long line = 0;
+
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getToken().getType() == Pattern::TokenType::ID) {
+            expected = scope->getSymbol(node->getToken().getValue(), scope).second;
+            line = node->getToken().getLineNum();
+        } else if (node->getLabel() == "Expression") {
+            //Validates the expression after the := sign
+            expression(node, scope, expected, line);
+        }
+    }
+}
+
+void TypeChecker::functionSig(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Compound") {
+            validateScopeTypes(node, scope->getScopes().at(scope->getCurrent()));
+            scope->setCurrent(scope->getCurrent() + 1);
+        }
+    }
+
+    scope->setCurrent(0);
+}
+
+void TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    unsigned long line = parseTree->getToken().getLineNum();
+    Type type = Type::NONE;
+
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        switch (node->getToken().getType()) {
+            //Ensure that the called procedure ID is in scope
+            case Pattern::TokenType::ID:
+                type = scope->getSymbol(node->getToken().getValue(), scope).second;
+                break;
+            default:
+                break;
+        }
+
+        //TODO - match actual and formal parameters
+        //Validate the expression of an actual parameter
+        if (node->getLabel() == "Actual Parameter") {
+            for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
+                if (node->getLabel() == "Expression") {
+                    expression(child, scope, type, line);
+                }
+            }
+        }
+    }
+}
+
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,
                              Type expected, unsigned long line) {
     Type result;
@@ -169,7 +223,6 @@ void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const s
 Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope>& scope, unsigned long line) {
     Type op1 = Type::NONE;
     Type op2 = Type::NONE;
-    Type result = Type::NONE;
     std::string id;
     Operator myOperator;
     Pattern::TokenType type;
@@ -179,8 +232,13 @@ Type TypeChecker::evaluateExpression(const std::shared_ptr<TreeNode> &parseTree,
         Pattern::TokenType temp = node->getToken().getType();
 
         //Identifies the first operand of the current expression if something other than the not expression
-        if (temp == Pattern::TokenType::ID) {
-            id = node->getToken().getValue();
+        if (temp == Pattern::TokenType::ID || node->getLabel() == "Function Call") {
+            if (node->getLabel() == "Function Call") {
+                id = node->getChildren().at(0)->getToken().getValue();
+            } else {
+                id = node->getToken().getValue();
+            }
+
             op1 = scope->getSymbol(id, scope).second;
         } else if (temp == Pattern::TokenType::TRUE || temp == Pattern::TokenType::FALSE) {
             op1 = Type::BOOL;
