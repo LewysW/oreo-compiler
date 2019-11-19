@@ -223,18 +223,6 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
         }
     }
 
-    void TypeChecker::returnStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
-        Type returnType = scope->getReturnType(scope);
-        unsigned long lineNum = parseTree->getToken().getLineNum();
-        for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
-            //Validates the types of the expression of a return statement
-            if (node->getLabel() == "Expression") {
-                expression(node, scope, returnType, lineNum);
-                break;
-            }
-        }
-    }
-
     //Validate actual parameters against formal parameters:
     //If dimensions of parameters match
     if (formalParams.size() == actualParams.size()) {
@@ -251,6 +239,18 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
     }
 
     return retType;
+}
+
+void TypeChecker::returnStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+    Type returnType = scope->getReturnType(scope);
+    unsigned long lineNum = parseTree->getToken().getLineNum();
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //Validates the types of the expression of a return statement
+        if (node->getLabel() == "Expression") {
+            expression(node, scope, returnType, lineNum);
+            break;
+        }
+    }
 }
 
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,

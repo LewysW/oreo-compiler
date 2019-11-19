@@ -183,10 +183,10 @@ Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
                 }
             }
         }
-    } else {
-        //Otherwise if current scope is not procedure or global, check parent block
-        return getReturnType(scope->parent);
     }
+
+    //Otherwise if current scope is not procedure or global, check parent block
+    return getReturnType(scope->parent);
 }
 
 
