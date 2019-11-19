@@ -122,7 +122,7 @@ void Semantic::variable(const std::shared_ptr<TreeNode> &parseTree, std::shared_
     }
 
     //Checks if variable ID is already declared, throwing an error if it is
-    checkIDDeclaration(token, Object::VAR, scope);
+    checkIDDeclaration(token, scope);
 
     //Adds the variable, its ID and type to the symbol table
     scope->addSymbol(id, Object::VAR, type);
@@ -236,7 +236,7 @@ void Semantic::functionSig(const std::shared_ptr<TreeNode> &parseTree, std::shar
                 break;
             case Pattern::TokenType::ID:
                 //Checks if the ID of the function has already been declared in this scope
-                checkIDDeclaration(node->getToken(), Object::PROC, scope);
+                checkIDDeclaration(node->getToken(), scope);
                 //If not previously declared, procedure symbol is added to symbol table
                 scope->addSymbol(node->getToken().getValue(), Object::PROC, type);
                 //New scope for funciton is also created
@@ -352,16 +352,15 @@ void Semantic::checkIDScope(const Token& token, const Object obj, const std::sha
  * @param obj - type of object (variable or function)
  * @param scope - to check symbol table of
  */
-void Semantic::checkIDDeclaration(const Token& token, const Object obj, const std::shared_ptr<Scope>& scope) {
+void Semantic::checkIDDeclaration(const Token& token, const std::shared_ptr<Scope>& scope) {
     const std::string& id = token.getValue();
     unsigned long line = token.getLineNum();
     unsigned long character = token.getColNum();
 
     //If variable has been declared
-    if (scope->declared(id, obj)) {
-        std::string err = "Multiple declaration of ";
-        err += (obj == Object::VAR) ? "variable" : "procedure";
-        err += " " + id;
+    if (scope->declared(id)) {
+        std::string err = "Multiple declaration of member ";
+        err += id;
         err += " on line " + std::to_string(line) + ", character " + std::to_string(character);
         std::cout << err << std::endl;
         throw SemanticException(nullptr);

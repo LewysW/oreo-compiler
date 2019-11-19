@@ -46,7 +46,7 @@ private:
     void checkIDScope(const Token& token, Object obj, const std::shared_ptr<Scope>& scope);
 
     //Throws an error if an ID has been declared multiple times in the same scope
-    void checkIDDeclaration(const Token& token, Object obj, const std::shared_ptr<Scope>& scope);
+    void checkIDDeclaration(const Token& token, const std::shared_ptr<Scope>& scope);
 public:
     //Constructor
     Semantic();

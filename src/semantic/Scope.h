@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include "../parser/TreeNode.h"
 
 //Distinguishes between variables and functions in symbol table
 enum class Object {VAR, PROC};
@@ -20,6 +21,8 @@ enum class Block {GLOBAL, IF, ELSE, WHILE, PROC};
  */
 class Scope {
 private:
+    std::vector<std::pair<std::string, Type>> parameters;
+
     unsigned long current = 0;
 
     //Parent scope
@@ -61,8 +64,8 @@ public:
     //Returns whether a variable/function is in scope (i.e. declared in current scope or higher)
     bool inScope(std::string id, Object obj);
 
-    //Returns whether a variable/function has been declared in the current scope
-    bool declared(std::string id, Object obj);
+    //Returns whether a symbol has been declared in the current scope
+    bool declared(std::string id);
 
     //Returns whether the current scope is the global scope
     bool isGlobal() const;

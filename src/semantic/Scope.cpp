@@ -57,8 +57,8 @@ bool Scope::inScope(std::string id, Object obj) {
  * @param id - of object to check
  * @return whether object is declared in current scope
  */
-bool Scope::declared(std::string id, Object obj) {
-    return (symbolTable.find(id) != symbolTable.end() && symbolTable[id].first == obj);
+bool Scope::declared(std::string id) {
+    return (symbolTable.find(id) != symbolTable.end());
 }
 
 /**
