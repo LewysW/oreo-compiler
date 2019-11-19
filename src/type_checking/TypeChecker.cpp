@@ -48,7 +48,7 @@ void TypeChecker::statement(const std::shared_ptr<TreeNode> &parseTree, const st
         } else if (label == "Return") {
             //TODO - if in global scope force user to return an int
             //TODO - otherwise evaluate expression and ensure that it matches return type of closest function
-            //returnStmt(node, scope);
+            returnStmt(node, scope);
         }
     }
 }
@@ -219,6 +219,18 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
                 if (child->getLabel() == "Expression") {
                     actualParams.emplace_back(evaluateExpression(child, scope, child->getToken().getLineNum()));
                 }
+            }
+        }
+    }
+
+    void TypeChecker::returnStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
+        Type returnType = scope->getReturnType(scope);
+        unsigned long lineNum = parseTree->getToken().getLineNum();
+        for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+            //Validates the types of the expression of a return statement
+            if (node->getLabel() == "Expression") {
+                expression(node, scope, returnType, lineNum);
+                break;
             }
         }
     }

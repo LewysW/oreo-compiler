@@ -79,6 +79,9 @@ public:
     void setCurrent(unsigned long current);
 
     const std::vector<std::pair<std::string, std::pair<Object, Type>>> getFuncIDs(const std::string& funcID, const std::shared_ptr<Scope>& scope);
+
+    //TODO - move up tree checking block type of parent until function type is found, else if global return INT
+    Type getReturnType(const std::shared_ptr<Scope>& scope);
 };
 
 

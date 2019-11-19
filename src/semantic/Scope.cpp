@@ -154,4 +154,39 @@ void Scope::setCurrent(unsigned long current) {
     Scope::current = current;
 }
 
+Type Scope::getReturnType(const std::shared_ptr<Scope>& scope) {
+    //Return type is INT in global scope for status code
+    if (scope->isGlobal())
+        return Type::INT;
+    else if (scope->block == Block::PROC) {
+        unsigned long scopePos = 0;
+
+        //Record number of function within parent scope
+        for (const std::shared_ptr<Scope>& s : scope->parent->getScopes()) {
+            if (s == scope) {
+                break;
+            } else if (s->block == Block::PROC){
+                scopePos++;
+            }
+        }
+
+        //Find ID corresponding to function position
+        unsigned long idPos = 0;
+        for (const std::pair<std::string, std::pair<Object, Type>>& id : parent->identifiers) {
+            if (parent->getSymbol(id.first, parent).first == Object::PROC) {
+                idPos++;
+
+                //If ID corresponds to scope, return type of function from symbol table
+                if (idPos == scopePos) {
+                    return parent->getSymbol(id.first, scope).second;
+                    break;
+                }
+            }
+        }
+    } else {
+        //Otherwise if current scope is not procedure or global, check parent block
+        return getReturnType(scope->parent);
+    }
+}
+
 
