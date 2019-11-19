@@ -36,6 +36,9 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o: ../src/parser/Token
 CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o: ../src/parser/TreeNode.cpp
 CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o: ../src/parser/TreeNode.h
 
+CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o: ../src/parser/Pattern.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o: ../src/parser/Token.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o: ../src/parser/TreeNode.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o: ../src/semantic/Scope.cpp
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o: ../src/semantic/Scope.h
 
@@ -47,6 +50,9 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/S
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/Semantic.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/SemanticException.h
 
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/parser/Pattern.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/parser/Token.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/parser/TreeNode.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/semantic/Scope.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/type_checking/Operator.cpp
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/type_checking/Operator.h

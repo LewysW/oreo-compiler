@@ -37,6 +37,9 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/parser/TreeNode.cpp.o
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.cpp
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Token.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.cpp
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o
@@ -48,6 +51,9 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Token.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.h
