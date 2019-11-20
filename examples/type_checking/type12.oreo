@@ -1,12 +1,42 @@
-{- Recursive function scoping example with factorial function -}
+{- Multiple functions and complex boolean expresion -}
 program Test
 begin
-    var int x := 5;
-
-    procedure int add(var int x, var int y)
+    procedure bool overdrawn(var int balance)
     begin
-        return add(1, 2);
+        return balance >= 0;
     end
 
-    add(1, 2 + 3 + add(1,2));
+    procedure int getCreditRating(var int debts, var int assets)
+    begin
+        {- Evaluate credit score -}
+        if (assets - debts < 0) then
+        begin
+            return 0;
+        end;
+
+        if (assets - debts == 0) then
+        begin
+            return 50;
+        end;
+
+        if (assets - debts > 0) then
+        begin
+            return 75;
+        end;
+    end
+
+    procedure bool approveMortgage(var int balance, var int debts, var int assets, var bool niceGuy)
+    begin
+        {- Approve mortgage only if not overdrawn and credit rating > 75 (or if the person asking is nice) -}
+        return (not overdrawn(balance) and getCreditRating(debts, assets) > 75) or niceGuy;
+    end
+
+    if (approveMortgage(10, 30000, 5000, true)) then
+    begin
+        println "Congratulations! Your mortgage has been approved!";
+    end
+    else
+    begin
+        println "Enjoy the cold!";
+    end;
 end

@@ -92,7 +92,7 @@ bool Scope::inScope(std::string id, Object obj) {
     }
 
     Object entry = (symbolTable[id].first == Object::PROC) ? Object::PROC : Object::VAR;
-    
+
     return (entry == obj);
 }
 

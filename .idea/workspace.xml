@@ -16,7 +16,7 @@
       <change beforePath="$PROJECT_DIR$/examples/type_checking/type12.oreo" beforeDir="false" afterPath="$PROJECT_DIR$/examples/type_checking/type12.oreo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/compiler" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/semantic/Scope.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/semantic/Scope.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -106,7 +106,7 @@
       <workItem from="1574086334902" duration="34993000" />
       <workItem from="1574152840983" duration="8327000" />
       <workItem from="1574185986659" duration="21630000" />
-      <workItem from="1574239267414" duration="4202000" />
+      <workItem from="1574239267414" duration="5992000" />
     </task>
     <servers />
   </component>
