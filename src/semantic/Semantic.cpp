@@ -67,7 +67,7 @@ void Semantic::statement(const std::shared_ptr<TreeNode>& parseTree, std::shared
             variable(node, scope);
         } else if (label == "Print Statement") {
             printStmt(node, scope);
-        } else if (label == "While" || label == "If" || label == "Else") {
+        } else if (label == "While" || label == "If") {
             conditionalStmt(node, scope);
         } else if (label == "Assignment") {
             assignment(node, scope);
