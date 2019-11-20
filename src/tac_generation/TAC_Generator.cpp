@@ -57,8 +57,7 @@ void TAC_Generator::variable(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (node->getLabel() == "Variable Assignment") {
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                 if (child->getLabel() == "Expression") {
-                    Instruction instruction(Pattern::TokenType::ASSIGN, expression(child), "", id);
-                    instructions.emplace_back(instruction);
+                    addInstruction(Pattern::TokenType::ASSIGN, expression(child),  std::string(""), id);
                 }
             }
         }
@@ -66,14 +65,17 @@ void TAC_Generator::variable(const std::shared_ptr<TreeNode> &parseTree) {
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
-    Pattern::TokenType op = Pattern::TokenType::NONE;
+    std::cout << "HELLO!!!" << std::endl;
+    Pattern::TokenType op;
     std::string arg1;
     std::string arg2;
     std::string result;
+    bool terminal = false;
 
     //Iterates through each symbol in the expression
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {;
         switch (node->getToken().getType()) {
+            //Identifies terminals/ID as arg1
             case Pattern::TokenType::ID:
             case Pattern::TokenType::NUM:
             case Pattern::TokenType::STRING_LITERAL:
@@ -86,26 +88,45 @@ std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree
                 arg1 = "false";
                 break;
             default:
+                //If bracketed expression, return result of inner expression
                 if (node->getLabel() == "Expression") {
                     arg1 = expression(node);
+
+                //Otherwise if an operation
                 } else if (isOperation(node->getLabel())) {
+                    //Get operator token
                     op = Semantic::labelToToken.at(node->getLabel());
 
+                    //Check if bracketed expression within operation
                     for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                         if (child->getLabel() == "Expression") {
                             arg2 = expression(child);
-                        } else if (isOperation(child->getLabel())) {
-                            arg2 = expression(node);
                         }
                     }
+
+                    arg2 = expression(node);
                 }
         }
     }
 
-    //Generate new temporary variable ID e.g. t1, t2, t3...
-    result = getNextID();
+    //If terminal symbol, return first argument as result
+    if (arg2.empty()) {
+        return arg1;
+    } else {
+        //Otherwise return result of new instruction
+        return addInstruction(op, arg1, arg2, result);
+    }
+}
+
+std::string TAC_Generator::addInstruction(Pattern::TokenType op, std::string arg1, std::string arg2, std::string result) {
+    if (result.empty()) {
+        //Generate new temporary variable ID e.g. t1, t2, t3...
+        result = getNextID();
+    }
+
     //Add instruction to queue
     instructions.emplace_back(Instruction(op, arg1, arg2, result));
+
     return result;
 }
 

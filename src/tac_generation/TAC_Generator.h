@@ -13,6 +13,7 @@ private:
     void variable(const std::shared_ptr<TreeNode>& parseTree);
     std::string expression(const std::shared_ptr<TreeNode>& parseTree);
     static bool isOperation(const std::string& label);
+    std::string addInstruction(Pattern::TokenType op, std::string arg1, std::string arg2, std::string result);
 
 public:
     std::string getNextID();
