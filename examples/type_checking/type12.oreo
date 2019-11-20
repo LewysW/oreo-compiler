@@ -1,0 +1,20 @@
+{- Recursive function scoping example with factorial function -}
+program Test
+begin
+    var int x := 5;
+
+    procedure int factorial(var int n)
+    begin
+        if (n <= 1) then
+        begin
+            return n;
+        end
+        else
+        begin
+            return n * factorial(n - 1);
+        end;
+
+    end
+
+    print factorial(x);
+end
