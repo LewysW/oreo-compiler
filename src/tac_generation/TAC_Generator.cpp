@@ -32,7 +32,7 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
         if (label == "Variable") {
             variable(node);
         } else if (label == "Print Statement") {
-            //printStmt(node);
+            printStmt(node);
         } else if (label == "While" || label == "If") {
             //conditionalStmt(node);
         } else if (label == "Assignment") {
@@ -57,15 +57,56 @@ void TAC_Generator::variable(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (node->getLabel() == "Variable Assignment") {
             for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
                 if (child->getLabel() == "Expression") {
-                    addInstruction(Pattern::TokenType::ASSIGN, expression(child),  std::string(""), id);
+                    addInstruction("ASSIGN", expression(child),  std::string(""), id);
                 }
             }
         }
     }
 }
 
+void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
+    Token token = parseTree->getChildren().at(0)->getToken();
+
+        switch (token.getType()) {
+            case Pattern::TokenType::PRINT:
+            case Pattern::TokenType::PRINTLN: {
+                for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
+                    if (node->getLabel() == "Expression") {
+                        std::string temp = getNextID();
+                        addInstruction("ASSIGN", expression(node), std::string(), temp);
+                        if (token.getType() == Pattern::TokenType::PRINTLN) {
+                            temp = getNextID();
+                            addInstruction("ASSIGN", std::string(""), "\\n", temp);
+                            addInstruction("PushParam", std::string(), temp, std::string());
+                        }
+                        temp = getNextID();
+                        addInstruction("PushParam", std::string(), temp, std::string());
+                        addInstruction("Call", std::string(), "_Print", std::string());
+                        addInstruction("PopParams", std::string(), std::string(), std::string());
+                    }
+                }
+                break;
+                case Pattern::TokenType::GET:
+                for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
+                    switch (node->getToken().getType()) {
+                        case Pattern::TokenType::ID:
+                            std::string id = node->getToken().getValue();
+                            std::string temp = getNextID();
+                            addInstruction("PushParam", std::string(), temp, std::string());
+                            addInstruction("Call", std::string(), "_ReadLine", std::string());
+                            addInstruction("ASSIGN", std::string(), temp, id);
+                            break;
+                    }
+                }
+                break;
+            }
+            default:
+                break;
+        }
+}
+
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
-    Pattern::TokenType op;
+    std::string op;
     std::string arg1;
     std::string arg2;
     std::string result;
@@ -99,7 +140,7 @@ std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree
                 //Otherwise if an operation
                 } else if (isOperation(node->getLabel())) {
                     //Get operator token
-                    op = Semantic::labelToToken.at(node->getLabel());
+                    op = node->getLabel();
 
                     //Check if bracketed expression within operation
                     for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
@@ -125,8 +166,8 @@ std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree
     }
 }
 
-std::string TAC_Generator::addInstruction(Pattern::TokenType op, std::string arg1, std::string arg2, std::string result) {
-    if (result.empty()) {
+std::string TAC_Generator::addInstruction(std::string op, std::string arg1, std::string arg2, std::string result) {
+    if (result.empty() && isOperation(op)) {
         //Generate new temporary variable ID e.g. t1, t2, t3...
         result = getNextID();
     }
@@ -145,12 +186,23 @@ void TAC_Generator::printInstructions() {
     std::cout << "Three Address Code Generation:" << std::endl;
     std::cout << "------------------------------------------------------------------" << std::endl;
     for (const Instruction& instruction : instructions) {
-        std::cout << instruction.getResult() + " = ";
-        std::cout << instruction.getArg1() + " ";
-        if (instruction.getOp() != Pattern::TokenType::ASSIGN) {
-            std::cout << Lexer::TOKEN_STRINGS[static_cast<unsigned long>(instruction.getOp())] + " ";
-            std::cout << instruction.getArg2();
+        if (!instruction.getResult().empty()) {
+            std::cout << instruction.getResult() + " = ";
         }
-        std::cout << ";" << std::endl;
+
+        if (!instruction.getArg1().empty()) {
+            std::cout << instruction.getArg1() + " ";
+        }
+
+        if (instruction.getOp() != "ASSIGN") {
+            if (isOperation(instruction.getOp())) {
+                std::cout <<  Lexer::TOKEN_STRINGS[static_cast<unsigned long>(Semantic::labelToToken.at(instruction.getOp()))];
+            } else {
+                std::cout << instruction.getOp() + " ";
+            }
+
+        }
+
+        std::cout << " " + instruction.getArg2() << ";" << std::endl;
     }
 }

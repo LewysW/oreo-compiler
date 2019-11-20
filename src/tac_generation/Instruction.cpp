@@ -1,6 +1,6 @@
 #include "Instruction.h"
 
-Pattern::TokenType Instruction::getOp() const {
+const std::string& Instruction::getOp() const {
     return op;
 }
 
@@ -16,5 +16,5 @@ const std::string &Instruction::getResult() const {
     return result;
 }
 
-Instruction::Instruction(Pattern::TokenType op, const std::string &arg1, const std::string &arg2,
+Instruction::Instruction(const std::string& op, const std::string &arg1, const std::string &arg2,
                          const std::string &result) : op(op), arg1(arg1), arg2(arg2), result(result) {}
