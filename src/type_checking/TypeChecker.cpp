@@ -21,7 +21,7 @@ void TypeChecker::checkTypes(const std::shared_ptr<TreeNode> &parseTree, const s
         }
 
         //If execution gets here, no type errors have occurred
-        std::cout << "No type errors" << std::endl;
+        std::cout << "No type errors" << std::endl << std::endl;
     //Exception thrown if error occurs
     } catch (TypeException& e) {
         exit(4);
