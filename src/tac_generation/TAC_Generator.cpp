@@ -65,15 +65,13 @@ void TAC_Generator::variable(const std::shared_ptr<TreeNode> &parseTree) {
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
-    std::cout << "HELLO!!!" << std::endl;
     Pattern::TokenType op;
     std::string arg1;
     std::string arg2;
     std::string result;
-    bool terminal = false;
 
     //Iterates through each symbol in the expression
-    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {;
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         switch (node->getToken().getType()) {
             //Identifies terminals/ID as arg1
             case Pattern::TokenType::ID:
@@ -88,7 +86,13 @@ std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree
                 arg1 = "false";
                 break;
             default:
-                //If bracketed expression, return result of inner expression
+                //Records intermediary operation
+                if (!arg1.empty() && !arg2.empty()) {
+                    arg1 = addInstruction(op, arg1, arg2, result);
+                    arg2 = "";
+                }
+
+                //If bracketed expression, set result of inner expression as first argument
                 if (node->getLabel() == "Expression") {
                     arg1 = expression(node);
 
@@ -104,7 +108,10 @@ std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree
                         }
                     }
 
-                    arg2 = expression(node);
+                    //Otherwise process as normal
+                    if (arg2.empty()) {
+                        arg2 = expression(node);
+                    }
                 }
         }
     }
