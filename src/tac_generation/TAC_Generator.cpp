@@ -70,20 +70,23 @@ void TAC_Generator::variable(const std::shared_ptr<TreeNode> &parseTree) {
 
 void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
     Token token = parseTree->getChildren().at(0)->getToken();
+    std::string temp;
+    std::string temp1;
 
         switch (token.getType()) {
             case Pattern::TokenType::PRINT:
             case Pattern::TokenType::PRINTLN: {
                 for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
                     if (node->getLabel() == "Expression") {
-                        std::string temp = getNextID();
-                        addInstruction("ASSIGN", expression(node), std::string(), temp);
-                        if (token.getType() == Pattern::TokenType::PRINTLN) {
-                            temp = getNextID();
-                            addInstruction("ASSIGN", std::string(""), "\\n", temp);
-                            addInstruction("PushParam", std::string(), temp, std::string());
-                        }
                         temp = getNextID();
+                        addInstruction("ASSIGN", expression(node), std::string(), temp);
+
+                        if (token.getType() == Pattern::TokenType::PRINTLN) {
+                            temp1 = getNextID();
+                            addInstruction("ASSIGN", std::string(""), "\\n", temp1);
+                            addInstruction("PushParam", std::string(), temp1, std::string());
+                        }
+
                         addInstruction("PushParam", std::string(), temp, std::string());
                         addInstruction("Call", std::string(), "_Print", std::string());
                         addInstruction("PopParams", std::string(), std::string(), std::string());
@@ -111,24 +114,42 @@ void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
 
 void TAC_Generator::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree) {
     std::string temp;
-
+    //TODO - change setStartOfBlock to markBlock() and add condition for while vs if using TokenType
     //Identifies the correct part of the conditional statement generate code for
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         //Converts the condition expression to instructions
         if (node->getLabel() == "Expression") {
             temp = getNextID();
             addInstruction("ASSIGN", expression(node), std::string(), temp);
-            expression(node);
-
+            setStartOfBlock(true);
+            setBlockLabel(getNextLabel());
             //Converts the statements of the conditional statement to instructions
         } else if (node->getLabel() == "Compound") {
             scope(node);
 
             //Converts the statements of else to instructions
         } else if (node->getLabel() == "Else") {
+            setStartOfBlock(true);
+            setBlockLabel(getNextLabel());
             conditionalStmt(node);
         }
     }
+}
+
+bool TAC_Generator::isStartOfBlock() const {
+    return startOfBlock;
+}
+
+void TAC_Generator::setStartOfBlock(bool startOfBlock) {
+    TAC_Generator::startOfBlock = startOfBlock;
+}
+
+const std::string &TAC_Generator::getBlockLabel() const {
+    return blockLabel;
+}
+
+void TAC_Generator::setBlockLabel(const std::string &blockLabel) {
+    TAC_Generator::blockLabel = blockLabel;
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
@@ -198,8 +219,17 @@ std::string TAC_Generator::addInstruction(std::string op, std::string arg1, std:
         result = getNextID();
     }
 
+    //Create new instruction
+    Instruction instruction(op, arg1, arg2, result);
+
+    //Set label if block
+    if (isStartOfBlock()) {
+        instruction.setLabel(getBlockLabel());
+        setStartOfBlock(false);
+    }
+
     //Add instruction to queue
-    instructions.emplace_back(Instruction(op, arg1, arg2, result));
+    instructions.emplace_back(instruction);
 
     return result;
 }
@@ -234,11 +264,9 @@ void TAC_Generator::printInstructions() {
 
         instructionStr += " " + instruction.getArg2() + ";";
 
-        if (!instruction.getLabel().empty()) {
-            instructionStr = instruction.getLabel() + ": " + instructionStr;
-        } else {
-            instructionStr = "\t" + instructionStr;
-        }
+        std::string temp = instructionStr;
+        instructionStr = (!instruction.getLabel().empty()) ? instruction.getLabel() + ": " : "\t ";
+        instructionStr += temp;
 
         std::cout << " " + instructionStr << std::endl;
     }
