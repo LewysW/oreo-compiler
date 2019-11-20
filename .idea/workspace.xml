@@ -13,13 +13,10 @@
   <component name="ChangeListManager">
     <list default="true" id="086be9ba-9c49-40a0-a753-4c949f0a1a65" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CS4201_P2_Compiler" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CS4201_P2_Compiler" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/type_checking/type11.oreo" beforeDir="false" afterPath="$PROJECT_DIR$/examples/type_checking/type11.oreo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/type_checking/type12.oreo" beforeDir="false" afterPath="$PROJECT_DIR$/examples/type_checking/type12.oreo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compiler" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/TreeNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/TreeNode.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +69,7 @@
     </option>
   </component>
   <component name="RunManager" selected="CMake Application.Build All">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../examples/type_checking/type11.oreo" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CS4201_P2_Compiler" RUN_TARGET_NAME="CS4201_P2_Compiler" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../examples/type_checking/type12.oreo" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CS4201_P2_Compiler" RUN_TARGET_NAME="CS4201_P2_Compiler" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -109,7 +106,7 @@
       <workItem from="1574086334902" duration="34993000" />
       <workItem from="1574152840983" duration="8327000" />
       <workItem from="1574185986659" duration="21630000" />
-      <workItem from="1574239267414" duration="3864000" />
+      <workItem from="1574239267414" duration="4202000" />
     </task>
     <servers />
   </component>

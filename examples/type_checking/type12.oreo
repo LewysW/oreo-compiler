@@ -8,5 +8,5 @@ begin
         return add(1, 2);
     end
 
-    {- add(1, 2 + 3 + add(1,2)); -}
+    add(1, 2 + 3 + add(1,2));
 end
