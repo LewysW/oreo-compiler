@@ -450,6 +450,8 @@ void Parser::actualParams(std::shared_ptr<TreeNode> node) {
         case TokenType::NUM:
         case TokenType::TRUE:
         case TokenType::FALSE: {
+            std::cout << "TOKEN IN PARAMS" << tokens.front().getValue() << std::endl;
+            std::cout << "SECOND TOKEN" << tokens.at(1).getValue() << std::endl;
             std::shared_ptr<TreeNode> child = std::make_shared<TreeNode>(TreeNode("Actual Parameter"));
             node->addChild(child);
 
@@ -700,8 +702,8 @@ void Parser::addExpr2(std::shared_ptr<TreeNode> node) {
         node->addChild(child);
         match(TokenType::PLUS, child);
     } else if (t == TokenType::MINUS) {
-        node->addChild(child);
         child = std::make_shared<TreeNode>(TreeNode("MINUS"));
+        node->addChild(child);
         match(TokenType::MINUS, child);
     } else {
         return;

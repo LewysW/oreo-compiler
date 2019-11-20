@@ -1,24 +1,12 @@
-{- Complex nested example working -}
+{- Recursive function scoping example with factorial function -}
 program Test
 begin
-    var int y := 10;
-    var int x := 0;
+    var int x := 5;
 
-    procedure int increment(var int x)
+    procedure int factorial(var int n)
     begin
-        return x + 1;
+        return n * factorial(n - 1);
     end
 
-    while (true)
-    begin
-        if (increment(x) <= y) then
-        begin
-            x := increment(x);
-            println(x);
-        end
-        else
-        begin
-            println("x equals y");
-        end;
-    end;
+    print factorial(x);
 end

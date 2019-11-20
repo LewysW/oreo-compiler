@@ -29,11 +29,11 @@ int main(int argc, char* argv[]) {
         Semantic semantic;
         semantic.analyse(parser.getParseTree());
         //Print scopes and symbol tables
-        semantic.printTree(semantic.getGlobalScope());
+        //semantic.printTree(semantic.getGlobalScope());
 
         //Perform type checking on parse tree
         TypeChecker typeChecker;
-        typeChecker.checkTypes(parser.getParseTree(), semantic.getGlobalScope());
+        //typeChecker.checkTypes(parser.getParseTree(), semantic.getGlobalScope());
 
         //TODO list:
         //TODO - Else not allocated correctly in parser - FIX!

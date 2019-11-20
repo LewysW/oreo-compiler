@@ -26,7 +26,9 @@ TreeNode::TreeNode(std::string l, Token t)  :
  * @param child
  */
 void TreeNode::addChild(std::shared_ptr<TreeNode> child) {
-    children.emplace_back(child);
+    if (child != nullptr) {
+        children.emplace_back(child);
+    }
 }
 
 /**

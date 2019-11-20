@@ -3,18 +3,10 @@ program Test
 begin
     var int x := 5;
 
-    procedure int factorial(var int n)
+    procedure int add(var int x, var int y)
     begin
-        if (n <= 1) then
-        begin
-            return n;
-        end
-        else
-        begin
-            return n * factorial(n - 1);
-        end;
-
+        return add(1, 2);
     end
 
-    print factorial(x);
+    {- add(1, 2 + 3 + add(1,2)); -}
 end
