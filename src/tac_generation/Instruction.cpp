@@ -17,4 +17,12 @@ const std::string &Instruction::getResult() const {
 }
 
 Instruction::Instruction(const std::string& op, const std::string &arg1, const std::string &arg2,
-                         const std::string &result) : op(op), arg1(arg1), arg2(arg2), result(result) {}
+                         const std::string &result) : op(op), arg1(arg1), arg2(arg2), result(result), label(std::string("")) {}
+
+const std::string &Instruction::getLabel() const {
+    return label;
+}
+
+void Instruction::setLabel(const std::string &label) {
+    Instruction::label = label;
+}

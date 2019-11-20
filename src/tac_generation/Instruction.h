@@ -9,6 +9,7 @@ private:
     std::string arg2;
     std::string result;
 
+    std::string label;
 public:
     Instruction(const std::string& op, const std::string &arg1, const std::string &arg2, const std::string &result);
 
@@ -19,6 +20,10 @@ public:
     const std::string &getArg2() const;
 
     const std::string &getResult() const;
+
+    const std::string &getLabel() const;
+
+    void setLabel(const std::string &label);
 };
 
 

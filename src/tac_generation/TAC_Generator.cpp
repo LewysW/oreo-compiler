@@ -6,6 +6,10 @@ std::string TAC_Generator::getNextID() {
     return std::string("t" + std::to_string(tempIDNum++));
 }
 
+std::string TAC_Generator::getNextLabel() {
+    return std::string("L" + std::to_string(labelNum++));
+}
+
 void TAC_Generator::generate(const std::shared_ptr<TreeNode> &parseTree) {
     for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
         //Validate Compound of global scope
@@ -34,7 +38,7 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (label == "Print Statement") {
             printStmt(node);
         } else if (label == "While" || label == "If") {
-            //conditionalStmt(node);
+            conditionalStmt(node);
         } else if (label == "Assignment") {
             //assignment(node);
         } else if (label == "Function Signature") {
@@ -103,6 +107,28 @@ void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
             default:
                 break;
         }
+}
+
+void TAC_Generator::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree) {
+    std::string temp;
+
+    //Identifies the correct part of the conditional statement generate code for
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //Converts the condition expression to instructions
+        if (node->getLabel() == "Expression") {
+            temp = getNextID();
+            addInstruction("ASSIGN", expression(node), std::string(), temp);
+            expression(node);
+
+            //Converts the statements of the conditional statement to instructions
+        } else if (node->getLabel() == "Compound") {
+            scope(node);
+
+            //Converts the statements of else to instructions
+        } else if (node->getLabel() == "Else") {
+            conditionalStmt(node);
+        }
+    }
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
@@ -185,24 +211,35 @@ bool TAC_Generator::isOperation(const std::string& label) {
 void TAC_Generator::printInstructions() {
     std::cout << "Three Address Code Generation:" << std::endl;
     std::cout << "------------------------------------------------------------------" << std::endl;
+
     for (const Instruction& instruction : instructions) {
+        std::string instructionStr;
+
         if (!instruction.getResult().empty()) {
-            std::cout << instruction.getResult() + " = ";
+            instructionStr += instruction.getResult() + " = ";
         }
 
         if (!instruction.getArg1().empty()) {
-            std::cout << instruction.getArg1() + " ";
+            instructionStr += instruction.getArg1() + " ";
         }
 
         if (instruction.getOp() != "ASSIGN") {
             if (isOperation(instruction.getOp())) {
-                std::cout <<  Lexer::TOKEN_STRINGS[static_cast<unsigned long>(Semantic::labelToToken.at(instruction.getOp()))];
+                instructionStr += Lexer::TOKEN_STRINGS[static_cast<unsigned long>(Semantic::labelToToken.at(instruction.getOp()))];
             } else {
-                std::cout << instruction.getOp() + " ";
+                instructionStr += instruction.getOp() + " ";
             }
 
         }
 
-        std::cout << " " + instruction.getArg2() << ";" << std::endl;
+        instructionStr += " " + instruction.getArg2() + ";";
+
+        if (!instruction.getLabel().empty()) {
+            instructionStr = instruction.getLabel() + ": " + instructionStr;
+        } else {
+            instructionStr = "\t" + instructionStr;
+        }
+
+        std::cout << " " + instructionStr << std::endl;
     }
 }
