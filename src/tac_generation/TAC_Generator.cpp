@@ -20,12 +20,14 @@ std::string TAC_Generator::getNextLabel() {
 }
 
 void TAC_Generator::generate(const std::shared_ptr<TreeNode> &parseTree) {
+    addInstruction("BeginProg", std::string(), std::string(), std::string());
     for (const std::shared_ptr<TreeNode> &node : parseTree->getChildren()) {
         //Validate Compound of global scope
         if (node->getLabel() == "Compound") {
             scope(node);
         }
     }
+    addInstruction("EndProg", std::string(), std::string(), std::string());
 }
 
 void TAC_Generator::scope(const std::shared_ptr<TreeNode> &parseTree) {
@@ -51,7 +53,7 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (label == "While"){
             whileLoop(node);
         } else if (label == "Assignment") {
-            //assignment(node);
+            assignment(node);
         } else if (label == "Function Signature") {
             //functionSig(node);
         } else if (label == "Function Call") {
@@ -100,6 +102,7 @@ void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
 
                         addInstruction("PushParam", std::string(), temp, std::string());
                         addInstruction("Call", std::string(), "_Print", std::string());
+                        instructions.back().setBranchInstruction(true);
                         addInstruction("PopParams", std::string(), std::string(), std::string());
                     }
                 }
@@ -112,6 +115,7 @@ void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
                             std::string temp = getNextID();
                             addInstruction("PushParam", std::string(), temp, std::string());
                             addInstruction("Call", std::string(), "_ReadLine", std::string());
+                            instructions.back().setBranchInstruction(true);
                             addInstruction("ASSIGN", std::string(), temp, id);
                             break;
                     }
@@ -147,15 +151,42 @@ void TAC_Generator::ifStmt(const std::shared_ptr<TreeNode> &parseTree) {
 }
 
 void TAC_Generator::whileLoop(const std::shared_ptr<TreeNode> &parseTree) {
+    std::string temp;
+    std::string start;
+    //Identifies the correct part of the conditional statement generate code for
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //Converts the condition expression to instructions
+        if (node->getLabel() == "Expression") {
+            setLabelRequired(true);
+            start = getNextLabel();
+            setBlockLabel(start);
 
+            temp = getNextID();
+            addInstruction("ASSIGN", expression(node), std::string(), temp);
+
+            //Branch instruction operator is comparator, operands are value and operation, result is place to jump to
+            addInstruction("IfZ", temp, "Goto", "L" + std::to_string(getLabelNum()));
+            instructions.back().setBranchInstruction(true);
+        } else if (node->getLabel() == "Compound") {
+            scope(node);
+            addInstruction("Goto", start, std::string(), std::string());
+            instructions.back().setBranchInstruction(true);
+            setBlockLabel(getNextLabel());
+            setLabelRequired(true);
+        }
+    }
 }
 
-const std::string &TAC_Generator::getBlockLabel() const {
-    return blockLabel;
-}
+void TAC_Generator::assignment(const std::shared_ptr<TreeNode> &parseTree) {
+    std::string id;
 
-void TAC_Generator::setBlockLabel(const std::string &blockLabel) {
-    TAC_Generator::blockLabel = blockLabel;
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getToken().getType() == Pattern::TokenType::ID) {
+            id = node->getToken().getValue();
+        } else if (node->getLabel() == "Expression") {
+            addInstruction("ASSIGN", expression(node), std::string(""), id);
+        }
+    }
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
@@ -297,4 +328,12 @@ void TAC_Generator::setLabelRequired(bool labelRequired) {
 
 unsigned long TAC_Generator::getLabelNum() const {
     return labelNum;
+}
+
+const std::string &TAC_Generator::getBlockLabel() const {
+    return blockLabel;
+}
+
+void TAC_Generator::setBlockLabel(const std::string &blockLabel) {
+    TAC_Generator::blockLabel = blockLabel;
 }
