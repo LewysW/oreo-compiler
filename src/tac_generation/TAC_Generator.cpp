@@ -220,9 +220,30 @@ void TAC_Generator::functionSig(const std::shared_ptr<TreeNode> &parseTree) {
 }
 
 void TAC_Generator::functionCall(const std::shared_ptr<TreeNode> &parseTree) {
-
+    std::string id;
+    std::stack<std::string> params;
+    //iterates through each symbol in the function call
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getToken().getType() == Pattern::TokenType::ID) {
+            //If the current token is the function identifier
+            id = node->getToken().getValue();
+        } else if (node->getLabel() == "Actual Parameter") {
+            for (const std::shared_ptr<TreeNode>& child : node->getChildren()) {
+                if (child->getLabel() == "Expression") {
+                    params.push(expression(node));
+                }
+            }
+        }
+    }
+    while (!params.empty()) {
+        addInstruction("PushParam", std::string(), params.top(), std::string());
+        params.pop();
+    }
+    addInstruction("Call", std::string(), id, std::string());
+    addInstruction("PopParams", std::string(), std::string(), std::string());
 }
 
+//TODO - add function calls to expression
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
     std::string op;
     std::string arg1;
