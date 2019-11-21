@@ -325,6 +325,11 @@ Type TypeChecker::functionCall(const std::shared_ptr<TreeNode> &parseTree, const
     return retType;
 }
 
+/**
+ * Validates type of return statement
+ * @param parseTree - to type check
+ * @param scope - to lookup symbols in
+ */
 void TypeChecker::returnStmt(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope) {
     Type returnType = scope->getReturnType(scope);
     unsigned long line = parseTree->getChildren()[0]->getToken().getLineNum();
@@ -338,6 +343,13 @@ void TypeChecker::returnStmt(const std::shared_ptr<TreeNode> &parseTree, const s
     }
 }
 
+/**
+ * Validates type of expression
+ * @param parseTree - to type check
+ * @param scope - to lookup symbols in
+ * @param expected - type of expression
+ * @param line - of expression for error handling
+ */
 void TypeChecker::expression(const std::shared_ptr<TreeNode> &parseTree, const std::shared_ptr<Scope> &scope,
                              Type expected, unsigned long line) {
     Type result;
