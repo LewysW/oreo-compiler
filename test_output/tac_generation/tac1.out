@@ -1,0 +1,132 @@
+Lexical Analysis:
+------------------------------------------------------------------
+COMMENT: {- print statements -}
+program
+ID: Test
+begin
+print
+NUM: 5
+>
+NUM: 7
+;
+println
+STRING_LITERAL: "Hello, World!"
+;
+println
+NUM: 5
+;
+var
+string
+ID: s
+;
+get
+ID: s
+;
+end
+
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			Print Statement: {
+				"print",
+				Expression: {
+					"NUM": "5",
+					GT: {
+						">",
+						"NUM": "7"
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		Statement: {
+			Print Statement: {
+				"println",
+				Expression: {
+					"STRING_LITERAL": ""Hello, World!""
+				}
+
+				";"
+			}
+
+		}
+
+		Statement: {
+			Print Statement: {
+				"println",
+				Expression: {
+					"NUM": "5"
+				}
+
+				";"
+			}
+
+		}
+
+		Statement: {
+			Variable: {
+				"var",
+				"string",
+				"ID": "s",
+				";"
+			}
+
+		}
+
+		Statement: {
+			Print Statement: {
+				"get",
+				"ID": "s",
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":s, var, string]
+}
+
+Type Checking:
+------------------------------------------------------------------
+No type errors
+
+Three Address Code Generation:
+------------------------------------------------------------------
+ 	 BeginProg  ;
+ 	 t2 = 5 > 7;
+ 	 t1 = t2  ;
+ 	 PushParam  t1;
+	 Call  _Print  ;
+ 	 PopParams  ;
+ 	 t3 = "Hello, World!"  ;
+ 	 t4 =  \n;
+ 	 PushParam  t4;
+ 	 PushParam  t3;
+	 Call  _Print  ;
+ 	 PopParams  ;
+ 	 t5 = 5  ;
+ 	 t6 =  \n;
+ 	 PushParam  t6;
+ 	 PushParam  t5;
+	 Call  _Print  ;
+ 	 PopParams  ;
+ 	 PushParam  t7;
+	 Call  _ReadLine  ;
+ 	 s =  t7;
+ 	 EndProg  ;

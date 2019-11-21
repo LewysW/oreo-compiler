@@ -1,0 +1,10 @@
+{- While loop -}
+program Test
+begin
+    var int c := 10;
+
+    while (c < 25)
+    begin
+        c := c + 1;
+    end;
+end

@@ -1,0 +1,193 @@
+Lexical Analysis:
+------------------------------------------------------------------
+COMMENT: {- Procedure call -}
+program
+ID: Test
+begin
+procedure
+int
+ID: add
+(
+var
+int
+ID: x
+,
+var
+int
+ID: y
+)
+begin
+return
+ID: x
++
+ID: y
+;
+end
+var
+int
+ID: z
+:=
+ID: add
+(
+NUM: 1
+,
+ID: add
+(
+NUM: 1
+,
+NUM: 2
+)
+)
+;
+end
+
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			Function Signature: {
+				"procedure",
+				"int",
+				"ID": "add",
+				"(",
+				Formal Parameter: {
+					"var",
+					"int",
+					"ID": "x"
+				}
+
+				Formal Parameter: {
+					",",
+					"var",
+					"int",
+					"ID": "y"
+				}
+
+				")",
+				Compound: {
+					"begin",
+					Statement: {
+						Return Statement: {
+							"return",
+							Expression: {
+								"ID": "x",
+								PLUS: {
+									"+",
+									"ID": "y"
+								}
+
+							}
+
+							";"
+						}
+
+					}
+
+					"end"
+				}
+
+			}
+
+		}
+
+		Statement: {
+			Variable: {
+				"var",
+				"int",
+				"ID": "z",
+				Variable Assignment: {
+					":=",
+					Expression: {
+						Function Call: {
+							"ID": "add",
+							"(",
+							Actual Parameter: {
+								Expression: {
+									"NUM": "1"
+								}
+
+							}
+
+							",",
+							Actual Parameter: {
+								Expression: {
+									Function Call: {
+										"ID": "add",
+										"(",
+										Actual Parameter: {
+											Expression: {
+												"NUM": "1"
+											}
+
+										}
+
+										",",
+										Actual Parameter: {
+											Expression: {
+												"NUM": "2"
+											}
+
+										}
+
+										")"
+									}
+
+								}
+
+							}
+
+							")"
+						}
+
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":add, proc, int]
+	["ID":z, var, int]
+
+	Procedure: {
+		["ID":x, param, int]
+		["ID":y, param, int]
+	}
+
+}
+
+Type Checking:
+------------------------------------------------------------------
+No type errors
+
+Three Address Code Generation:
+------------------------------------------------------------------
+ 	 BeginProg  ;
+ add: BeginFunc  ;
+ 	 t2 = x + y;
+ 	 Return  t2;
+ 	 EndFunc  ;
+ 	 PushParam  2;
+ 	 PushParam  1;
+ 	 t3 = Call  add;
+ 	 PopParams  ;
+ 	 PushParam  t3;
+ 	 PushParam  1;
+ 	 t4 = Call  add;
+ 	 PopParams  ;
+ 	 z = t4  ;
+ 	 EndProg  ;

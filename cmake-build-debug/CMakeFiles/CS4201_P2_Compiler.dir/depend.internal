@@ -11,6 +11,8 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeChecker.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/parser/Lexer.cpp.o
@@ -50,6 +52,21 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.cpp
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.cpp
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Lexer.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/ParseException.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Token.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.h
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.cpp
+ /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
  /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Token.h

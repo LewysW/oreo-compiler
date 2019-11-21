@@ -42,7 +42,6 @@ int main(int argc, char* argv[]) {
         tacGenerator.printInstructions();
 
         //TODO list:
-        //TODO - three address code generation
         //TODO - report on three address code generation
     }
 

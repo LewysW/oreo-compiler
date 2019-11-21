@@ -1,0 +1,86 @@
+Lexical Analysis:
+------------------------------------------------------------------
+COMMENT: {- If statement with no else -}
+program
+ID: Test
+begin
+if
+(
+true
+)
+then
+begin
+print
+STRING_LITERAL: "hi!"
+;
+end
+;
+end
+
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			If: {
+				"if",
+				"(",
+				Expression: {
+					"true"
+				}
+
+				")",
+				"then",
+				Compound: {
+					"begin",
+					Statement: {
+						Print Statement: {
+							"print",
+							Expression: {
+								"STRING_LITERAL": ""hi!""
+							}
+
+							";"
+						}
+
+					}
+
+					"end"
+				}
+
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+
+	If: {
+	}
+
+}
+
+Type Checking:
+------------------------------------------------------------------
+No type errors
+
+Three Address Code Generation:
+------------------------------------------------------------------
+ 	 BeginProg  ;
+ 	 t1 = true  ;
+	 IfZ t1 Goto L0 ;
+ 	 t2 = "hi!"  ;
+ 	 PushParam  t2;
+	 Call  _Print  ;
+ 	 PopParams  ;
+ L0: EndProg  ;

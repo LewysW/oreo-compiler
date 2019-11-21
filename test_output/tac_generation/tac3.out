@@ -1,0 +1,126 @@
+Lexical Analysis:
+------------------------------------------------------------------
+COMMENT: {- While loop -}
+program
+ID: Test
+begin
+var
+int
+ID: c
+:=
+NUM: 10
+;
+while
+(
+ID: c
+<
+NUM: 25
+)
+begin
+ID: c
+:=
+ID: c
++
+NUM: 1
+;
+end
+;
+end
+
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			Variable: {
+				"var",
+				"int",
+				"ID": "c",
+				Variable Assignment: {
+					":=",
+					Expression: {
+						"NUM": "10"
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		Statement: {
+			While: {
+				"while",
+				"(",
+				Expression: {
+					"ID": "c",
+					LT: {
+						"<",
+						"NUM": "25"
+					}
+
+				}
+
+				")",
+				Compound: {
+					"begin",
+					Statement: {
+						Assignment: {
+							"ID": "c",
+							":=",
+							Expression: {
+								"ID": "c",
+								PLUS: {
+									"+",
+									"NUM": "1"
+								}
+
+							}
+
+							";"
+						}
+
+					}
+
+					"end"
+				}
+
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":c, var, int]
+
+	While: {
+	}
+
+}
+
+Type Checking:
+------------------------------------------------------------------
+No type errors
+
+Three Address Code Generation:
+------------------------------------------------------------------
+ 	 BeginProg  ;
+ 	 c = 10  ;
+ L0: t2 = c < 25;
+ 	 t1 = t2  ;
+	 IfZ t1 Goto L1 ;
+ 	 t3 = c + 1;
+ 	 c = t3  ;
+	 Goto L0   ;
+ L1: EndProg  ;

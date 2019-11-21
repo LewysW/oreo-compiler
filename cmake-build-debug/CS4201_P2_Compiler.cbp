@@ -126,6 +126,18 @@
 		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/SemanticException.h">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>
+		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.cpp">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
+		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.h">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
+		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.cpp">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
+		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.h">
+			<Option target="CS4201_P2_Compiler"/>
+		</Unit>
 		<Unit filename="/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp">
 			<Option target="CS4201_P2_Compiler"/>
 		</Unit>

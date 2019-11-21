@@ -7,4 +7,4 @@ add_executable(CS4201_P2_Compiler src/main.cpp src/parser/Lexer.cpp
         src/parser/Parser.cpp src/parser/Token.cpp src/parser/TreeNode.cpp
         src/semantic/Semantic.cpp src/semantic/Semantic.h src/semantic/Scope.cpp src/semantic/Scope.h
         src/semantic/SemanticException.h src/type_checking/TypeChecker.cpp src/type_checking/TypeChecker.h
-        src/type_checking/TypeException.h src/type_checking/Operator.cpp src/type_checking/Operator.h)
+        src/type_checking/TypeException.h src/type_checking/Operator.cpp src/type_checking/Operator.h src/tac_generation/Instruction.cpp src/tac_generation/Instruction.h src/tac_generation/TAC_Generator.cpp src/tac_generation/TAC_Generator.h)

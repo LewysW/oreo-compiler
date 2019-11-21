@@ -1,0 +1,10 @@
+{- Procedure call -}
+program Test
+begin
+    procedure int add(var int x, var int y)
+    begin
+        return x + y;
+    end
+
+    var int z := add(1, add(1,2));
+end

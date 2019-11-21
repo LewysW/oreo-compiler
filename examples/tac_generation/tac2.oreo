@@ -1,0 +1,12 @@
+{- If statement -}
+program Test
+begin
+    if (3 < 7 and 5 > 2) then
+    begin
+        print "Inside if!";
+    end
+    else
+    begin
+        println "hello";
+    end;
+end

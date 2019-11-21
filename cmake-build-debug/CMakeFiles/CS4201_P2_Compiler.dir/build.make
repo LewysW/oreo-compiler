@@ -174,6 +174,32 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.cpp -o CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.s
 
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o: CMakeFiles/CS4201_P2_Compiler.dir/flags.make
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o: ../src/tac_generation/Instruction.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o -c /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.cpp
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.cpp > CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.i
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.cpp -o CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.s
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: CMakeFiles/CS4201_P2_Compiler.dir/flags.make
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/tac_generation/TAC_Generator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o -c /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.cpp
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.cpp > CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.i
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.cpp -o CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.s
+
 # Object files for target CS4201_P2_Compiler
 CS4201_P2_Compiler_OBJECTS = \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o" \
@@ -184,7 +210,9 @@ CS4201_P2_Compiler_OBJECTS = \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o" \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o" \
 "CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o" \
-"CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o"
+"CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o" \
+"CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o" \
+"CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o"
 
 # External object files for target CS4201_P2_Compiler
 CS4201_P2_Compiler_EXTERNAL_OBJECTS =
@@ -198,9 +226,11 @@ CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o
+CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o
+CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/build.make
 CS4201_P2_Compiler: CMakeFiles/CS4201_P2_Compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable CS4201_P2_Compiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lewys/Documents/CS4201/CS4201-P2-Compiler/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable CS4201_P2_Compiler"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CS4201_P2_Compiler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

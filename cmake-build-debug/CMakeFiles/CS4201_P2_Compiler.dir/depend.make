@@ -10,6 +10,8 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/parser/Token.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/parser/TreeNode.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/semantic/Scope.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/semantic/Semantic.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/tac_generation/Instruction.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/tac_generation/TAC_Generator.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/type_checking/Operator.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/main.cpp.o: ../src/type_checking/TypeChecker.h
 
@@ -49,6 +51,21 @@ CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/S
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/Semantic.cpp
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/Semantic.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.o: ../src/semantic/SemanticException.h
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o: ../src/parser/Pattern.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o: ../src/tac_generation/Instruction.cpp
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o: ../src/tac_generation/Instruction.h
+
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/parser/Lexer.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/parser/ParseException.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/parser/Pattern.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/parser/Token.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/parser/TreeNode.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/semantic/Scope.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/semantic/Semantic.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/tac_generation/Instruction.h
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/tac_generation/TAC_Generator.cpp
+CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o: ../src/tac_generation/TAC_Generator.h
 
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/parser/Pattern.h
 CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o: ../src/parser/Token.h

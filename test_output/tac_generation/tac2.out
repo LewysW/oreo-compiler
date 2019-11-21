@@ -1,0 +1,147 @@
+Lexical Analysis:
+------------------------------------------------------------------
+COMMENT: {- If statement -}
+program
+ID: Test
+begin
+if
+(
+NUM: 3
+<
+NUM: 7
+and
+NUM: 5
+>
+NUM: 2
+)
+then
+begin
+print
+STRING_LITERAL: "Inside if!"
+;
+end
+else
+begin
+println
+STRING_LITERAL: "hello"
+;
+end
+;
+end
+
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			If: {
+				"if",
+				"(",
+				Expression: {
+					"NUM": "3",
+					LT: {
+						"<",
+						"NUM": "7"
+					}
+
+					AND: {
+						"and",
+						"NUM": "5",
+						GT: {
+							">",
+							"NUM": "2"
+						}
+
+					}
+
+				}
+
+				")",
+				"then",
+				Compound: {
+					"begin",
+					Statement: {
+						Print Statement: {
+							"print",
+							Expression: {
+								"STRING_LITERAL": ""Inside if!""
+							}
+
+							";"
+						}
+
+					}
+
+					"end"
+				}
+
+				Else: {
+					"else",
+					Compound: {
+						"begin",
+						Statement: {
+							Print Statement: {
+								"println",
+								Expression: {
+									"STRING_LITERAL": ""hello""
+								}
+
+								";"
+							}
+
+						}
+
+						"end"
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+
+	If: {
+	}
+
+
+	Else: {
+	}
+
+}
+
+Type Checking:
+------------------------------------------------------------------
+No type errors
+
+Three Address Code Generation:
+------------------------------------------------------------------
+ 	 BeginProg  ;
+ 	 t2 = 3 < 7;
+ 	 t3 = 5 > 2;
+ 	 t4 = t2 and t3;
+ 	 t1 = t4  ;
+	 IfZ t1 Goto L0 ;
+ 	 t5 = "Inside if!"  ;
+ 	 PushParam  t5;
+	 Call  _Print  ;
+ 	 PopParams  ;
+ L0: t6 = "hello"  ;
+ 	 t7 =  \n;
+ 	 PushParam  t7;
+ 	 PushParam  t6;
+	 Call  _Print  ;
+ 	 PopParams  ;
+ 	 EndProg  ;

@@ -1,0 +1,146 @@
+Lexical Analysis:
+------------------------------------------------------------------
+COMMENT: {- Basic variable assignment -}
+program
+ID: Test
+begin
+var
+int
+ID: c
+:=
+NUM: 17
+;
+var
+bool
+ID: x
+:=
+not
+(
+NUM: 7
+>
+NUM: 3
++
+NUM: 7
+and
+NUM: 5
+>
+NUM: 3
+or
+NUM: 2
+<
+NUM: 3
+)
+;
+end
+
+Syntactic Analysis:
+------------------------------------------------------------------
+Program: {
+	"program",
+	"ID": "Test",
+	Compound: {
+		"begin",
+		Statement: {
+			Variable: {
+				"var",
+				"int",
+				"ID": "c",
+				Variable Assignment: {
+					":=",
+					Expression: {
+						"NUM": "17"
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		Statement: {
+			Variable: {
+				"var",
+				"bool",
+				"ID": "x",
+				Variable Assignment: {
+					":=",
+					Expression: {
+						NOT: {
+							"not",
+							"(",
+							Expression: {
+								"NUM": "7",
+								GT: {
+									">",
+									"NUM": "3",
+									PLUS: {
+										"+",
+										"NUM": "7"
+									}
+
+								}
+
+								AND: {
+									"and",
+									"NUM": "5",
+									GT: {
+										">",
+										"NUM": "3"
+									}
+
+								}
+
+								OR: {
+									"or",
+									"NUM": "2",
+									LT: {
+										"<",
+										"NUM": "3"
+									}
+
+								}
+
+							}
+
+							")"
+						}
+
+					}
+
+				}
+
+				";"
+			}
+
+		}
+
+		"end"
+	}
+
+}
+
+Semantic Analysis:
+------------------------------------------------------------------
+Global: {
+	["ID":c, var, int]
+	["ID":x, var, bool]
+}
+
+Type Checking:
+------------------------------------------------------------------
+No type errors
+
+Three Address Code Generation:
+------------------------------------------------------------------
+ 	 BeginProg  ;
+ 	 c = 17  ;
+ 	 t1 = 3 + 7;
+ 	 t2 = 7 > t1;
+ 	 t3 = 5 > 3;
+ 	 t4 = t2 and t3;
+ 	 t5 = 2 < 3;
+ 	 t6 = t4 or t5;
+ 	 t7 = not t6;
+ 	 x = t7  ;
+ 	 EndProg  ;

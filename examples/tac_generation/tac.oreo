@@ -1,0 +1,6 @@
+{- Basic variable assignment -}
+program Test
+begin
+    var int c := 17;
+    var bool x := not(7 > 3 + 7 and 5 > 3 or 2 < 3);
+end

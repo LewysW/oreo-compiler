@@ -1,0 +1,9 @@
+{- print statements -}
+program Test
+begin
+    print 5 > 7;
+    println "Hello, World!";
+    println 5;
+    var string s;
+    get s;
+end

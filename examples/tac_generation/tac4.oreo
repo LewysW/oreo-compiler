@@ -1,0 +1,8 @@
+{- If statement with no else -}
+program Test
+begin
+    if (true) then
+    begin
+        print "hi!";
+    end;
+end

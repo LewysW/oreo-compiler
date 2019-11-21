@@ -12,7 +12,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="086be9ba-9c49-40a0-a753-4c949f0a1a65" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/examples/tac_generation/tac1.oreo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/tac_generation/tac2.oreo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/tac_generation/tac3.oreo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/tac_generation/tac4.oreo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/tac_generation/tac5.oreo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CS4201_P2_Compiler.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CS4201_P2_Compiler" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CS4201_P2_Compiler" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CS4201_P2_Compiler.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CS4201_P2_Compiler.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/tac_generation/tac.oreo" beforeDir="false" afterPath="$PROJECT_DIR$/examples/tac_generation/tac.oreo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,11 +66,12 @@
   <component name="ProjectId" id="1TmWGAB57DzBZHtgJETKAHqR3Si" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/examples/type_checking" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/examples/tac_generation" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/examples/tac_generation" />
       <recent name="$PROJECT_DIR$/examples/type_checking" />
     </key>
   </component>
@@ -65,7 +88,7 @@
     </option>
   </component>
   <component name="RunManager" selected="CMake Application.Build All">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../examples/type_checking/type12.oreo" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CS4201_P2_Compiler" RUN_TARGET_NAME="CS4201_P2_Compiler" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../examples/tac_generation/tac.oreo" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CS4201_P2_Compiler" RUN_TARGET_NAME="CS4201_P2_Compiler" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -103,7 +126,7 @@
       <workItem from="1574152840983" duration="8327000" />
       <workItem from="1574185986659" duration="21630000" />
       <workItem from="1574239267414" duration="9049000" />
-      <workItem from="1574258597591" duration="1641000" />
+      <workItem from="1574258597591" duration="50809000" />
     </task>
     <servers />
   </component>

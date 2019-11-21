@@ -8,6 +8,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Scope.cpp.o"
   "CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/TypeChecker.cpp.o"
   "CMakeFiles/CS4201_P2_Compiler.dir/src/type_checking/Operator.cpp.o"
+  "CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o"
+  "CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o"
   "CS4201_P2_Compiler.pdb"
   "CS4201_P2_Compiler"
 )

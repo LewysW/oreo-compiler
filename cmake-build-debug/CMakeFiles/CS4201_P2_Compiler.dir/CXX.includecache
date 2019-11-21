@@ -21,6 +21,8 @@ semantic/Semantic.h
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
 type_checking/TypeChecker.h
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/TypeChecker.h
+tac_generation/TAC_Generator.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.h
 
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Lexer.h
 Pattern.h
@@ -47,10 +49,6 @@ iostream
 -
 exception
 -
-
-/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Parser.cpp
-Parser.h
-/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Parser.h
 
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Parser.h
 TreeNode.h
@@ -82,14 +80,6 @@ Token.h
 memory
 -
 
-/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.cpp
-iostream
--
-vector
--
-Scope.h
-/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
-
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
 vector
 -
@@ -107,6 +97,38 @@ memory
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
 Scope.h
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Scope.h
+
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.h
+../parser/Pattern.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Pattern.h
+
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.cpp
+vector
+-
+map
+-
+TAC_Generator.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.h
+../semantic/Semantic.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/semantic/Semantic.h
+../parser/Lexer.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/Lexer.h
+
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/TAC_Generator.h
+iostream
+-
+vector
+-
+algorithm
+-
+string
+-
+map
+-
+Instruction.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/tac_generation/Instruction.h
+../parser/TreeNode.h
+/home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/parser/TreeNode.h
 
 /home/lewys/Documents/CS4201/CS4201-P2-Compiler/src/type_checking/Operator.h
 ../semantic/Scope.h

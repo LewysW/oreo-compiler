@@ -312,6 +312,60 @@ src/semantic/Semantic.cpp.s:
 	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/semantic/Semantic.cpp.s
 .PHONY : src/semantic/Semantic.cpp.s
 
+src/tac_generation/Instruction.o: src/tac_generation/Instruction.cpp.o
+
+.PHONY : src/tac_generation/Instruction.o
+
+# target to build an object file
+src/tac_generation/Instruction.cpp.o:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.o
+.PHONY : src/tac_generation/Instruction.cpp.o
+
+src/tac_generation/Instruction.i: src/tac_generation/Instruction.cpp.i
+
+.PHONY : src/tac_generation/Instruction.i
+
+# target to preprocess a source file
+src/tac_generation/Instruction.cpp.i:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.i
+.PHONY : src/tac_generation/Instruction.cpp.i
+
+src/tac_generation/Instruction.s: src/tac_generation/Instruction.cpp.s
+
+.PHONY : src/tac_generation/Instruction.s
+
+# target to generate assembly for a file
+src/tac_generation/Instruction.cpp.s:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/Instruction.cpp.s
+.PHONY : src/tac_generation/Instruction.cpp.s
+
+src/tac_generation/TAC_Generator.o: src/tac_generation/TAC_Generator.cpp.o
+
+.PHONY : src/tac_generation/TAC_Generator.o
+
+# target to build an object file
+src/tac_generation/TAC_Generator.cpp.o:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.o
+.PHONY : src/tac_generation/TAC_Generator.cpp.o
+
+src/tac_generation/TAC_Generator.i: src/tac_generation/TAC_Generator.cpp.i
+
+.PHONY : src/tac_generation/TAC_Generator.i
+
+# target to preprocess a source file
+src/tac_generation/TAC_Generator.cpp.i:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.i
+.PHONY : src/tac_generation/TAC_Generator.cpp.i
+
+src/tac_generation/TAC_Generator.s: src/tac_generation/TAC_Generator.cpp.s
+
+.PHONY : src/tac_generation/TAC_Generator.s
+
+# target to generate assembly for a file
+src/tac_generation/TAC_Generator.cpp.s:
+	$(MAKE) -f CMakeFiles/CS4201_P2_Compiler.dir/build.make CMakeFiles/CS4201_P2_Compiler.dir/src/tac_generation/TAC_Generator.cpp.s
+.PHONY : src/tac_generation/TAC_Generator.cpp.s
+
 src/type_checking/Operator.o: src/type_checking/Operator.cpp.o
 
 .PHONY : src/type_checking/Operator.o
@@ -396,6 +450,12 @@ help:
 	@echo "... src/semantic/Semantic.o"
 	@echo "... src/semantic/Semantic.i"
 	@echo "... src/semantic/Semantic.s"
+	@echo "... src/tac_generation/Instruction.o"
+	@echo "... src/tac_generation/Instruction.i"
+	@echo "... src/tac_generation/Instruction.s"
+	@echo "... src/tac_generation/TAC_Generator.o"
+	@echo "... src/tac_generation/TAC_Generator.i"
+	@echo "... src/tac_generation/TAC_Generator.s"
 	@echo "... src/type_checking/Operator.o"
 	@echo "... src/type_checking/Operator.i"
 	@echo "... src/type_checking/Operator.s"
