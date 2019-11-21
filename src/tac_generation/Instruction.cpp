@@ -26,3 +26,11 @@ const std::string &Instruction::getLabel() const {
 void Instruction::setLabel(const std::string &label) {
     Instruction::label = label;
 }
+
+bool Instruction::isBranchInstruction() const {
+    return branchInstruction;
+}
+
+void Instruction::setBranchInstruction(bool branchInstruction) {
+    Instruction::branchInstruction = branchInstruction;
+}

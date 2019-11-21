@@ -3,7 +3,16 @@
 #include "../parser/Lexer.h"
 
 std::string TAC_Generator::getNextID() {
-    return std::string("t" + std::to_string(tempIDNum++));
+    std::string id = ("t" + std::to_string(tempIDNum++));
+
+    //Iterates through strings of instructions
+    auto it = find_if(instructions.begin(), instructions.end(), [&id](const Instruction& obj) {return obj.getResult() == id;});
+
+    //Makes sure that temp variable name has not already been declared
+    if (it != instructions.end())
+        return getNextID();
+
+    return id;
 }
 
 std::string TAC_Generator::getNextLabel() {
@@ -37,8 +46,10 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
             variable(node);
         } else if (label == "Print Statement") {
             printStmt(node);
-        } else if (label == "While" || label == "If") {
-            conditionalStmt(node);
+        } else if (label == "If") {
+            ifStmt(node);
+        } else if (label == "While"){
+            whileLoop(node);
         } else if (label == "Assignment") {
             //assignment(node);
         } else if (label == "Function Signature") {
@@ -112,36 +123,31 @@ void TAC_Generator::printStmt(const std::shared_ptr<TreeNode> &parseTree) {
         }
 }
 
-void TAC_Generator::conditionalStmt(const std::shared_ptr<TreeNode> &parseTree) {
+void TAC_Generator::ifStmt(const std::shared_ptr<TreeNode> &parseTree) {
     std::string temp;
-    //TODO - change setStartOfBlock to markBlock() and add condition for while vs if using TokenType
     //Identifies the correct part of the conditional statement generate code for
     for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
         //Converts the condition expression to instructions
         if (node->getLabel() == "Expression") {
             temp = getNextID();
             addInstruction("ASSIGN", expression(node), std::string(), temp);
-            setStartOfBlock(true);
-            setBlockLabel(getNextLabel());
-            //Converts the statements of the conditional statement to instructions
+
+            //Branch instruction operator is comparator, operands are value and operation, result is place to jump to
+            addInstruction("IfZ", temp, "Goto", "L" + std::to_string(getLabelNum()));
+            instructions.back().setBranchInstruction(true);
         } else if (node->getLabel() == "Compound") {
             scope(node);
-
+            setLabelRequired(true);
+            setBlockLabel(getNextLabel());
             //Converts the statements of else to instructions
         } else if (node->getLabel() == "Else") {
-            setStartOfBlock(true);
-            setBlockLabel(getNextLabel());
-            conditionalStmt(node);
+            ifStmt(node);
         }
     }
 }
 
-bool TAC_Generator::isStartOfBlock() const {
-    return startOfBlock;
-}
+void TAC_Generator::whileLoop(const std::shared_ptr<TreeNode> &parseTree) {
 
-void TAC_Generator::setStartOfBlock(bool startOfBlock) {
-    TAC_Generator::startOfBlock = startOfBlock;
 }
 
 const std::string &TAC_Generator::getBlockLabel() const {
@@ -223,9 +229,9 @@ std::string TAC_Generator::addInstruction(std::string op, std::string arg1, std:
     Instruction instruction(op, arg1, arg2, result);
 
     //Set label if block
-    if (isStartOfBlock()) {
+    if (isLabelRequired()) {
         instruction.setLabel(getBlockLabel());
-        setStartOfBlock(false);
+        setLabelRequired(false);
     }
 
     //Add instruction to queue
@@ -244,6 +250,15 @@ void TAC_Generator::printInstructions() {
 
     for (const Instruction& instruction : instructions) {
         std::string instructionStr;
+
+        if (instruction.isBranchInstruction()) {
+            instructionStr += "\t " + instruction.getOp() + " ";
+            instructionStr += instruction.getArg1() + " ";
+            instructionStr += instruction.getArg2() + " ";
+            instructionStr += instruction.getResult() + " ";
+            std::cout << instructionStr << ";" << std::endl;
+            continue;
+        }
 
         if (!instruction.getResult().empty()) {
             instructionStr += instruction.getResult() + " = ";
@@ -270,4 +285,16 @@ void TAC_Generator::printInstructions() {
 
         std::cout << " " + instructionStr << std::endl;
     }
+}
+
+bool TAC_Generator::isLabelRequired() const {
+    return labelRequired;
+}
+
+void TAC_Generator::setLabelRequired(bool labelRequired) {
+    TAC_Generator::labelRequired = labelRequired;
+}
+
+unsigned long TAC_Generator::getLabelNum() const {
+    return labelNum;
 }

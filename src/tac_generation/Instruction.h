@@ -10,6 +10,7 @@ private:
     std::string result;
 
     std::string label;
+    bool branchInstruction = false;
 public:
     Instruction(const std::string& op, const std::string &arg1, const std::string &arg2, const std::string &result);
 
@@ -24,6 +25,12 @@ public:
     const std::string &getLabel() const;
 
     void setLabel(const std::string &label);
+
+    bool isBranchInstruction() const;
+
+    void setBranchInstruction(bool branchInstruction);
+
+
 };
 
 
