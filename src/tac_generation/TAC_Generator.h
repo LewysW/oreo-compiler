@@ -38,7 +38,7 @@ private:
     void whileLoop(const std::shared_ptr<TreeNode>& parseTree);
     void assignment(const std::shared_ptr<TreeNode>& parseTree);
     void functionSig(const std::shared_ptr<TreeNode>& parseTree);
-    void functionCall(const std::shared_ptr<TreeNode>& parseTree);
+    std::string functionCall(const std::shared_ptr<TreeNode>& parseTree);
     void returnStmt(const std::shared_ptr<TreeNode>& parseTree);
     std::string expression(const std::shared_ptr<TreeNode>& parseTree);
     static bool isOperation(const std::string& label);

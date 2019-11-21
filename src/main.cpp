@@ -43,8 +43,6 @@ int main(int argc, char* argv[]) {
 
         //TODO list:
         //TODO - three address code generation
-            //TODO - store list of labels and their counts and increment
-            //TODO - store count of conditional labels e.g. L9 for branching
         //TODO - report on three address code generation
     }
 

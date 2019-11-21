@@ -61,7 +61,7 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (label == "Function Call") {
             functionCall(node);
         } else if (label == "Return Statement") {
-            //returnStmt(node);
+            returnStmt(node);
         }
     }
 }
@@ -219,7 +219,7 @@ void TAC_Generator::functionSig(const std::shared_ptr<TreeNode> &parseTree) {
     addInstruction("EndFunc", std::string(), std::string(), std::string());
 }
 
-void TAC_Generator::functionCall(const std::shared_ptr<TreeNode> &parseTree) {
+std::string TAC_Generator::functionCall(const std::shared_ptr<TreeNode> &parseTree) {
     std::string id;
     std::stack<std::string> params;
     //iterates through each symbol in the function call
@@ -235,15 +235,18 @@ void TAC_Generator::functionCall(const std::shared_ptr<TreeNode> &parseTree) {
             }
         }
     }
+
     while (!params.empty()) {
         addInstruction("PushParam", std::string(), params.top(), std::string());
         params.pop();
     }
-    addInstruction("Call", std::string(), id, std::string());
+    std::string result = getNextID();
+    addInstruction("Call", std::string(), id, result);
     addInstruction("PopParams", std::string(), std::string(), std::string());
+    return result;
 }
 
-//TODO - add function calls to expression
+
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
     std::string op;
     std::string arg1;
@@ -266,6 +269,11 @@ std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree
                 arg1 = "false";
                 break;
             default:
+                if (node->getLabel() == "Function Call") {
+                    arg1 = functionCall(node);
+                    break;
+                }
+
                 //Records intermediary operation
                 if (!arg1.empty() && !arg2.empty()) {
                     arg1 = addInstruction(op, arg1, arg2, result);
@@ -344,7 +352,7 @@ void TAC_Generator::printInstruction(Instruction instruction) {
     std::string instructionStr;
 
     if (instruction.isBranchInstruction()) {
-        instructionStr += "\t " + instruction.getOp() + " ";
+        instructionStr += "\t\t " + instruction.getOp() + " ";
         instructionStr += instruction.getArg1() + " ";
         instructionStr += instruction.getArg2() + " ";
         instructionStr += instruction.getResult() + " ";
