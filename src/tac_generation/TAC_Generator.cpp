@@ -1,3 +1,5 @@
+#include <vector>
+#include <map>
 #include "TAC_Generator.h"
 #include "../semantic/Semantic.h"
 #include "../parser/Lexer.h"
@@ -57,7 +59,7 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (label == "Function Signature") {
             functionSig(node);
         } else if (label == "Function Call") {
-            //functionCall(node);
+            functionCall(node);
         } else if (label == "Return Statement") {
             //returnStmt(node);
         }
@@ -141,8 +143,12 @@ void TAC_Generator::ifStmt(const std::shared_ptr<TreeNode> &parseTree) {
             instructions.back().setBranchInstruction(true);
         } else if (node->getLabel() == "Compound") {
             scope(node);
-            setLabelRequired(true);
-            setBlockLabel(getNextLabel());
+
+            //If in if part of conditional,
+            if (parseTree->getLabel() == "If") {
+                setLabelRequired(true);
+                setBlockLabel(getNextLabel());
+            }
             //Converts the statements of else to instructions
         } else if (node->getLabel() == "Else") {
             ifStmt(node);
@@ -197,6 +203,9 @@ void TAC_Generator::functionSig(const std::shared_ptr<TreeNode> &parseTree) {
         //Generate code for body of function
         if (node->getToken().getType() == Pattern::TokenType::ID) {
             id = node->getToken().getValue();
+
+            functions[id] = id;
+
             //Sets value of next label
             setBlockLabel(id);
             //Next time instruction is added, label will be assigned
@@ -208,6 +217,10 @@ void TAC_Generator::functionSig(const std::shared_ptr<TreeNode> &parseTree) {
         }
     }
     addInstruction("EndFunc", std::string(), std::string(), std::string());
+}
+
+void TAC_Generator::functionCall(const std::shared_ptr<TreeNode> &parseTree) {
+
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
@@ -300,44 +313,50 @@ void TAC_Generator::printInstructions() {
     std::cout << "Three Address Code Generation:" << std::endl;
     std::cout << "------------------------------------------------------------------" << std::endl;
 
+    //Print main program
     for (const Instruction& instruction : instructions) {
-        std::string instructionStr;
-
-        if (instruction.isBranchInstruction()) {
-            instructionStr += "\t " + instruction.getOp() + " ";
-            instructionStr += instruction.getArg1() + " ";
-            instructionStr += instruction.getArg2() + " ";
-            instructionStr += instruction.getResult() + " ";
-            std::cout << instructionStr << ";" << std::endl;
-            continue;
-        }
-
-        if (!instruction.getResult().empty()) {
-            instructionStr += instruction.getResult() + " = ";
-        }
-
-        if (!instruction.getArg1().empty()) {
-            instructionStr += instruction.getArg1() + " ";
-        }
-
-        if (instruction.getOp() != "ASSIGN") {
-            if (isOperation(instruction.getOp())) {
-                instructionStr += Lexer::TOKEN_STRINGS[static_cast<unsigned long>(Semantic::labelToToken.at(instruction.getOp()))];
-            } else {
-                instructionStr += instruction.getOp() + " ";
-            }
-
-        }
-
-        instructionStr += " " + instruction.getArg2() + ";";
-
-        std::string temp = instructionStr;
-        instructionStr = (!instruction.getLabel().empty()) ? instruction.getLabel() + ": " : "\t ";
-        instructionStr += temp;
-
-        std::cout << " " + instructionStr << std::endl;
+            printInstruction(instruction);
     }
 }
+
+void TAC_Generator::printInstruction(Instruction instruction) {
+    std::string instructionStr;
+
+    if (instruction.isBranchInstruction()) {
+        instructionStr += "\t " + instruction.getOp() + " ";
+        instructionStr += instruction.getArg1() + " ";
+        instructionStr += instruction.getArg2() + " ";
+        instructionStr += instruction.getResult() + " ";
+        std::cout << instructionStr << ";" << std::endl;
+        return;
+    }
+
+    if (!instruction.getResult().empty()) {
+        instructionStr += instruction.getResult() + " = ";
+    }
+
+    if (!instruction.getArg1().empty()) {
+        instructionStr += instruction.getArg1() + " ";
+    }
+
+    if (instruction.getOp() != "ASSIGN") {
+        if (isOperation(instruction.getOp())) {
+            instructionStr += Lexer::TOKEN_STRINGS[static_cast<unsigned long>(Semantic::labelToToken.at(instruction.getOp()))];
+        } else {
+            instructionStr += instruction.getOp() + " ";
+        }
+
+    }
+
+    instructionStr += " " + instruction.getArg2() + ";";
+
+    std::string temp = instructionStr;
+    instructionStr = (!instruction.getLabel().empty()) ? instruction.getLabel() + ": " : "\t ";
+    instructionStr += temp;
+
+    std::cout << " " + instructionStr << std::endl;
+}
+
 
 bool TAC_Generator::isLabelRequired() const {
     return labelRequired;
@@ -357,4 +376,16 @@ const std::string &TAC_Generator::getBlockLabel() const {
 
 void TAC_Generator::setBlockLabel(const std::string &blockLabel) {
     TAC_Generator::blockLabel = blockLabel;
+}
+
+const std::vector<Instruction> &TAC_Generator::getInstructions() const {
+    return instructions;
+}
+
+void TAC_Generator::setInstructions(const std::vector<Instruction> &instructions) {
+    TAC_Generator::instructions = instructions;
+}
+
+const std::map<std::string, std::string> &TAC_Generator::getFunctions() const {
+    return functions;
 }

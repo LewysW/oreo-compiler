@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <string>
+#include <map>
 #include "Instruction.h"
 #include "../parser/TreeNode.h"
 
@@ -9,6 +11,17 @@ class TAC_Generator {
 private:
     //Stores list of generated three address code instructions
     std::vector<Instruction> instructions;
+
+    std::map<std::string, std::string> functions;
+public:
+    const std::vector<Instruction> &getInstructions() const;
+
+    void setInstructions(const std::vector<Instruction> &instructions);
+
+    const std::map<std::string, std::string> &getFunctions() const;
+
+private:
+
     //Stores number of temporary variable names
     unsigned long tempIDNum = 1;
     //Stores number of conditional labels
@@ -25,9 +38,11 @@ private:
     void whileLoop(const std::shared_ptr<TreeNode>& parseTree);
     void assignment(const std::shared_ptr<TreeNode>& parseTree);
     void functionSig(const std::shared_ptr<TreeNode>& parseTree);
+    void functionCall(const std::shared_ptr<TreeNode>& parseTree);
     std::string expression(const std::shared_ptr<TreeNode>& parseTree);
     static bool isOperation(const std::string& label);
     std::string addInstruction(std::string op, std::string arg1, std::string arg2, std::string result);
+    void printInstruction(Instruction instruction);
 
 public:
     std::string getNextID();
