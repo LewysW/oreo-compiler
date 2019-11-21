@@ -6,6 +6,9 @@
 #include "../semantic/Semantic.h"
 #include "Operator.h"
 
+/**
+ * Class to check type consistency of parse tree
+ */
 class TypeChecker {
 public:
     //Main type checking logic
