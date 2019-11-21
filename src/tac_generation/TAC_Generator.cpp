@@ -55,7 +55,7 @@ void TAC_Generator::statement(const std::shared_ptr<TreeNode> &parseTree) {
         } else if (label == "Assignment") {
             assignment(node);
         } else if (label == "Function Signature") {
-            //functionSig(node);
+            functionSig(node);
         } else if (label == "Function Call") {
             //functionCall(node);
         } else if (label == "Return Statement") {
@@ -187,6 +187,27 @@ void TAC_Generator::assignment(const std::shared_ptr<TreeNode> &parseTree) {
             addInstruction("ASSIGN", expression(node), std::string(""), id);
         }
     }
+}
+
+void TAC_Generator::functionSig(const std::shared_ptr<TreeNode> &parseTree) {
+    std::string id;
+
+    //iterate through each symbol in the function declaration
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        //Generate code for body of function
+        if (node->getToken().getType() == Pattern::TokenType::ID) {
+            id = node->getToken().getValue();
+            //Sets value of next label
+            setBlockLabel(id);
+            //Next time instruction is added, label will be assigned
+            setLabelRequired(true);
+
+            addInstruction("BeginFunc", std::string(), std::string(), std::string());
+        } else if (node->getLabel() == "Compound") {
+            scope(node);
+        }
+    }
+    addInstruction("EndFunc", std::string(), std::string(), std::string());
 }
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
