@@ -246,6 +246,14 @@ std::string TAC_Generator::functionCall(const std::shared_ptr<TreeNode> &parseTr
     return result;
 }
 
+void TAC_Generator::returnStmt(const std::shared_ptr<TreeNode> &parseTree) {
+    for (const std::shared_ptr<TreeNode>& node : parseTree->getChildren()) {
+        if (node->getLabel() == "Expression") {
+            std::string temp = getNextID();
+            addInstruction("Return", std::string(), expression(node), std::string());
+        }
+    }
+}
 
 std::string TAC_Generator::expression(const std::shared_ptr<TreeNode>& parseTree) {
     std::string op;
@@ -352,7 +360,7 @@ void TAC_Generator::printInstruction(Instruction instruction) {
     std::string instructionStr;
 
     if (instruction.isBranchInstruction()) {
-        instructionStr += "\t\t " + instruction.getOp() + " ";
+        instructionStr += "\t " + instruction.getOp() + " ";
         instructionStr += instruction.getArg1() + " ";
         instructionStr += instruction.getArg2() + " ";
         instructionStr += instruction.getResult() + " ";
