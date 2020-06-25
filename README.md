@@ -1,5 +1,5 @@
-# CS4201-P2-Compiler
-Second practical for CS4201 Programming Language Design and Implementation - semantic analysis and code generation.
+# Oreo Compiler
+Compiler for the 'Oreo' programming language written in C++
 
 Compilation instructions:
 
@@ -17,3 +17,5 @@ Execution instructions:
 3. Run the following command with an oreo file name as a parameter:
 
 	./compiler <oreo file name>
+
+Example Oreo files are available in the examples/ directory to run with the compiler
